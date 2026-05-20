@@ -1,0 +1,86 @@
+version: '1.0'
+created_at: '2026-05-19'
+updated_at: '2026-05-20'
+mode: PRE_TENDER
+target_pages: 90
+sections:
+- id: A1
+  name: 商务部分-封面与目录
+  status: pending
+  pages: 2
+- id: A2
+  name: 商务部分-投标函
+  status: pending
+  pages: 1
+- id: A3
+  name: 商务部分-资质证明
+  status: pending
+  pages: 3
+- id: A4
+  name: 商务部分-服务团队
+  status: pending
+  pages: 4
+- id: A5
+  name: 商务部分-商务条款偏离表
+  status: pending
+  pages: 2
+- id: A6
+  name: 商务部分-报价
+  status: pending
+  pages: 6
+- id: B1
+  name: 技术部分-开标一览表
+  status: pending
+  pages: 2
+- id: B2
+  name: 技术部分-项目实施方案
+  status: pending
+  pages: 12
+- id: B3
+  name: 技术部分-模型技术方案
+  status: pending
+  pages: 20
+- id: B4
+  name: 技术部分-平台研发
+  status: pending
+  pages: 15
+- id: B5
+  name: 技术部分-性能与运维
+  status: pending
+  pages: 10
+- id: B6
+  name: 技术部分-培训方案
+  status: pending
+  pages: 3
+- id: B7
+  name: 技术部分-售后服务
+  status: pending
+  pages: 5
+- id: C1
+  name: 附录-应答索引
+  status: pending
+  pages: 2
+- id: C2
+  name: 附录-评分索引
+  status: pending
+  pages: 3
+pending_sections:
+- A1
+- A2
+- A3
+- A4
+- A5
+- A6
+- B1
+- B2
+- B3
+- B4
+- B5
+- B6
+- B7
+- C1
+- C2
+drafted_sections: []
+manual_sections: []
+draft_cursor: null
+drafted_words: 0

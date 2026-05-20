@@ -1,0 +1,105 @@
+{
+  "s0": [
+    {
+      "id": "S0-1",
+      "requirement": "法定代表人身份证明或授权委托书",
+      "source": "招标要求"
+    },
+    {
+      "id": "S0-2",
+      "requirement": "投标函",
+      "source": "招标要求"
+    },
+    {
+      "id": "S0-3",
+      "requirement": "营业执照等资格证明",
+      "source": "招标要求"
+    }
+  ],
+  "s1": [
+    {
+      "id": "S1-1",
+      "requirement": "合同履行期限24个月",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-2",
+      "requirement": "服务地点：宁夏气象局",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-3",
+      "requirement": "技术团队5人以上",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-4",
+      "requirement": "培训2次以上",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-5",
+      "requirement": "知识产权甲乙双方共有",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-6",
+      "requirement": "付款40%+40%+20%",
+      "source": "采购需求"
+    },
+    {
+      "id": "S1-7",
+      "requirement": "2年免费运维，7*24，30分钟响应",
+      "source": "采购需求"
+    }
+  ],
+  "s2": [
+    {
+      "id": "S2-1",
+      "requirement": "预警提前24小时以上",
+      "source": "采购需求"
+    },
+    {
+      "id": "S2-2",
+      "requirement": "准确度75%以上",
+      "source": "采购需求"
+    },
+    {
+      "id": "S2-3",
+      "requirement": "界面响应3秒内",
+      "source": "采购需求"
+    },
+    {
+      "id": "S2-4",
+      "requirement": "前端交互2秒内",
+      "source": "采购需求"
+    },
+    {
+      "id": "S2-5",
+      "requirement": "100用户/50并发",
+      "source": "采购需求"
+    }
+  ],
+  "s3": [
+    {
+      "id": "S3-1",
+      "requirement": "沙尘预测AI模型",
+      "source": "采购需求"
+    },
+    {
+      "id": "S3-2",
+      "requirement": "监测预警服务平台",
+      "source": "采购需求"
+    },
+    {
+      "id": "S3-3",
+      "requirement": "三领域智能体应用",
+      "source": "采购需求"
+    },
+    {
+      "id": "S3-4",
+      "requirement": "微信小程序",
+      "source": "采购需求"
+    }
+  ]
+}

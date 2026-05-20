@@ -1,0 +1,47 @@
+# 标书工作流任务清单
+# 生成时间: 2026-05-19
+
+tasks_version: "1.0"
+
+phases:
+  - id: init
+    name: 初始化
+    status: done
+    created_at: 2026-05-19
+
+  - id: template
+    name: 模板注册
+    status: pending
+    created_at: 2026-05-19
+
+  - id: extract
+    name: 信息抽取
+    status: pending
+    created_at: 2026-05-19
+    notes: 招标文件未发出，使用评分标准和采购需求作为输入
+
+  - id: brief
+    name: 用户基础资料分析
+    status: pending
+    created_at: 2026-05-19
+
+  - id: outline
+    name: 大纲生成
+    status: pending
+    created_at: 2026-05-19
+
+  - id: draft
+    name: 正文撰写
+    status: pending
+    created_at: 2026-05-19
+
+  - id: review
+    name: 审查
+    status: pending
+    created_at: 2026-05-19
+
+  - id: build
+    name: 构建DOCX
+    status: pending
+    created_at: 2026-05-19
+    requires_build_flag: true

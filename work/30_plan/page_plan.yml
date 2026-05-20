@@ -1,0 +1,28 @@
+total_pages: 90
+page_count_source: user_required
+allocation:
+  商务部分:
+    pages: 18
+    breakdown: 商务条款/资质/团队/报价/售后
+  技术部分-项目实施方案:
+    pages: 12
+    breakdown: 组织机构/进度/测试
+  技术部分-核心模型:
+    pages: 20
+    breakdown: 沙尘影响评估模型技术方案
+  技术部分-平台研发:
+    pages: 15
+    breakdown: 监测预警服务平台/三领域智能体
+  技术部分-性能与运维:
+    pages: 10
+    breakdown: 性能指标/稳定性/可维护性
+  服务团队与培训:
+    pages: 8
+    breakdown: 人员配置/培训计划
+  售后服务:
+    pages: 5
+    breakdown: 运维服务/响应承诺
+  附录与索引:
+    pages: 2
+    breakdown: 应答索引/评分索引
+note: 页数分配基于用户指定的90页要求，待招标文件明确评分细则后需调整
