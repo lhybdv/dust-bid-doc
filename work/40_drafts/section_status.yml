@@ -1,87 +1,51 @@
 version: '1.0'
-created_at: '2026-05-19'
+created_at: '2026-05-20'
 updated_at: '2026-05-20'
-mode: PRE_TENDER
-target_pages: 90
-drafted_words: 1966
 drafted_at: '2026-05-20'
+total_words: 1966
 sections:
   A1:
-    name: {
-}
     status: drafted
     file: v1_sections/A1_cover_toc.md
   A2:
-    name: {
-}
     status: drafted
     file: v1_sections/A2_bid_letter.md
   A3:
-    name: {
-}
     status: drafted
     file: v1_sections/A3_qualifications.md
   A4:
-    name: {
-}
     status: drafted
     file: v1_sections/A4_service_team.md
   A5:
-    name: {
-}
     status: drafted
     file: v1_sections/A5_deviation_table.md
   A6:
-    name: {
-}
     status: drafted
     file: v1_sections/A6_pricing.md
   B1:
-    name: {
-}
     status: drafted
     file: v1_sections/B1_bid_summary.md
   B2:
-    name: {
-}
     status: drafted
     file: v1_sections/B2_implementation_plan.md
   B3:
-    name: {
-}
     status: drafted
     file: v1_sections/B3_model_tech.md
   B4:
-    name: {
-}
     status: drafted
     file: v1_sections/B4_platform_dev.md
   B5:
-    name: {
-}
     status: drafted
     file: v1_sections/B5_performance_ops.md
   B6:
-    name: {
-}
     status: drafted
     file: v1_sections/B6_training.md
   B7:
-    name: {
-}
     status: drafted
     file: v1_sections/B7_after_sales.md
   C1:
-    name: {
-}
     status: drafted
     file: v1_sections/C1_response_index.md
   C2:
-    name: {
-}
     status: drafted
     file: v1_sections/C2_scoring_index.md
-pending_sections: []
-drafted_sections:['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'C1', 'C2']
-manual_sections: []
-draft_cursor: null
