@@ -17,6 +17,10 @@
 
 ## 模板正文骨架
 
+> [!info] 原始模板不含 `{TECH_SECTION_BODY}`；已生成构建模板 `D:\d-home\01-项目\dust-bid-doc\work\20_templates\default\default_template_build.docx`，并在 `模板末尾` 位置插入占位符。`/tender:build` 默认使用构建模板，原始模板保持不变。
+
+> [!warning] 需要复核：No configured or default template body start anchor was found; {{TECH_SECTION_BODY}} was appended at the end of the build template. Set template_body_start_after or review template_build.docx before build.
+
 <!-- tender:format
 style: Normal
 source_paragraph: 0
@@ -66,1599 +70,1480 @@ source_paragraph: 17
 投标时间：2025年 月 日
 
 <!-- tender:format
-style: Title
+style: Heading 1
 source_paragraph: 21
 -->
-应答索引汇总表
-
-<!-- tender:format
-style: Title
-source_paragraph: 24
--->
-评分标准相关内容索引表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 39
--->
-商务部分
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 40
--->
-# 法定代表身份证明或授权委托书
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 41
--->
-# 投标函
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 42
--->
-# 投标人基本情况
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 43
--->
-# 商务条款偏离表
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 44
--->
-# 投标人计算机著作权或使用权情况表
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 45
--->
-# 资格、资信证明文件
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 46
--->
-# 银行保函或投标保证金说明函
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 47
--->
-# 其他商务文件
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 48
--->
-# 投标人自行编写的商务文件
-
-<!-- tender:format
-style: Normal
-source_paragraph: 62
--->
-技术部分
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 63
--->
-# 开标一览表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 64
--->
-开标一览表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 65
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 67
--->
-投标人（公章）：
-
-<!-- tender:format
-style: Normal
-source_paragraph: 68
--->
-法定代表人或投标人授权代表（签字或盖章）:
-
-<!-- tender:format
-style: Normal
-source_paragraph: 69
--->
-日期：
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 71
--->
-# 投标分项报价表
+# 投标人自行编写的技术方案
 
 <!-- tender:format
 style: Heading 2
-source_paragraph: 72
+source_paragraph: 22
 -->
-## 投标分项报价表-软件开发
-
-<!-- tender:format
-style: Normal
-source_paragraph: 73
--->
-表一、投标分项报价表——软件开发
-
-<!-- tender:format
-style: Normal
-source_paragraph: 74
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Heading 2
-source_paragraph: 75
--->
-## 投标分项报价表-服务内容
-
-<!-- tender:format
-style: Normal
-source_paragraph: 76
--->
-表二、投标分项报价表——服务内容
-
-<!-- tender:format
-style: Normal
-source_paragraph: 77
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 78
--->
-# 服务团队人员情况基本表
-
-<!-- tender:format
-style: Heading 2
-source_paragraph: 79
--->
-## 服务团队人员基本情况表（汇总）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 80
--->
-表一、服务团队人员基本情况表（汇总）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 81
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 82
--->
-注：如本项目要求驻场服务，请在备注中说明该人员是否驻场
-
-<!-- tender:format
-style: Heading 2
-source_paragraph: 83
--->
-## 服务团队人员基本情况表（个人）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 84
--->
-表二、服务团队人员基本情况表（个人）
-
-<!-- tender:format
-style: Plain Text
-source_paragraph: 85
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 86
--->
-注：1、按服务团队人员填列，每个人员填一张表。
-
-<!-- tender:format
-style: Normal
-source_paragraph: 87
--->
-2、须后附相关人员职称及资质证书，社保证明（如无社保证明，应提供截止开标之日仍有效的劳动合同），否则该人员不被认为是针对本项目的委派人员。
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 88
--->
-# 技术要求偏离表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 89
--->
-技术要求偏离表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 90
--->
-项目名称： 项目编号： 包号： （如项目不分包，不填写包号）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 91
--->
-注：1、投标人所提供的服务，应符合招标文件中采购需求提出的服务标准、服务范围、服务时间、服务质量、服务方式等要求，投标人所提供的货物，应符合招标文件中采购需求提出的质量、技术要求。如有合理建议或更改，应在本表中注明。此部分不能简单填写“满足”，必须按要求附上相应证明材料，只填写“满足”而不能提供相关证明材料的或相关材料
-
-<!-- tender:format
-style: Normal
-source_paragraph: 92
--->
-2、采购需求标注为*的实质性条款应逐条应答，其余可填写完全满足招标文件的全部要求；
-
-<!-- tender:format
-style: Normal
-source_paragraph: 93
--->
-3、“偏差”栏只能填写“正”、“无”或“负”。
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 94
--->
-# 主要标的信息表
-
-<!-- tender:format
-style: Normal
-source_paragraph: 95
--->
-主要标的信息表（一）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 96
--->
-主要标的信息表（二）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 97
--->
-主要标的信息表（三）
-
-<!-- tender:format
-style: Normal
-source_paragraph: 98
--->
-注：1、必须按此格式填写，用途是用来发布中标公告时按照中国政府采购网格式公布供应商的主要标的信息。
-
-<!-- tender:format
-style: Normal
-source_paragraph: 99
--->
-2、采购内容不含服务的不提供表二，不含货物购置的不提供表三。
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 101
--->
-# 其他技术文件
-
-<!-- tender:format
-style: Normal
-source_paragraph: 102
--->
-无。
-
-<!-- tender:format
-style: Heading 1
-source_paragraph: 103
--->
-# 投标人项目实施和售后服务方案
-
-<!-- tender:format
-style: Heading 2
-source_paragraph: 104
--->
-## 项目实施方案
+## 需求理解
 
 <!-- tender:format
 style: Heading 3
-source_paragraph: 105
+source_paragraph: 23
 -->
-### 项目组织机构
+### 项目背景
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 25
+-->
+### 建设目标
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 27
+-->
+### 建设内容
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 29
+-->
+### 现状分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 31
+-->
+### 重点难点分析
+
+<!-- tender:format
+style: Heading 2
+source_paragraph: 33
+-->
+## 需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 34
+-->
+### 用户分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 36
+-->
+### 功能需求分析
+
+<!-- tender:format
+style: Heading 4
+source_paragraph: 37
+-->
+XXX子系统功能需求分析
+
+<!-- tender:format
+style: Heading 5
+source_paragraph: 38
+-->
+XXX功能
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 39
+-->
+需求分析
+
+<!-- tender:format
+style: Normal
+source_paragraph: 40
+-->
+通过对接气象部门相关系统接口采集气象、雷达、多源卫星、数值预报等数据源，对数据进行预处理。
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 41
+-->
+输入分析
+
+<!-- tender:format
+style: Normal
+source_paragraph: 42
+-->
+输入项包括：
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 43
+-->
+多源数据接口信息；
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 44
+-->
+时间参数；
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 45
+-->
+用户账户信息。
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 46
+-->
+输出分析
+
+<!-- tender:format
+style: Normal
+source_paragraph: 47
+-->
+输出项包括：
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 48
+-->
+气象、雷达、多源卫星、数值预报等预处理文件。
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 49
+-->
+处理分析
+
+<!-- tender:format
+style: Normal
+source_paragraph: 50
+-->
+处理分析如下：
+
+<!-- tender:format
+style: Normal
+source_paragraph: 51
+-->
+1、对接多源数据接口；
+
+<!-- tender:format
+style: Normal
+source_paragraph: 52
+-->
+2、基于时间参数，用户账号信息，从接口获取气象数据、雷达数据、ERA5多源卫星、数值预报等实况数据；
+
+<!-- tender:format
+style: Normal
+source_paragraph: 53
+-->
+3、根据数据类型，对数据进行解析；
+
+<!-- tender:format
+style: Normal
+source_paragraph: 54
+-->
+4、根据数据类型，对数据进行质控处理，包括时空一致性处理，空值处理，无效数据处理等；
+
+<!-- tender:format
+style: Normal
+source_paragraph: 55
+-->
+5、生成多源预处理数据。
+
+<!-- tender:format
+style: Heading 5
+source_paragraph: 56
+-->
+XXX功能
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 57
+-->
+需求分析
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 59
+-->
+输入分析
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 61
+-->
+输出分析
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 63
+-->
+处理分析
+
+<!-- tender:format
+style: Heading 4
+source_paragraph: 65
+-->
+XXX子系统功能需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 67
+-->
+### 非功能需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 69
+-->
+### 数据需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 71
+-->
+### 接口需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 73
+-->
+### 关键技术需求分析
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 75
+-->
+### 其他需求分析
+
+<!-- tender:format
+style: Heading 2
+source_paragraph: 77
+-->
+## 总体技术方案
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 78
+-->
+### 总体架构
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 80
+-->
+### 技术架构
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 82
+-->
+### 技术路线
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 84
+-->
+### 业务流程
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 86
+-->
+### 数据架构
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 88
+-->
+### 接口设计
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 90
+-->
+### 部署架构
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 92
+-->
+### 非功能设计
+
+<!-- tender:format
+style: Heading 2
+source_paragraph: 97
+-->
+## 关键技术解决方案
+
+<!-- tender:format
+style: Heading 2
+source_paragraph: 100
+-->
+## 功能设计方案
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 101
+-->
+### XXX子系统设计方案
+
+<!-- tender:format
+style: Heading 4
+source_paragraph: 102
+-->
+子系统概述
+
+<!-- tender:format
+style: Heading 4
+source_paragraph: 104
+-->
+子系统组成
 
 <!-- tender:format
 style: Heading 4
 source_paragraph: 106
 -->
-组织机构
+功能设计
 
 <!-- tender:format
-style: Normal
+style: Heading 5
 source_paragraph: 107
 -->
-本项目建设中，采用项目经理负责制，项目经理负责项目建设的日常管理工作。项目经理直接对项目管理办公室负责，遇重大事情时，项目经理向项目领导报告，由项目管理办公室进行更高层面的协调，做出重大决策。项目组织结构如下图所示：
+XXX功能
+
+<!-- tender:format
+style: Heading 6
+source_paragraph: 108
+-->
+功能描述
 
 <!-- tender:format
 style: Normal
 source_paragraph: 109
 -->
-项目组织机构图
+雷达组网观测、雷达基数据预处理、X波段和C波段雷达数据融合。
 
 <!-- tender:format
-style: Normal
+style: Heading 6
 source_paragraph: 110
 -->
-项目组分工与职责如下：
+数据要素设计
 
 <!-- tender:format
 style: Normal
 source_paragraph: 111
 -->
-（1）项目总指挥
+输入数据要素包括：
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 112
 -->
-项目总指挥是我公司在本项目中的最高决策行政负责人，由我公司的高层管理人员担当，总体负责整个项目的实施的监督和进展，整体把握和控制项目，对项目的重大问题和突发事件进行组织和决策。
+雷达组网观测数据；
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 113
 -->
-（2）项目管理办公室
+雷达基数据；
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 114
 -->
-项目管理办公室是项目实施中双方协同工作的最高管理机构，主要职责是监督和协调项目的实施和进展，定期审核项目经理就项目进展执行情况的书面报告，对项目中存在的问题做出决策，协调解决重大问题和突发事件及对项目经理的任免。
+地面观测数据。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 115
 -->
-（3）项目经理
+输出数据要素包括：
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 116
 -->
-根据工程质量保证大纲，组织开展项目研制开发，并承担项目设计、开发过程中的质量职责；负责项目总体设计，负责提供合格的设计开发文件和资料；负责项目总体可靠性设计、可用性设计及安全性设计等；编制项目总体技术文件，批准各分系统设计文件；负责重要外协单位的管理，技术评审及验收。
+雷达融合数据。
 
 <!-- tender:format
-style: Normal
+style: Heading 6
 source_paragraph: 117
 -->
-（4）专家组
+业务流程设计
 
 <!-- tender:format
 style: Normal
 source_paragraph: 118
 -->
-我公司将在实施活动中与用户进行沟通，根据用户需求，邀请资深的气象海洋及卫星遥感业务方面的专家，参与需求分析和业务流程以及关键算法的设计，为项目提供建设方案、关键技术等方面的咨询服务。
-
-<!-- tender:format
-style: Normal
-source_paragraph: 119
--->
-（5）技术经理
+业务流程设计图如下所示：
 
 <!-- tender:format
 style: Normal
 source_paragraph: 120
 -->
-技术经理负责协调解决各种技术问题，做好技术把关，组织编写设计方案。根据用户单位关于本项目的具技术要求，组织本项目的实施工作。领导编制系统总体设计、各分系统设计等方案，审核各分系统的技术方案、详细设计和实施方案，对各类技术文档提出总体要求。与用户单位密切协作，提出基础技术架构、数据架构、系统总体架构的技术要求。
+业务流程如下所示：
 
 <!-- tender:format
 style: Normal
 source_paragraph: 121
 -->
-（6）主任设计师
+1、获取多源雷达数据，包括雷达组网观测、雷达基数据、X波段和C波段雷达数据；
 
 <!-- tender:format
 style: Normal
 source_paragraph: 122
 -->
-负责与用户交互，调研各分系统需求，下达分系统技术要求；负责跟踪分系统的实施进度；负责参与分系统里程碑节点的评审，下达评审意见；负责协助用户与分系统承制方沟通需求；负责为分系统在大系统联调期间提供技术支持。
+2、根据雷达数据类型，对数据进行解析；
 
 <!-- tender:format
 style: Normal
 source_paragraph: 123
 -->
-（7）系统设计组
+3、对雷达基数据进行质控处理，时空一致性处理，无效数据过滤等；
 
 <!-- tender:format
 style: Normal
 source_paragraph: 124
 -->
-由用户方的相关部门的技术人员和业务人员与我方的技术人员组成，对系统各项业务需求做出总体描述，侧重于用户界面设计（UI），提交技术和业务部门共同论证，形成正式软件需求。
+4、生成雷达融合数据。
 
 <!-- tender:format
-style: Normal
+style: Heading 5
 source_paragraph: 125
 -->
-负责在项目实施期间，参加和指导系统总体设计，完成软件设计，咨询解答项目实施中的问题，以及与用户方的有关业务人员讨论协商有关的业务问题。
+XXX功能
 
 <!-- tender:format
-style: Normal
+style: Heading 6
 source_paragraph: 126
 -->
-（8）系统开发组
+功能描述
 
 <!-- tender:format
-style: Normal
+style: Heading 6
 source_paragraph: 127
 -->
-主要由本公司的技术工程师构成，负责本项目系统软件的开发工作，根据需求规格说明书以及相关设计文档的要求，完成各软件包详细设计、程序编码、以及单元测试等工作。
+数据要素设计
 
 <!-- tender:format
-style: Normal
+style: Heading 6
 source_paragraph: 128
 -->
-系统开发组成员按照负责的任务范围进行划分，作到配合工作，以保证系统从设计、开发直至安装、运行及维护过程的技术支持能力。
+业务流程设计
 
 <!-- tender:format
-style: Normal
-source_paragraph: 129
--->
-（9）系统测试组
-
-<!-- tender:format
-style: Normal
+style: Heading 3
 source_paragraph: 130
 -->
-主要由本公司的技术人员构成，负责制定测试计划、搭建测试环境、编写系统测试方案和设计、根据项目需求规格说明书编写和执行测试用例，在测试过程中填写测试缺陷报告，定期通过测试缺陷报告库中的数据反映的信息总结和分析测试进展状况，并及时向项目经理以及其他相关人员进行汇报。
+### XXX子系统设计方案
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 131
 -->
-测试组要负责系统全面的测试工作，在测试安排上建议用户方有关业务和技术人员也派人参加进来，并由业务人员和技术人员一起做功能性、界面友好性以及易用性等方面的用户测试，测试组中的技术人另外需要负责做性能、压力等测试。
+子系统概述
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 132
 -->
-（10）系统集成组
+子系统组成
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 133
 -->
-主要由本公司的技术工程师及技术人员组成，负责本项目中服务器主机、操作系统、数据库、应用服务器等所有软硬件平台的安装、调试、实施及对用户的培训，并负责应用系统开发后系统总体集成。
+功能设计
 
 <!-- tender:format
-style: Normal
+style: Heading 2
 source_paragraph: 134
 -->
-（11）配置管理组
+## 项目管理方案
 
 <!-- tender:format
-style: Normal
+style: Heading 3
 source_paragraph: 135
 -->
-配置管理组由我公司专门的配置管理人员担任。实施配置管理的目的是建立和维护在项目的整个生命周期中产品的完整性和可追溯性。通过标识配置项、建立基线、版本控制和变更控制、保证变更被适当地实施，使开发人员、测试人员、项目管理者、质量保证人员以及客户能方便地通过软件配置管理获得有用的信息。
+### 项目管理办法
 
 <!-- tender:format
 style: Normal
 source_paragraph: 136
 -->
-（12）质量保证组
+我们将制定出详细的项目实施管理方法及各种制度，利用各种工具，保证对项目进行有效的管理。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 137
 -->
-由我公司专门的质量保证人员担任。质量保证是一种有计划的、贯穿于整个项目生命周期的质量管理方法，其目的是提供一种有效的人员组织形式和管理法，客观地检查和监控“过程质量”和“产品质量”。按照本项目的质量管理方案，制订本项目质量管理办法。项目阶段成果评审、项目过程文档评审、项目实施过程质量控制。对于在质量保证活动中发现的与规
+日报、周报等汇报制度。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 138
 -->
-（13）培训与售后服务组
+管理方法
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 139
 -->
-主要由本公司的技术工程师构成，负责对本系统的安装调试、用户技术支持工作，包括：负责项目安装调试技术支持、技术培训支持。用户相关部门的技术人员负责系统的日常维护和管理。
+目标分解法：该项目的目标是建立包括各个子系统，如：网络基础架构、服务器基础架构、通信系统、数据库系统、服务系统等。针对上述目标予以功能、产品、工程量、质量标准、竣工期限等细化设计、计算和分解。该项目的工程管理是在上述工作基础上，对工程施工质量、工期、安全、施工现场管理等予以明细和规范。
 
 <!-- tender:format
-style: Heading 4
+style: List Paragraph
 source_paragraph: 140
 -->
-人员安排
+责任明确法：该项目的工程管理将对各方的责任和义务予以明确和分配。这些责任包括法律责任、义务责任、决策权责、执行权责、监督权责、提供信息的责任和义务、信息处理的责任和义务等。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 141
+-->
+信息收集和信息反馈法：该项目工程管理中将采用标准化或规范化的工程表格作为常规的工作信息、合同信息、查询信息，通过工程进度表、工作日志、工作报告、述职报告、工作会议记录等收集或反馈各种流动信息，并通过这些信息的分析、处理、决策予以工程的管理。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 142
+-->
+协调行动法：由工程各方组成统一的工程组织，定期或不定期的举行工程管理会议、施工现场会议，每次会议、协调、通告等均予以详细的记录，其各项决定在统—的监督和管理机制下，责令相关机构执行。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 143
+-->
+文档控制法：在项目的系统集成、硬件设备及配套软件项目工程的实际施工过程中，采用文档的流程化、规范化的管理。文档记录实施过程中每一步具体的操作和结果，文档既是工作人员工作方法、工作成绩和工程质量的实际记录，又是工作交接、工作验收的凭证和依据。
 
 <!-- tender:format
 style: Normal
-source_paragraph: 141
+source_paragraph: 144
 -->
-为了保证项目按时、按质、按量地完成，我公司组织了精干的项目组队伍，专项负责本项目的研发和建设。在项目实施期间，严格按照项目管理的要求组织人员实施。主要负责人员安排如下：
-
-<!-- tender:format
-style: Heading 3
-source_paragraph: 143
--->
-### 进度安排
-
-<!-- tender:format
-style: Heading 3
-source_paragraph: 145
--->
-### 项目阶段划分
+通过明确的工程责任制，建立、健全了完善的质量、工期、安全文明生产机构，明确了职责分工，并确定了从公司、项目经理部、职能部门、驻地代表各级管理机构，明确了公司各部门、各类人员在总体目标中必须完成的任务、承担了责任和具体权限。明确了奖罚措施，细化、量化了技术指标，使其与工程的质量等各项指标挂钩。
 
 <!-- tender:format
 style: Heading 4
+source_paragraph: 145
+-->
+管理工具
+
+<!-- tender:format
+style: Normal
 source_paragraph: 146
 -->
-需求分析阶段
+进行项目管理需要好的项目管理工具的帮助。我们统观市面上所有的项目管理工具，综合考虑项目的规模和复杂度，以及各种项目管理软件的可操作性，最终选择Microsoft Project 2019作为本项目管理工具。
 
 <!-- tender:format
 style: Heading 5
 source_paragraph: 147
 -->
-任务范围
+跟踪和评估
 
 <!-- tender:format
 style: Normal
 source_paragraph: 148
 -->
-本阶段任务范围包括完善、细化需求分析阶段的工作计划；开展需求调研工作；进行需求分析；编写需求分析报告。
+通过Microsoft Project 2019可以使用全面的项目管理工具创建日程表、评估成本和跟踪进度。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 149
+-->
+分配资源：可以为任务分配资源并且对资源进行调整以解决冲突和过度分配问题。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 150
+-->
+比较项目计划的版本：可使用“比较项目版本”工具轻松跟踪项目计划方面的版本变化。图形标识符清楚显示了版本之间的不同，例如“已添加的任务”或“已删除的任务”。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 151
+-->
+评估变化：通过有效评估计划方面的日程表和资源变化所带来的影响，让项目计划符合工期和预算。Project Standard 2019 可以自动更新计划，因此我们可以有效地抓住工作重点并且做出更好的决策。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 152
+-->
+跟踪性能：可以跟踪进度、监视项目在目标指标和实际指标（比如成本、开始日期、完成日期）上的差距、保留历史记录（可以在任何项目过程中始终保存 11 个完整的参考基线）。
 
 <!-- tender:format
 style: Heading 5
-source_paragraph: 149
--->
-实施方法
-
-<!-- tender:format
-style: Normal
-source_paragraph: 150
--->
-通过业务需求调研，确定并定义问题区、用户的需求、项目范围、项目成功标准与招标方接收标准。
-
-<!-- tender:format
-style: Normal
-source_paragraph: 151
--->
-定义实施范围：确定并定义项目实施的目标、范围和关键的成功要素。
-
-<!-- tender:format
-style: Normal
-source_paragraph: 152
--->
-编写需求分析报告：包括业务系统的业务模型、业务流程、业务功能设计等。
-
-<!-- tender:format
-style: Normal
 source_paragraph: 153
 -->
-业务需求调研：主要采取一对一面谈、团体座谈、发送调研表、调查问卷、查阅需求资料以及召开讨论会等多种方式，从业务层、管理层、决策层多方位的获取需求。
+有效交流
 
 <!-- tender:format
 style: Normal
 source_paragraph: 154
 -->
-根据需求交流进展情况，采用快速原型法，以直观的方式确认需求。
+进行畅通的交流，并且用一系列的方式呈现项目信息。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 155
 -->
-在描述中尽量使用招标方相关使用人员的业务语言，便于需求的审查和测试。
+生成预定义的报告：使用一组预定义的报告打印出要共享的任务、资源、分配或成本信息来报告数据。另外，还可以使用向导从项目数据生成可扩展标识语言 （XML） 文件来创建自定义的报告。
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 156
 -->
-完成标准
+格式化自定义的报告并且打印：过去，创建项目数据的格式化打印报告显得比较麻烦。现在，我们可以轻松地按照 Project 2019 提供的分步指导以报告的形式对最新的项目信息进行格式化并且打印出来。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 157
 -->
-本阶段任务完成的标准是：正式提交需求分析报告，通过招标方确认。
+为其它程序提供项目数据。借助“将信息复制到 Office”向导，我们可以在多个熟悉的程序中呈现项目信息。
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 158
 -->
-交付成果
+共享项目计划：通过将项目计划保存到 Microsoft Windows SharePoint 服务站点的中央工作区，可以同机构中的其他人共享项目计划。Windows SharePoint 服务是 Microsoft Windows Server 2018 的组件。使用“共享工作区”任务窗格可以查看有权访问共享工作区的人
 
 <!-- tender:format
 style: Normal
 source_paragraph: 159
 -->
-本阶段的可交付成果是：项目需求分析报告。
+通过项目管理工具，我们可以更加方便、直接的对项目的进展情况进行交流，以便于我们进一步的掌握项目实施情况。
 
 <!-- tender:format
-style: Heading 4
+style: Heading 5
 source_paragraph: 160
 -->
-系统设计阶段
+按需调整
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 161
 -->
-任务范围
+根据项目管理需要调整 Microsoft Project 2019。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 162
 -->
-系统设计阶段将按照面向对象的分析设计方法并结合使用其他软件工程方法，完成各子系统的概要设计。
+自定义项目计划：选择要在项目日程表中显示的数据，对计划进行自定义。通过在项目计划中创建自定义字段，我们可以融合项目特有的信息。另外，我们还可以修改工具栏、公式、图形标识符和报告来进一步实现自定义。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 163
 -->
-包括功能设计、数据库结构设计、页面设计、软件实现结构的O-O（面向对象）设计。
-
-<!-- tender:format
-style: Heading 5
-source_paragraph: 164
--->
-实施方法
+对项目指南进行自定义：通过开发自定义的项目指南，完善项目管理方法和最佳操作。
 
 <!-- tender:format
 style: Normal
+source_paragraph: 164
+-->
+在项目的具体的实施工程中，如果出现需求的变化或者不可抗力因素工程计划改变，我们可以方便的通过项目管理工具重新修订项目计划，以更好的完成项目。
+
+<!-- tender:format
+style: Heading 3
 source_paragraph: 165
 -->
-本子阶段将对业务流程、控制流程、功能模块和数据结构进行设计，这是承上（需求分析）启下（代码实现）的阶段，这个阶段把业务需求变成技术设计，由业务描述变成技术描述，由业务语言变成技术语言。通常来讲，这个阶段又可以划分为三个主要的步骤，即：业务流程及逻辑设计、控制及表现逻辑设计、功能模块设计、数据结构设计。
+### 变更管理
 
 <!-- tender:format
 style: Normal
 source_paragraph: 166
 -->
-业务流程及逻辑设计：使用业务图形按照业务流程的顺序对业务进行归纳、整理，绘制业务流程图。对于其中描述良好和规范的业务需求可同需求分析合并进行，绘制工作将借助绘图工具软件Visio对图形表述进行规范。
+在项目集成计划的实施中，各种变化是不可避免的，因此，我们将开展对于项目变更的总体控制，以协调和管理好项目各要素的变更要求和各项目相关利益者提出的项目变更要求。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 167
 -->
-功能模块及逻辑设计：抽取最小业务单元，按照按"职能域-业务过程-业务活动"三层结构分解和表达功能，依据业务流程组织功能层次，绘制功能层次图。把业务流图中以“操作单元”表现的节点看作功能模块，描述其输入、输出、主要处理过程和所涉及到的数据及数据单元。
+项目变更的总体控制
 
 <!-- tender:format
 style: Normal
 source_paragraph: 168
 -->
-数据结构设计：对于功能模块设计中所涉及的有关数据及数据单元进行归纳，利用“对象－关系型语言”表示出来，并指明数据之间的一致性或约束性关系。这就是通常所说的数据结构或称为数据字典。这部分工作将采用实体-关系设计工具PowerDesigner来辅助进行。
+项目变更的总体控制要求做到：
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 169
 -->
-系统设计说明书审核：项目经理对各应用子系统的系统设计说明书进行审核。审核工作由项目经理、技术总监和专家协同进行。
+1、尽量保持原有项目绩效度量基准的完整性
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 170
 -->
-完成标准
+2、确保项目产出物变更与项目任务计划更新的一致性
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 171
 -->
-本阶段任务完成的标准是：正式提交概要设计说明书，通过招标方确认。
-
-<!-- tender:format
-style: Heading 5
-source_paragraph: 172
--->
-交付成果
+3、协调各个方面的变更要求
 
 <!-- tender:format
 style: Normal
 source_paragraph: 173
 -->
-本阶段的可交付成果是：系统概要设计说明书。
+协调项目变更的图示
 
 <!-- tender:format
 style: Heading 4
 source_paragraph: 174
 -->
-编码开发阶段
+项目变更控制的方法与工具
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 175
 -->
-任务范围
+项目变更控制系统
 
 <!-- tender:format
 style: Normal
 source_paragraph: 176
 -->
-包括对标准化的内部数字内容资源转换加工和管理、数字内容的深度加工、在线编撰流程管理、知识挖掘和知识数据库开发、网络数据采集和内容提供服务、产品打包和多渠道发布、在线交互服务等编码实现、单元测试；以及项目的安全保障体系的建设。
+改变、修订或变更项目内容与文件的正式程序和办法所构成的一种管理控制系统。这包括：项目变更的书面审批程序，跟踪控制体制、审批变更的权限层级等方面的项目变更控制办法和程序。
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 177
 -->
-实施方法
+项目配置管理方法
 
 <!-- tender:format
 style: Normal
 source_paragraph: 178
 -->
-（一）日创建、日部署
+项目配置管理方法是项目变更控制的一部分或一个子集。项目配置管理主要是有关项目各种资源的配置和有效利用方面的管理。这种管理是由一些文档化的正式程序构成的，借助程序可以运用技术和管理手段对各种变更的资源配置和变更的管理进行必要的指导和监督。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 179
 -->
-在本项目各应用子系统开发实现阶段，将采用快速原型法与“日创建、日部署”开发方法，每天形成一个版本，并进行部署，在最短的时间内开发出核心业务功能交付用户使用，并在此基础上再与用户交流沟通，对问题做出相应调整。
+项目绩效度量技术
 
 <!-- tender:format
 style: Normal
 source_paragraph: 180
 -->
-这种方法的特点如下：
+全面评估出项目集成计划的实施情况，以及它与项目集成计划之间的差距和找出需要采取的纠偏行动。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 181
 -->
-可以在最短时间内开发出子系统核心业务功能交付项目相关人员测试和试用；
+项目计划的修订与更新的方法
 
 <!-- tender:format
 style: Normal
 source_paragraph: 182
 -->
-进入开发阶段后，每天形成一个版本，以最直观的沟通方式让业主方项目主管领导看到最终的产品原型；
+在项目集成计划的实施过程中，应该根据可以预见的项目变更需要，提前修订或更新项目的成本计划、项目工作顺序的安排、项目风险应对计划，或者是修改和调整其他的一些项目专项计划和项目集成计划。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 183
 -->
-最大程度避免了产品的实现与系统需求间的分歧；
+项目变更总体控制的结果
 
 <!-- tender:format
 style: Normal
 source_paragraph: 184
 -->
-降低了需求变更的频度；降低了系统实施的风险。
+通过对项目变更的控制，我们要避免变更对项目带来的负面影响，实现这样的结果：
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 185
 -->
-（二）代码走查
+1、项目变更的有效控制
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 186
 -->
-代码走查是由一组人通过阅读、讨论和争议对程序进行静态分析的过程。走查小组由组长，2～3名程序设计和测试人员及程序员组成。走查小组在充分阅读待审程序文本、控制流程图及有关要求、规范等文件基础上，召开代码走查会，程序员逐句讲解程序的逻辑，并展开热烈的讨论甚至争议，以揭示错误的关键所在。实践表明，程序员在讲解过程中能发现许多
+2、项目计划的及时更新
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 187
 -->
-（三）单元测试
+3、项目变更的行动方案的优化
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 188
 -->
-单元测试集中在检查软件设计的最小单位—模块上，通过测试发现实现该模块的实际功能与定义该模块的功能说明不符合的情况，以及编码的错误。由于模块规模小、功能单一、逻辑简单，测试人员有可能通过模块说明书和源程序，清楚地了解该模块的I/O条件和模块的逻辑结构，采用结构测试（白盒法）的用例，尽可能达到彻底测试，然后辅之以功能测试（
+4、项目应吸取的经验、教训和相关数据
 
 <!-- tender:format
-style: Normal
+style: Heading 3
 source_paragraph: 189
 -->
-（四）系统测试
+### 计划管理
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 190
 -->
-随着代码的实现和单元测试完成，软件测试人员开始对代码进行系统测试。系统测试以子系统为基本单元进行，其基本测试依据是测试计划和测试方案。根据测试方案中的用例设计按照模块逐一“输入”数据（手工或自动工具），并进行一定的压力测试。主要工作过程是：
+进度计划
 
 <!-- tender:format
 style: Normal
 source_paragraph: 191
 -->
-运行程序员提交的功能模块代码，输入数据，如实记录运行结果，填写“测试记录”。对于未通过测试的功能模块，填写测试反馈单，由程序员修改问题代码后再次提交测试。这是一个多次循环反馈的过程。
+为了保证整个项目的顺利进行，我们制定了项目实施总体计划以及各个阶段的阶段计划。其中，项目总体计划包括进度计划、沟通计划、文档计划、测试计划、上线计划和培训计划等。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 192
 -->
-编制系统测试报告：测试结束后，测试人员编制完整的测试报告，包括测试的对象、测试范围、主要功能、测试环境、测试工具、测试结果汇总，并附完整的测试记录和反馈记录。
-
-<!-- tender:format
-style: Heading 5
-source_paragraph: 193
--->
-完成标准
+文档计划
 
 <!-- tender:format
 style: Normal
+source_paragraph: 193
+-->
+我们根据《项目管理规范指南》、国际标准化组织关于项目管理的质量标准-ISO10006国际标准和ISO9001质量体系的要求制定了本项目的文档计划，内容包括：项目各阶段文档、文档格式规范、文档管理制度等。
+
+<!-- tender:format
+style: Heading 4
 source_paragraph: 194
 -->
-本阶段任务完成的标准是：编码完成且通过单元测试、集成测试、系统测试，并通过技术总监与项目经理的审核。
+上线计划
 
 <!-- tender:format
 style: Normal
 source_paragraph: 195
 -->
-系统详细施工进度计划，详见《施工进度计划甘特图》。
+为了保证系统上线成功，根据项目的具体情况，我们制定了周密的上线计划，内容包括：
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 196
 -->
-交付成果
+上线前，各系统健康检查。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 197
 -->
-本阶段的可交付成果是：各子系统及功能模块可进行正常运行。
+旧系统断网申请。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 198
+-->
+上线工作的具体时间、人员安排。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 199
+-->
+安排上线具体步骤和回退应急等措施。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 200
+-->
+召开项目准备会，讨论上线工作的技术细节、时间人员安排等工作，明确各方面的责任。
+
+<!-- tender:format
+style: List Paragraph
+source_paragraph: 201
+-->
+系统正式上线。
 
 <!-- tender:format
 style: Heading 4
-source_paragraph: 198
--->
-系统初验阶段
-
-<!-- tender:format
-style: Heading 5
-source_paragraph: 199
--->
-任务范围
-
-<!-- tender:format
-style: Normal
-source_paragraph: 200
--->
-本阶段任务范围包括：完成应用系统在测试环境的部署和集成测试后，由招标方认定是否满足可进行试运行的基本条件。并完成验收报告。
-
-<!-- tender:format
-style: Heading 5
-source_paragraph: 201
--->
-实施方法
-
-<!-- tender:format
-style: Normal
 source_paragraph: 202
 -->
-由供应商通过集成测试，对各应用系统自检合格后，提交初验申请至用户方审批。
+培训计划
 
 <!-- tender:format
 style: Normal
 source_paragraph: 203
 -->
-用户方检验应用系统运行情况，看是否符合：
+培训是项目的重要组成部分，是保证系统在上线后稳定运行的必不可少的工作，因此我们制定了全面的培训计划，详见“培训方案”章节。
 
 <!-- tender:format
-style: List Paragraph
+style: Heading 3
 source_paragraph: 204
 -->
-是否满足签字确认的需求分析报告；
+### 问题与争议管理
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 205
 -->
-是否满足招标文件要求；
+在项目的实施过程中，可能遇到争议问题，为了尽快解决这些问题，提高工作效率，我们制定了详细的问题与争议管理办法：
 
 <!-- tender:format
 style: List Paragraph
 source_paragraph: 206
 -->
-是否可以开始试运行。
+遇到争议问题时及时向用户报告，让用户及时了解情况。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 207
 -->
-验收通过后，由双方共同签署初验报告。
+遇到争议问题时及时召开项目会议，由相关项目组讨论、协调解决。
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 208
 -->
-完成标准
+如果项目会议无法解决问题，应及时向上级领导和相关单位汇报，协调解决，或请示解决方法和资源。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 209
 -->
-本阶段的完成标准是：系统通过业主初步验收，且可以开始试运行。
+视问题的严重情况，采用的报告方式可以是口头汇报或以书面形式汇报。
 
 <!-- tender:format
-style: Heading 5
+style: List Paragraph
 source_paragraph: 210
 -->
-交付成果
+在问题的解决过程中，及时汇报问题解决的情况。
 
 <!-- tender:format
-style: Normal
+style: List Paragraph
 source_paragraph: 211
 -->
-本阶段可交付成果是：系统初验报告。
+用详细的文档记录问题的原因、解决方法、解决结果等。
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 212
+-->
+### 沟通管理
 
 <!-- tender:format
 style: Heading 4
-source_paragraph: 212
--->
-试运行阶段
-
-<!-- tender:format
-style: Heading 5
 source_paragraph: 213
 -->
-任务范围
+沟通管理概述
 
 <!-- tender:format
 style: Normal
 source_paragraph: 214
 -->
-本阶段的任务范围是：在用户培训工作的阶段性成果完成后，开始组织系统试运行工作，由项目经理和招标方主管领导共同确定试运行范围和试运行策略，并编制试运行计划、组织试运行工作。
+项目沟通管理，就是为了确保项目信息合理收集和传输，以及最终处理所需实施的一系列过程。项目沟通管理具有复杂和系统的特征。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 215
 -->
-实施方法
+在项目中，沟通更是不可忽视。项目经理最重要的工作之一就是沟通，通常花在这方面的时间应该占到全部工作的 75%~90%。良好的交流才能获取足够的信息、发现潜在的问题、控制好项目的各个方面。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 216
 -->
-（一）试运行实施步骤：
+为确保项目信息及时正确地产生、收集、发布、储存和最终处理，项目沟通管理包括以下过程：沟通计划编制、信息发布、绩效报告、管理收尾。项目沟通管理为成功所必须的因素一-人、思想和信息之间提供了一个重要联系。参与项目的任何人都必须做好发送和接收信息的准备，并且理解他们以个人身份参与的沟通怎样影响整个项目。这些过程相互影响，相互
 
 <!-- tender:format
 style: Normal
 source_paragraph: 217
 -->
-准备应用系统运行需要的真实数据；
+本项目存在跨部门、多任务的特点，工程实施协调难度很大。另外，由于项目涉及地理空间信息，对系统和数据的安全保密要求高，所以整个系统建设相对复杂。因此，明确项目组织结构和职责分工对项目的管理和实施非常重要。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 218
 -->
-组建运行组织和人员准备：
+通渠道和方式
 
 <!-- tender:format
 style: Normal
 source_paragraph: 219
 -->
-建立由招标方主管领导和项目经理组成的试运行领导小组；
+我公司将在项目启动前就制定好整个项目的沟通计划和沟通制度，并由专人负责，确保整个项目组能够认真执行。下表规定的项目沟通的具体要求。
 
 <!-- tender:format
-style: Normal
+style: Heading 3
 source_paragraph: 220
 -->
-确定试运行期间系统管理人员和系统维护人员；
+### 风险管理
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 221
 -->
-召开试运行参与人员的动员会，统一思想，明确指导思想、工作方针、工作方法和工作计划；
+项目风险管理
 
 <!-- tender:format
 style: Normal
 source_paragraph: 222
 -->
-落实其他试运行组织中的各职责人员。
+项目风险管理是指通过风险识别、风险分析和风险评价去认识项目的风险，并以此为基础合理地使用各种风险应对措施、管理方法技术和手段，对项目的风险实行有效的控制，妥善的处理风险事件造成的不利后果，以最少的成本保证项目总体目标实现的管理工作。风险管理与项目管理的关系通过界定项目范围，可以明确项目的范围，将项目的任务细分为更具体、
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 223
 -->
-双方共同制定试运行工作计划。工作计划中包括试运行工作相关各方责任、工作日程安排、运行工作制度。
+风险分类
 
 <!-- tender:format
 style: Normal
 source_paragraph: 224
 -->
-（二）试运行期间各方职责：
+（一）按风险来源划分
 
 <!-- tender:format
 style: Normal
 source_paragraph: 225
 -->
-试运行工作将由供应商与业主方密切配合完成。试运行期间中，各方职责如下：
+1、自然风险。自然风险是指由于自然力的不规则变化导致财产毁损或个人员伤亡，如风暴、地震等。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 226
 -->
-供应商负责在试运行期间进行应用系统运行记录，对试运行中出现的问题做到及时维护和更新，并完成试运行报告。
+2、人为风险。人为风险是指由于人类活动导致的风险。人为风险又可细分为行为风险、政治风险、经济风险、技术风险和组织风险等。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 227
 -->
-在系统试运行阶段，应达到系统连续无重大故障运行1个月，并不断根据试运行报告进行修改完善，在试运行期内如出现重大故障，试运行期从故障排除之日起重新计算，直到系统连续1个月无重大故障为止。
+（二）按风险的形态分
 
 <!-- tender:format
 style: Normal
 source_paragraph: 228
 -->
-招标方系统使用人员负责在试运行期间定期反馈系统存在问题。
+1、静态风险。静态风险是由于自然力的不规则变化或由于人的行为失误导致的风险。从发生的后果来看，静态风险多属于纯粹风险。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 229
 -->
-完成标准
+2、动态风险。动态风险是由于人类需求的改变、制度的改进和政治、经济、社会、科技等环境的变迁导致的风险。从发生的后果来看，动态风险既可属于纯粹风险，又可属于投机风险。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 230
 -->
-本阶段任务完成的标准是：试运行期间系统运行稳定，性能达标，试运行报告通过业主方确认。
+（三）按风险可否管理分
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 231
 -->
-交付成果
+1、可管理风险。可管理风险是指用人的智慧、知识等可以预测、可以控制的风险。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 232
 -->
-试运行报告。
+2、不可管理风险。不可管理风险是指用人的智慧、知识等无法预测和无法控制的风险。
 
 <!-- tender:format
-style: Heading 4
+style: Normal
 source_paragraph: 233
 -->
-系统终验阶段
+（四）按风险的影响范围分
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 234
 -->
-任务范围
+1、局部风险。局部风险是指由于某个特定因素导致的风险，其损失的影响范围较小。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 235
 -->
-本阶段任务范围包括：试运行结束后，经招标方审核通过后，协助组织招标方进行系统终验验收。
+2、总体风险。总体风险影响范围大，其风险因素往往无法加以控制，如经济、政治等因素。
 
 <!-- tender:format
-style: Heading 5
+style: Heading 4
 source_paragraph: 236
 -->
-实施方法
+风险控制措施
 
 <!-- tender:format
 style: Normal
 source_paragraph: 237
 -->
-试运行结束后，由供应商提出验收申请，并协助招标方组织项目验收，最终完成项目交付。
+1、经济性措施
 
 <!-- tender:format
 style: Normal
 source_paragraph: 238
 -->
-（一）验收标准：
-
-<!-- tender:format
-style: List Paragraph
-source_paragraph: 239
--->
-是否符合项目合同要求；
-
-<!-- tender:format
-style: List Paragraph
-source_paragraph: 240
--->
-是否满足签字确认的需求分析报告；
-
-<!-- tender:format
-style: List Paragraph
-source_paragraph: 241
--->
-是否满足招标文件要求；
-
-<!-- tender:format
-style: List Paragraph
-source_paragraph: 242
--->
-是否满足用户培训要求；
-
-<!-- tender:format
-style: List Paragraph
-source_paragraph: 243
--->
-是否满足试运行期间的整改要求。
+主要措施有合同方案设计（风险分配方案、合同结构设计、合同条款设计）；保险方案设计（引入保险机制、保险清单分析、保险合同谈判）；管理成本核算。
 
 <!-- tender:format
 style: Normal
+source_paragraph: 239
+-->
+2、技术性措施
+
+<!-- tender:format
+style: Normal
+source_paragraph: 240
+-->
+技术性措施应体现可行、适用、有效性原则，主要有预测技术措施（模型选择、误差分析、可靠性评估）；决策技术措施（模型比选、决策程序和决策准则制定、决策可靠性预评估和效果后评估）；技术可靠性分析（建设技术、生产工艺方案、维护保障技术）。
+
+<!-- tender:format
+style: Normal
+source_paragraph: 241
+-->
+3、组织管理性措施
+
+<!-- tender:format
+style: Normal
+source_paragraph: 242
+-->
+主要是贯彻综合、系统、全方位原则和经济、合理、先进性原则，包括管理流程设计、确定组织结构、管理制度和标准制定、人员选配、岗位职责分工，落实风险管理的责任等。还应提倡推广使用风险管理信息系统等现代管理手段和方法。
+
+<!-- tender:format
+style: Heading 3
+source_paragraph: 243
+-->
+### 文档管理
+
+<!-- tender:format
+style: Heading 4
 source_paragraph: 244
 -->
-（二）验收组织
+文档管理流程
 
 <!-- tender:format
 style: Normal
 source_paragraph: 245
 -->
-试运行工作完成后，项目验收工作由供应商、招标方共同组成项目验收小组对项目进行验收。
+文档首先要做到能够全面、详尽的反应出项目建设中涉及的软件安装、管理、运行维护等方面的内容。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 246
 -->
-验收小组对验收内容，如实施过程文档、用户培训效果、软件运行效果、项目管理等方面进行审查。必要时对项目的主要内容、重要功能和性能组织第三方进行专业测试。
+按照项目的生命周期分不同阶段，每个阶段通过文档管理来保障项目的进度控制、质量保障、风险防范、需求管理等，确保项目顺利实施，达到预期目标。
 
 <!-- tender:format
-style: Normal
+style: Heading 4
 source_paragraph: 247
 -->
-验收完成后，由招标方、供应商共同编制验收报告，签署验收意见，完成项目建设成果的交付。
+文档管理原则
 
 <!-- tender:format
 style: Normal
 source_paragraph: 248
 -->
-项目验收完成将作为质保期的开始。
+1、命名规则
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 249
 -->
-完成标准
+项目过程中产生的各种文档应该定义好命名规则。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 250
 -->
-本阶段完成标准是：验收通过，且完成项目建设成果的交付。
+（1）文件编号：单位名称 项目名称_过程缩写_文件类型_流水号3位；
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 251
 -->
-交付成果
+（2） 项目名称：采用项目名称英文缩写；
 
 <!-- tender:format
 style: Normal
 source_paragraph: 252
 -->
-本阶段可交付成果是：项目验收报告。
+（3） 过程名称：用文件所属过程的英文缩写字母表示；
 
 <!-- tender:format
-style: Heading 3
+style: Normal
 source_paragraph: 253
 -->
-### 软件测试方案
+（4）文件类型名称：用文件类型的一位英文缩写字母表示。
 
 <!-- tender:format
-style: Heading 4
+style: Normal
 source_paragraph: 254
 -->
-测试综述
+为有效实施对文件编号的管理，减少项目人员对于项目文件编号的维护代价，采用路径名和文件编号结合的文件编号实施方法，具体方法如下：将“单位名称_项目名称_过程名称_文件类型_流水号（3位）”中的“单位名称_项目名称过程名称_文件类型”制作成路径，即“单位名称 项目名称过程名称文件类型”，项目人员不需要对此部分文件命名进行维
 
 <!-- tender:format
 style: Normal
 source_paragraph: 255
 -->
-软件测试作为提高软件质量的重要手段，贯彻于软件生命周期的各个阶段，并根据软件项目各阶段的特点选择不同形式的测试，每种测试都有其独特的测试内容，测试方法，测试策略，选择不同的测试工具。在整个软件生命周期中正确运用这些不同形式的测试，可以保证设计开发出的系统满足用户最终的系统要求，交付合格的软件产品。本章主要内容就是针对项
+2、正式文档纳入基线库
 
 <!-- tender:format
-style: Heading 4
+style: Normal
 source_paragraph: 256
 -->
-测试设计
+在软件配置管理的思想中，正式文档（比如详细设计文档）也是软件配置项之一，也必须纳入基线库，受基线管理，发生变更时必须按照基线变更的规则进行审批。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 257
 -->
-一致性测试
+3、版本控制
 
 <!-- tender:format
 style: Normal
 source_paragraph: 258
 -->
-将《系统概要设计说明书》中所列出的系统架构与功能模块与《系统软件需求分析规格说明书》中的需求点进行对比，验证《系统概要设计说明书》中的系统架构与功能模块符合《系统软件需求分析规格说明书》中对本系统建设目标的要求。主要验证《系统概要设计说明书》以下两个方面：
+应用版本控制软件（比如SVN 或者 Visual SourceSafe） 对文档进行共享和版本控制。建立好项目文档的分类文件夹，文档的提取和更新要用check out和checkin的机制，保证文档各个版本的有效管理
 
 <!-- tender:format
 style: Normal
 source_paragraph: 259
 -->
-可追溯性：分析该软件的系统结构、子系统结构，确认该软件设计是否覆盖了所有已确定的软件需求。
+4、模板管理
 
 <!-- tender:format
 style: Normal
 source_paragraph: 260
 -->
-接口：分析软件各部分之间的联系，确认该软件的内部接口与外部接口是否已经明确定义；模块是否满足高内聚和低耦合的要求；模块作用范围是否在其控制范围之内。
+按照CMMI3的要求，各种正式的项目文档，无论是管理类文档还是产品类文档都有相应的模板，在撰写时应该参照模板，并根据项目的实际情况来撰写。
+
+<!-- tender:format
+style: Heading 4
+source_paragraph: 261
+-->
+文档管理内容
 
 <!-- tender:format
 style: Normal
-source_paragraph: 261
--->
-对提供的客户端原型与《系统软件需求分析规格说明书》中对客户端部分的要求进行对照，使其能够包含《系统软件需求分析规格说明书》对客户端软件的提出的所有功能，并从易用性与可维护性角度出发分析客户端原型界面风格友好，操作集中，无须频繁界面切换，操作简便易懂的这些特点。
-
-<!-- tender:format
-style: Heading 5
 source_paragraph: 262
 -->
-非功能性测试
+我公司按照计算机工程规范的国家标准分阶段提交相应纸质文档和电子文档。根据项目实施和系统开发管理的需要，严格遵照ISO9000 质量管理体系和CMM/CMMI体系以及《计算机软件文档编制规范》（GB/T 8567-2006）等有关标准，编制各种项目文档。项目文档包括项目管理文档、系统应用设计文档、系统运行和维护操作手册、
 
 <!-- tender:format
 style: Normal
 source_paragraph: 263
 -->
-从软件的稳定性、可靠性、容错性角度出发，确认软件设计是否满足系统以下要求：
+1、项目实施过程文档
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 264
 -->
-成熟性：指软件产品避免因软件中错误的发生而导致失效的能力；
+（1）设计开发与实施阶段阶段
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 265
 -->
-容错性：指软件发生故障或者违反制定接口的情况下，软件产品维持规定的性能级别的能力；
+在设计开发、项目实施与试运行阶段内，系统项目建设单位反复理解项目需包括该软件的结构、模块的划分、功能的分配，以及处理流程。求，设计开发与项目实施阶段一般产生如下文件：
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 266
 -->
-已恢复性：指在失效发生的情况下，软件产品重建规定的性能级别并恢复受直接影响的数据的能力。
+《项目调研计划》： 项目建设单位向用户提交需求调研计划，计划中要明确调研开始和结束的时间，每个时间段的任务安排及提交的成果物。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 267
 -->
-从软件的灵活性、可扩展性角度出发，确认软件设计是否满足系统以下要求：
+《调研报告》： 在客户现场调研的记录，有客户盖章的纸版或扫描件。《需求规格说明书》： 项目建设单位向用户提交，它是作为软件开发范围描述针对用户需求应实现的功能简介。需要双方项目组成员共同阅读，并作为系统设计的开发目的和依据。为客户确认的最终版本。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 268
 -->
-适应性：指软件产品无需采用有别于为考虑该软件的目的而准备的活动或手段，就可能适应不同的制定环境的能力；
+《技术协议》： 由项目建设单位编制提交给用户，技术协议是作为合同的补充部分，主要对产品或服务的技术内容进行规范的，同客户确定的最终版本。《概要设计说明》： 由项目建设单位编制提交给用户和监理，概要设计为客户讲解基本的系统实现原理，让客户对系统的实现过程有基本的把握，为需求人员讲述对系统需求的理解，为详细设计人员确定整个
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 269
 -->
-易安装性：指软件产品在指定环境中被安装的能力；
+《详细设计说明》： 项目建设单位根据概要设计的范围，对各部分进行具体设计，程序模块构成设计等
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 270
 -->
-共存性：指软件产品在公共环境中同与其分享公共资源的其他独立软件共存的能力；
+《数据库设计说明》： 项目建设单位对数据库各表的详细设计。《软件开发计划》： 设计开发阶段中关于设计、编码的计划，主要突出任务的分配及时间点的安排。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 271
 -->
-易替换性：指软件产品在环境相同、目的相同的情况下替代另一个制定软件产品的能力。
+《系统测试方案》： 描述系统或子系统进行合格性测试的计划安排，内容包括进行测试的环境、测试工作的时间安排等。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 272
 -->
-从软件的易用性与可维护性角度出发，确认软件设计是否满足系统以下要求：
+《系统测试问题报告单》： 开发阶段的测试问题记录，要求有问题描述，提出人、解决人及解决时间等。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 273
 -->
-易理解性：指软件产品使用户能理解软件是否合适以及如何能将软件用于特定的任务和使用环境的能力；
+《软件 Bug 详细记录表》： 项目建设单位对测试中遇到的 bug 进行详细记录。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 274
 -->
-易学性：指软件产品使用户能学习它的能力；
+《测试总结报告》： 为软件开发阶段测试结束后的一个总结文件，简要记录测试过程中的主要问题描述等。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 275
 -->
-易操作性：指软件产品使用户能操作和控制它的能力；
+《用户手册》：包括项目中各个软件部分的用户手册。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 276
 -->
-吸引性：指软件产品吸引用户的能力；
+《需求变更说明》： 客户对系统提出需求变更说明。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 277
 -->
-易分析性：指软件产品诊断软件缺陷或失效原因，以及判定待修改的部分的能力；
+《需求变更状态跟踪一览表》： 对各阶段需求变更的完成状态及质量进行跟踪记录。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 278
 -->
-易改变性：指软件产品使指定的修改可以被实现的能力；
+《工作周报》： 项目组成员每周提交的项目周报，汇报本周的工作内容、遇到的问题及解决办法，是否有遗留问题等。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 279
 -->
-稳定性：指软件产品避免由于软件修改而造成意外结果的能力；
+《项目进度月报》： 由项目建设单位每月提交给用户和监理的项目进度情况汇报。
 
 <!-- tender:format
-style: List Paragraph
+style: Normal
 source_paragraph: 280
 -->
-易测试性：指软件产品使已修改软件能被确认的能力。
+《实施计划》： 为实施阶段的计划，主要突出实施内容的起止时间点及责任人、提交的成果物等。
 
 <!-- tender:format
-style: Heading 4
+style: Normal
 source_paragraph: 281
 -->
-测试计划
+《培训计划》： 项目建设单位向用户提交培训计划，包括培训地点、参与者和培训时间等。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 282
 -->
-本项目测试计划包括功能性测试，性能指标测试。
+《软件实施部署手册》： 软件实施过程中的指导文件，可以让实施人员依照此文件完成软件实施工作。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 283
 -->
-功能指标测试
+《软件实施总结报告》： 为实施后的一个总结文件，简要记录实施内容、计划执行情况、工作量、软件运行情况及实施过程中发生的问题等。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
+source_paragraph: 284
+-->
+《项目验收申请报告》： 项目建设单位向系统用户提出验收的申请包括，验收时间、内容、参与者等。
+
+<!-- tender:format
+style: Normal
 source_paragraph: 285
 -->
-性能指标测试
+《项目初验报告》： 若有初验里程碑，则需要提交该文件。为纸版扫描件要求有客户盖章。
 
 <!-- tender:format
-style: Heading 4
+style: Normal
+source_paragraph: 286
+-->
+（2） 试运行阶段
+
+<!-- tender:format
+style: Normal
 source_paragraph: 287
 -->
-测试流程
+试运行阶段是项目建设单位按招标文件和合同的约定事项完成项目建设并试运行，用户出具试用报告后，依照相关标准组织设计、承建、监理、测评等单位，对信息化项目工程质量的认定。当系统试运行状态正常，稳定试运行至少1个月，项目建设单位整理所有技术文件和项目管理资料等项目文件，提交给用户进行验收。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 288
 -->
-系统上线前准备过程包括（项目组可根据项目具体情况简化）：
+试运行和终验阶段需要提交的文件如下：
 
 <!-- tender:format
 style: Normal
 source_paragraph: 289
 -->
-1．系统上线申请
+《系统试运行总结报告》： 项目建设单位在系统试运行后，对整个试运行全过程的总结，包括系统试运行过程中遇到的问题及解决办法等。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 290
 -->
-2．文档审查、上线测试环境检查
+《项目验收申请报告》： 项目建设单位向系统用户提出验收的申请包括，验收时间、内容、参与者等。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 291
 -->
-3．系统演示
+《软件交付书》： 若软件按模块划分进行多次交付，则每次交付都对应一份软件交付书。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 292
 -->
-4．系统上线测试计划和测试方案
+所有模块全部交付完后，需要有一个总结性的软件交付书。为纸制版，要求有客户盖章。《项目产品质量评审表》： 描述评审软件产品和活动，让用户或监理单位访问项目建设单位的一些设施要遵循的方法，描述应遵循合同中论及它的所有条款。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 293
 -->
-5．系统上线测试
+《项目终验报告》： 为软件终验后的确认文件，为纸版扫描件，要求有客户盖章。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 294
 -->
-6．系统上线或割接
+《专家意见》： 在初验或终验后，专家对系统提出的意见，要求为纸质，有专家签字。
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 295
 -->
-系统上线申请
+《验收问题备忘录》： 为验收后，与客户签署的验收问题备忘记录，做为维护期的依据。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 296
 -->
-我司完成各项准备工作以后，应适时向甲方正式提出工程上线申请报告，扼要说明申请系统上线的准备情况和系统所具备的上线条件。我司在提交工程上线申请报告时，必须交付有关的产品资料，其中包括系统设备及系统软件配置清单、应用软件文档(根据合同版权要求决定)、应用软件源程序(根据合同版权要求决定)、技术总结报告和测试分析报告等。申请
+《项目移交列表》： 项目终验后向客户提交成果物清单，包括所有项目相关文件、用户名、密码及项目维护方案等信息。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 297
 -->
-甲方对公司提交的系统上线申请报告和文档进行审查，提出处理意见。甲方主要检查系统的功能、性能、系统配置和文档是否满足要求。甲方技术负责人在申请报告上签字。
+（3） 运行维护与售后服务阶段
 
 <!-- tender:format
-style: Heading 5
+style: Normal
 source_paragraph: 298
 -->
-文档审查、上线测试环境检查
+运行维护与售后服务阶段是指从项目维护期开始直至结束的时间段，在运行维护与售后服务阶段，软件将在运行使用中不断地被维护，根据新提出的需求进行必要而且可能的扩充和删改、更新和升级。
 
 <!-- tender:format
 style: Normal
 source_paragraph: 299
 -->
-在上线测试开始之前，甲方必须提前将《上线测试计划书》、《测试大纲》和《测试用例》分发给相关人员，以确定是否可以进行上线测试。
+该阶段需要提交的文件如下：
 
 ## 表格样式样例
 
 <!-- tender:format
-style: Normal Table
-source_table: 0
--->
-| 招标文件要求 | 应答/佐证材料所在页码 |
-|---|---|
-| 一、商务文件应答索引 | 一、商务文件应答索引 |
-| （1）*法定代表人身份证明或授权委托书 |  |
-| （2）*投标函 |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 1
--->
-| 1商务评分部分相关内容索引 | 1商务评分部分相关内容索引 | 1商务评分部分相关内容索引 | 1商务评分部分相关内容索引 | 1商务评分部分相关内容索引 |
-|---|---|---|---|---|
-| 评分因素 | 分值 | 评分标准 | 投标文件相关
-内容页码 | 备注 |
-|  |  |  |  |  |
-|  |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 2
--->
-| 投标总价 | 备注 |
-|---|---|
-| 人民币大写： |  |
-| 人民币小写： |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 3
--->
-| 名称 | 名称 | 名称 | 计量
-单位 | 数量
-(人月) | 单价
-(万元/人月) | 合价
-(万元) |
-|---|---|---|---|---|---|---|
-| 系统总体设计和需求分析 | 系统总体设计和需求分析 | 系统总体设计和需求分析 | 项 |  |  |  |
-| 系统开发
-（详细到任务书中的功能项） | 功能1 | 概要设计 | 项 |  |  |  |
-| 系统开发
-（详细到任务书中的功能项） | 功能1 | 详细设计 | 项 |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 4
--->
-| 序号 | 服务项目 | 提供方式 | 服务标准 | 服务费用 | 备注 |
-|---|---|---|---|---|---|
-| 1 |  |  |  |  |  |
-| 2 |  |  |  |  |  |
-| 3 |  |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 5
--->
-| 序号 | 姓名 | 性别 | 职称资质 | 在本项目中的职务 | 在本项目专职/兼职 | 备注 |
-|---|---|---|---|---|---|---|
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 6
--->
-| 姓 名 |  | 性 别 |  |  | 出生日期 | 年 月 | 年 月 |
-|---|---|---|---|---|---|---|---|
-| 毕业院校及专业 |  |  |  |  | 毕业时间 | 年 月 | 年 月 |
-| 从事本专业时间 |  | 为投标人服务时间 | 为投标人服务时间 | 为投标人服务时间 |  |  |  |
-| 职称及执业资质 |  | 拟在本项目中担任职务 | 拟在本项目中担任职务 | 拟在本项目中担任职务 | 按项目管理和技术人员填写，注明在本项目专职还是兼职，以及在本项目工作专业 | 按项目管理和技术人员填写，注明在本项目专职还是兼职，以及在本项目工作专业 | 按项目管理和技术人员填写，注明在本项目专职还是兼职，以及在本项目工作专业 |
-
-<!-- tender:format
-style: Normal Table
-source_table: 7
--->
-| 序号 | 招标文件条目号 | 招标文件软件开发和服务标准、时间、范围及货物的技术等要求 | 投标文件应答 | 偏差 | 投标文件的页码范围 | 备注 |
-|---|---|---|---|---|---|---|
-| 1 |  |  |  |  |  |  |
-| 2 |  |  |  |  |  |  |
-|  |  |  | 除以上内容，我司对招标文件的其他技术要求完全响应，无偏离。 | 除以上内容，我司对招标文件的其他技术要求完全响应，无偏离。 | 除以上内容，我司对招标文件的其他技术要求完全响应，无偏离。 |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 8
--->
-| 序号 | 软件模块名称 | 主要功能 | 技术标准 | 备注 |
-|---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 9
--->
-| 序号 | 服务名称 | 服务范围 | 服务要求 | 服务时间 | 服务标准 |
-|---|---|---|---|---|---|
-| 1 |  |  |  |  |  |
-| 2 |  |  |  |  |  |
-| 3 |  |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 10
--->
-| 序号 | 货物名称 | 货物品牌 | 货物
-规格型号 | 货物数量 | 货物单价（元） |
-|---|---|---|---|---|---|
-| 1 |  |  |  |  |  |
-| 2 |  |  |  |  |  |
-| 3 |  |  |  |  |  |
-
-<!-- tender:format
-style: Normal Table
-source_table: 11
--->
-| 项目阶段 | 时间 | 工作内容 | 成果 |
-|---|---|---|---|
-| 需求调研 | 合同签订后第1个月 | 成立项目咨询专家组，对项目需求进行详细的调研。 | 系统需求规格说明书 |
-| 系统设计 | 合同签订后第1个月 | 在需求调研的基础上对系统架构、安全体系、功能、界面等进行设计。 | 系统设计说明书 |
-| 系统开发 | 第1个月-第3个月 | 进行各个子系统的开发，完成单元测试。 | 单元测试报告 |
-
-<!-- tender:format
-style: Normal Table
-source_table: 12
--->
-| 活动流程 | 过程说明 | 责任人 | 产生记录 |
-|---|---|---|---|
-|  | 收集维护信息并对信息进行管理。客户服务部门、项目维护组接收用户提出的维护申请（来自网络的客户信息、电话或者书面申请等），填写《客户咨询/反馈登记表 | 客户服务部门、项目维护组 | 《客户咨询/反馈登记表》 |
-|  | 客户服务部、项目维护组技术人员对维护申请进行处理：根据问题实际进行即时处理；对于需要深度维护的问题制定维护方案，并与用户进行协商以确定维护的模式，维护活动的实施 | 客户服务部门、项目维护组（技术人员） | 《用户问题反馈及落实情况表》《客户回执》 |
-|  | 维护人员实施维护。实施时根据维护的类型参见《软件维护规范》和《系统维护规范》。维护实施完毕后，请客户填写意见 | 维护人员 | 《维护任务单》《用户意见反馈表》 |
-
-<!-- tender:format
 style: Table Grid
-source_table: 13
+source_table: 0
 -->
 | 类型 | 具体描述 | 开展频率 | 报送要求 |
 |---|---|---|---|

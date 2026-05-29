@@ -1,0 +1,37 @@
+project_name: 宁夏沙尘预测AI模型训练及示范应用项目
+tender_type: technical_proposal
+planning_completed: true
+target_words: 13000
+chars_per_page_estimate: 1752
+
+planning_outputs:
+  - work/30_plan/outline.md
+  - work/30_plan/compliance_matrix.md
+  - work/30_plan/writing_plan.yml
+  - work/30_plan/page_plan.yml
+  - work/30_plan/scoring_title_placement.md
+  - work/30_plan/manual_decisions.md
+
+scoring_summary:
+  total_points: 100
+  technical_requirements: 46
+  project_understanding: 10
+  implementation_plan: 5
+  training_plan: 5
+  after_sales: 5
+  team: 6
+  performance: 6
+  similar_projects: 6
+  enterprise_capability: 7
+  price: 10
+
+key_dates:
+  contract_duration: 24_months
+  payment_terms: 40%-40%-20%
+
+service_location: 宁夏回族自治区气象局
+
+planning_notes:
+  - Page plan requires user input for target_pages_min/max
+  - Manual decisions required for agent interface, deployment environment, data sources
+  - All scoring items已进入三级以内标题

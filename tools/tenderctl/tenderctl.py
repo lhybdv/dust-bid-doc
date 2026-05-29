@@ -17,7 +17,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
+import shutil
 import sys
 from copy import deepcopy
 from dataclasses import dataclass
@@ -65,6 +67,8 @@ DEFAULT_STYLE_MAP = {
     "code": "Intense Quote",
     "table": "Table Grid",
 }
+
+DEFAULT_CHARS_PER_PAGE_ESTIMATE = 1800
 
 
 def require_docx() -> None:
@@ -297,12 +301,29 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
     paragraphs = [paragraph_snapshot(p, i) for i, p in enumerate(doc.paragraphs)]
     tables = [table_snapshot(t, i) for i, t in enumerate(doc.tables)]
     placeholder = "{{TECH_SECTION_BODY}}"
+    placeholder_indexes = [idx for idx, p in enumerate(doc.paragraphs) if placeholder in (p.text or "")]
+    placeholder_found = bool(placeholder_indexes)
 
     return {
         "template_id": template_id,
         "template_docx": str(template_path),
+        "template_source_docx": str(template_path),
+        "template_build_docx": str(template_path),
+        "result": "PASS" if placeholder_found else "FAIL",
         "body_placeholder": placeholder,
-        "placeholder_found": any(placeholder in (p.text or "") for p in doc.paragraphs),
+        "source_placeholder_found": placeholder_found,
+        "placeholder_found": placeholder_found,
+        "placeholder_paragraph_indexes": placeholder_indexes,
+        "placeholder_insertion": {
+            "mode": "source",
+            "anchor": "",
+            "paragraph_index": placeholder_indexes[0] if placeholder_indexes else None,
+        },
+        "issues": []
+        if placeholder_found
+        else [
+            "Template DOCX does not contain a standalone {{TECH_SECTION_BODY}} placeholder; build-docx cannot safely insert generated tender content."
+        ],
         "style_map": detect_style_map(doc),
         "sections": sections,
         "styles": styles,
@@ -323,6 +344,200 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
                 "Confirm section breaks for landscape wide tables manually when needed.",
             ],
         },
+    }
+
+
+def insert_paragraph_after(paragraph: Paragraph, text: str, style: Optional[str] = None) -> Paragraph:
+    new_p = OxmlElement("w:p")
+    paragraph._p.addnext(new_p)
+    new_para = Paragraph(new_p, paragraph._parent)
+    if style:
+        try:
+            new_para.style = style
+        except Exception:
+            pass
+    new_para.add_run(text)
+    return new_para
+
+
+DEFAULT_TEMPLATE_INSERT_ANCHORS = (
+    "投标人项目实施和售后服务方案",
+    "其他技术文件",
+    "技术部分",
+)
+
+DEFAULT_TEMPLATE_BODY_START_ANCHORS = (
+    "评分标准相关内容索引表",
+    "应答索引汇总表",
+    "投标人项目实施和售后服务方案",
+    "其他技术文件",
+    "技术部分",
+)
+
+
+def remove_paragraph_element(paragraph: Paragraph) -> None:
+    parent = paragraph._element.getparent()
+    if parent is not None:
+        parent.remove(paragraph._element)
+
+
+def remove_body_elements_between(start_paragraph: Paragraph, end_paragraph: Optional[Paragraph]) -> None:
+    start_el = start_paragraph._element
+    end_el = end_paragraph._element if end_paragraph is not None else None
+    parent = start_el.getparent()
+    current = start_el.getnext()
+    while parent is not None and current is not None and current is not end_el:
+        next_el = current.getnext()
+        if current.tag.endswith("}sectPr"):
+            break
+        parent.remove(current)
+        current = next_el
+
+
+def find_paragraph_index(
+    paragraphs: list[Paragraph],
+    anchors: list[str],
+    start_at: int = 0,
+    prefer_last: bool = True,
+) -> tuple[Optional[int], str]:
+    for anchor in anchors:
+        if not anchor:
+            continue
+        matches = [
+            idx
+            for idx, paragraph in enumerate(paragraphs[start_at:], start=start_at)
+            if anchor in normalize_ws(paragraph.text or "")
+        ]
+        if matches:
+            return (matches[-1] if prefer_last else matches[0]), anchor
+    return None, ""
+
+
+def prepare_build_template(
+    source_docx: Path,
+    build_docx: Path,
+    placeholder: str = "{{TECH_SECTION_BODY}}",
+    insert_after: str = "",
+    build_mode: str = "replace_body",
+    body_start_after: str = "",
+    body_end_before: str = "",
+) -> dict:
+    require_docx()
+    source_docx = Path(source_docx)
+    build_docx = Path(build_docx)
+    source_doc = Document(str(source_docx))
+    source_placeholder_indexes = [
+        idx for idx, paragraph in enumerate(source_doc.paragraphs) if placeholder in (paragraph.text or "")
+    ]
+    if source_placeholder_indexes:
+        return {
+            "template_source_docx": str(source_docx),
+            "template_build_docx": str(source_docx),
+            "source_placeholder_found": True,
+            "placeholder_found": True,
+            "placeholder_paragraph_indexes": source_placeholder_indexes,
+            "placeholder_insertion": {
+                "mode": "source",
+                "anchor": "",
+                "paragraph_index": source_placeholder_indexes[0],
+            },
+            "issues": [],
+        }
+
+    source_docx = Path(source_docx).resolve()
+    build_docx = Path(build_docx).resolve()
+    if source_docx == build_docx:
+        source_doc = Document(str(source_docx))
+        source_placeholder_indexes = [
+            idx for idx, paragraph in enumerate(source_doc.paragraphs) if placeholder in (paragraph.text or "")
+        ]
+        return {
+            "template_source_docx": str(source_docx),
+            "template_build_docx": str(source_docx),
+            "source_placeholder_found": bool(source_placeholder_indexes),
+            "placeholder_found": bool(source_placeholder_indexes),
+            "placeholder_paragraph_indexes": source_placeholder_indexes,
+            "placeholder_insertion": {
+                "mode": "source",
+                "anchor": "",
+                "paragraph_index": source_placeholder_indexes[0] if source_placeholder_indexes else None,
+            },
+            "issues": [],
+        }
+
+    ensure_parent(build_docx)
+    shutil.copyfile(source_docx, build_docx)
+    build_doc = Document(str(build_docx))
+
+    normalized_mode = (build_mode or "replace_body").strip().lower()
+    if normalized_mode not in {"replace_body", "insert_after"}:
+        normalized_mode = "replace_body"
+
+    issues = []
+    anchor_used = ""
+    end_used = ""
+    mode = normalized_mode
+    paragraph_index = None
+
+    if normalized_mode == "replace_body":
+        start_anchors = [body_start_after or insert_after] if (body_start_after or insert_after) else list(DEFAULT_TEMPLATE_BODY_START_ANCHORS)
+        paragraphs = build_doc.paragraphs
+        start_index, anchor_used = find_paragraph_index(paragraphs, start_anchors)
+        if start_index is None:
+            build_doc.add_paragraph(placeholder)
+            mode = "append_end"
+            issues.append(
+                "No configured or default template body start anchor was found; {{TECH_SECTION_BODY}} was appended at the end of the build template. Set template_body_start_after or review template_build.docx before build."
+            )
+        else:
+            end_index = len(paragraphs)
+            if body_end_before:
+                found_end, end_used = find_paragraph_index(
+                    paragraphs, [body_end_before], start_at=start_index + 1, prefer_last=False
+                )
+                if found_end is not None:
+                    end_index = found_end
+                else:
+                    issues.append(
+                        f"template_body_end_before anchor was not found after {anchor_used}; body replacement continued to the end of the template."
+                    )
+            end_paragraph = paragraphs[end_index] if end_index < len(paragraphs) else None
+            remove_body_elements_between(paragraphs[start_index], end_paragraph)
+            insert_paragraph_after(paragraphs[start_index], placeholder)
+            paragraph_index = start_index + 1
+    else:
+        anchors = [insert_after] if insert_after else list(DEFAULT_TEMPLATE_INSERT_ANCHORS)
+        paragraphs = build_doc.paragraphs
+        anchor_index, anchor_used = find_paragraph_index(paragraphs, anchors)
+        if anchor_index is None:
+            build_doc.add_paragraph(placeholder)
+            mode = "append_end"
+            issues.append(
+                "No configured or default template insertion anchor was found; {{TECH_SECTION_BODY}} was appended at the end of the build template. Review template_build.docx before build."
+            )
+        else:
+            insert_paragraph_after(paragraphs[anchor_index], placeholder)
+            paragraph_index = anchor_index + 1
+
+    build_doc.save(str(build_docx))
+    build_doc = Document(str(build_docx))
+    placeholder_indexes = [
+        idx for idx, paragraph in enumerate(build_doc.paragraphs) if placeholder in (paragraph.text or "")
+    ]
+    return {
+        "template_source_docx": str(source_docx),
+        "template_build_docx": str(build_docx),
+        "source_placeholder_found": False,
+        "placeholder_found": bool(placeholder_indexes),
+        "placeholder_paragraph_indexes": placeholder_indexes,
+        "placeholder_insertion": {
+            "mode": mode,
+            "anchor": anchor_used,
+            "start_after": anchor_used if normalized_mode == "replace_body" else "",
+            "end_before": end_used,
+            "paragraph_index": placeholder_indexes[0] if placeholder_indexes else None,
+        },
+        "issues": issues,
     }
 
 
@@ -363,6 +578,26 @@ def template_to_markdown(profile: dict) -> str:
         lines.append("| " + " | ".join(row) + " |")
 
     lines.extend(["", "## 模板正文骨架", ""])
+    if not profile.get("placeholder_found"):
+        lines.extend(
+            [
+                "> [!warning] 模板缺少 `{{TECH_SECTION_BODY}}` 占位符，不能安全执行 `/tender:build`。请在 Word 模板中把该占位符单独放在正文插入位置，然后重新运行 `/tender:template`。",
+                "",
+            ]
+        )
+    elif not profile.get("source_placeholder_found"):
+        insertion = profile.get("placeholder_insertion") or {}
+        build_docx = profile.get("template_build_docx", "")
+        anchor = insertion.get("anchor") or "模板末尾"
+        mode_text = "替换正文骨架并插入占位符" if insertion.get("mode") == "replace_body" else "插入占位符"
+        lines.extend(
+            [
+                f"> [!info] 原始模板不含 `{{TECH_SECTION_BODY}}`；已生成构建模板 `{build_docx}`，并在 `{anchor}` 位置{mode_text}。`/tender:build` 默认使用构建模板，原始模板保持不变。",
+                "",
+            ]
+        )
+    if profile.get("issues"):
+        lines.extend(["> [!warning] 需要复核：" + "；".join(str(item) for item in profile["issues"]), ""])
     for paragraph in profile.get("paragraphs", []):
         text = paragraph.get("text_preview", "").strip()
         style = paragraph.get("style") or "Normal"
@@ -415,9 +650,45 @@ def cmd_template_profile(args) -> int:
         raise FileNotFoundError(f"Template not found: {template_path}")
 
     template_id = args.template_id or template_path.stem
-    profile = extract_template_profile(template_path, template_id)
-
+    manifest_path = Path(args.manifest) if args.manifest else Path()
+    existing_manifest = read_manifest(manifest_path) if args.manifest else {}
     out_json = Path(args.out_json)
+    default_build_template = out_json.parent / "template_build.docx"
+    build_template_path = Path(
+        getattr(args, "build_template_out", "")
+        or existing_manifest.get("template_build_docx_path")
+        or default_build_template
+    )
+    insert_after = str(
+        getattr(args, "insert_after", "") or existing_manifest.get("template_insert_after") or ""
+    ).strip()
+    build_mode = str(getattr(args, "build_mode", "") or existing_manifest.get("template_build_mode") or "replace_body").strip()
+    body_start_after = str(
+        getattr(args, "body_start_after", "")
+        or existing_manifest.get("template_body_start_after")
+        or insert_after
+        or ""
+    ).strip()
+    body_end_before = str(
+        getattr(args, "body_end_before", "") or existing_manifest.get("template_body_end_before") or ""
+    ).strip()
+    prepared = prepare_build_template(
+        source_docx=template_path,
+        build_docx=build_template_path,
+        placeholder="{{TECH_SECTION_BODY}}",
+        insert_after=insert_after,
+        build_mode=build_mode,
+        body_start_after=body_start_after,
+        body_end_before=body_end_before,
+    )
+    profile = extract_template_profile(template_path, template_id)
+    profile.update(prepared)
+    profile["template_docx"] = prepared["template_build_docx"]
+    profile["result"] = "PASS" if prepared.get("placeholder_found") and not prepared.get("issues") else "MANUAL"
+    if not prepared.get("placeholder_found"):
+        profile["result"] = "FAIL"
+    profile["issues"] = prepared.get("issues", [])
+
     out_md = Path(args.out_md)
     write_json(out_json, profile)
     write_text(out_md, template_to_markdown(profile))
@@ -426,18 +697,27 @@ def cmd_template_profile(args) -> int:
         print(f"[OK] wrote: {args.out_format_rules}")
 
     if args.manifest:
-        manifest_path = Path(args.manifest)
         manifest = read_manifest(manifest_path)
         templates = manifest.setdefault("templates", {})
         templates[template_id] = {
-            "docx_path": str(template_path),
+            "source_docx_path": str(template_path),
+            "build_docx_path": str(prepared["template_build_docx"]),
+            "docx_path": str(prepared["template_build_docx"]),
             "profile_json": str(out_json),
             "template_md": str(out_md),
         }
         manifest["active_template_id"] = template_id
-        manifest["template_docx_path"] = str(template_path)
+        manifest["template_source_docx_path"] = str(template_path)
+        manifest["template_build_docx_path"] = str(prepared["template_build_docx"])
+        manifest["template_docx_path"] = str(prepared["template_build_docx"])
+        manifest["template_build_mode"] = build_mode or "replace_body"
+        manifest["template_body_start_after"] = body_start_after
+        manifest["template_body_end_before"] = body_end_before
         manifest["template_profile_path"] = str(out_json)
         manifest["template_markdown_path"] = str(out_md)
+        manifest["body_placeholder"] = prepared.get("body_placeholder", "{{TECH_SECTION_BODY}}")
+        if insert_after:
+            manifest["template_insert_after"] = insert_after
         write_manifest(manifest_path, manifest)
 
     print(f"[OK] wrote: {out_json}")
@@ -755,6 +1035,17 @@ def effective_char_count(text: str) -> int:
     return len(cjk) + sum(max(1, len(word) // 5) for word in words) + len(other)
 
 
+def resolve_chars_per_page(value: object = None, manifest: Optional[dict] = None) -> int:
+    for candidate in (value, (manifest or {}).get("chars_per_page_estimate"), DEFAULT_CHARS_PER_PAGE_ESTIMATE):
+        try:
+            parsed = int(candidate)
+        except (TypeError, ValueError):
+            continue
+        if parsed > 0:
+            return parsed
+    return DEFAULT_CHARS_PER_PAGE_ESTIMATE
+
+
 def normalize_title(text: str) -> str:
     text = re.sub(r"<[^>]+>", "", text)
     text = re.sub(r"\s+", "", text)
@@ -777,6 +1068,29 @@ def extract_md_headings(markdown: str) -> list[dict]:
             }
         )
     return headings
+
+
+def repeated_document_shell_headings(headings: list[dict]) -> list[dict]:
+    shell_titles = {"投标文件": "投标文件", "目录": "目录"}
+    occurrences: dict[str, list[dict]] = {}
+    for heading in headings:
+        if heading.get("level") != 1:
+            continue
+        normalized = str(heading.get("normalized") or "")
+        if normalized not in shell_titles:
+            continue
+        occurrences.setdefault(normalized, []).append(heading)
+    repeated = []
+    for normalized, items in occurrences.items():
+        if len(items) > 1:
+            repeated.append(
+                {
+                    "title": shell_titles[normalized],
+                    "count": len(items),
+                    "lines": [item["line"] for item in items],
+                }
+            )
+    return repeated
 
 
 def parse_markdown_table(text: str) -> list[dict]:
@@ -826,6 +1140,252 @@ def number_value(value) -> Optional[float]:
         return None
 
 
+def first_present(row: dict, candidates: Iterable[str]) -> str:
+    normalized = {normalize_title(key): value for key, value in row.items()}
+    for candidate in candidates:
+        value = row.get(candidate)
+        if value:
+            return normalize_ws(str(value))
+        value = normalized.get(normalize_title(candidate))
+        if value:
+            return normalize_ws(str(value))
+    return ""
+
+
+def row_contains_any(row: dict, needles: Iterable[str]) -> bool:
+    text = normalize_title(" ".join(str(value) for value in row.values()))
+    return any(normalize_title(needle) in text for needle in needles if needle)
+
+
+def section_matches_text(section: dict, text: str) -> bool:
+    if not text:
+        return False
+    normalized_text = normalize_title(text)
+    section_id = section_id_of(section)
+    title = str(section.get("title") or "")
+    if section_id and normalize_title(section_id) in normalized_text:
+        return True
+    if title and normalize_title(title) in normalized_text:
+        return True
+    return False
+
+
+def load_page_allocations(page_plan_path: Path) -> dict[str, dict]:
+    plan = load_yaml_like(page_plan_path)
+    if not isinstance(plan, dict):
+        return {}
+    allocations = plan.get("allocation") or []
+    if not isinstance(allocations, list):
+        return {}
+    result = {}
+    for item in allocations:
+        if not isinstance(item, dict):
+            continue
+        section_id = str(item.get("section_id") or item.get("id") or "").strip()
+        if section_id:
+            result[section_id] = item
+    return result
+
+
+def scoring_rows_for_section(section: dict, scoring_matrix_path: Path) -> list[dict]:
+    if not scoring_matrix_path.exists():
+        return []
+    rows = parse_markdown_table(read_text(scoring_matrix_path))
+    declared = [normalize_title(item) for item in (section.get("scoring_items") or [])]
+    matched = []
+    for row in rows:
+        item = first_present(
+            row,
+            [
+                "Scoring item",
+                "Score item",
+                "评分项",
+                "评审项目",
+                "评分标准号",
+                "建议标题",
+                "Suggested title",
+            ],
+        )
+        row_text = " ".join(str(value) for value in row.values())
+        if any(item and item in normalize_title(row_text) for item in declared) or section_matches_text(section, row_text):
+            matched.append(row)
+    return matched
+
+
+def mandatory_rows_for_section(section: dict, mandatory_matrix_path: Path) -> list[dict]:
+    if not mandatory_matrix_path.exists():
+        return []
+    rows = parse_markdown_table(read_text(mandatory_matrix_path))
+    req_ids = [normalize_title(req_id) for req_id in (section.get("req_ids") or [])]
+    matched = []
+    for row in rows:
+        row_text = " ".join(str(value) for value in row.values())
+        if any(req_id and req_id in normalize_title(row_text) for req_id in req_ids) or section_matches_text(section, row_text):
+            matched.append(row)
+    return matched
+
+
+def score_from_row(row: dict) -> float:
+    for value in row.values():
+        match = re.search(r"\d+(?:\.\d+)?", str(value))
+        if match:
+            return float(match.group(0))
+    return 0.0
+
+
+def infer_contract_slots(section: dict, scoring_rows: list[dict], mandatory_rows: list[dict]) -> list[dict]:
+    slots: list[dict] = [
+        {
+            "name": "requirement_response",
+            "purpose": "Map this section to procurement requirements and state how the bid responds.",
+            "source": "req_ids",
+        },
+        {
+            "name": "scoring_response",
+            "purpose": "Make scoring items easy for reviewers to find without creating new visible headings.",
+            "source": "scoring_items",
+        },
+        {
+            "name": "implementation_process",
+            "purpose": "Describe concrete steps, responsibilities, controls, and sequence.",
+            "source": "generic",
+        },
+        {
+            "name": "deliverables",
+            "purpose": "List outputs, documents, artifacts, and handover material tied to this section.",
+            "source": "generic",
+        },
+        {
+            "name": "acceptance_criteria",
+            "purpose": "State how this content can be checked, accepted, or verified.",
+            "source": "generic",
+        },
+    ]
+
+    text = normalize_title(
+        " ".join(
+            [
+                str(section.get("title") or ""),
+                " ".join(str(item) for item in section.get("scoring_items") or []),
+                " ".join(" ".join(str(value) for value in row.values()) for row in scoring_rows + mandatory_rows),
+            ]
+        )
+    )
+    conditional = [
+        (("interface", "接口", "integration", "集成", "对接"), "interface_and_integration", "Describe boundaries, inputs/outputs, protocols, exceptions, and integration responsibilities."),
+        (("data", "数据", "input", "output", "输入", "输出"), "input_output", "Describe input data, output results, data quality, and traceability."),
+        (("deploy", "deployment", "部署", "环境"), "deployment", "Describe deployment topology, environment, release, and operational constraints."),
+        (("nonfunctional", "performance", "security", "reliability", "性能", "安全", "可靠", "非功能"), "non_functional", "Describe performance, security, reliability, maintainability, and monitoring measures."),
+        (("training", "培训", "support", "售后", "运维", "服务"), "service_and_training", "Describe service response, training, operation, maintenance, and support evidence."),
+    ]
+    existing = {slot["name"] for slot in slots}
+    for needles, name, purpose in conditional:
+        if name not in existing and any(normalize_title(needle) in text for needle in needles):
+            slots.append({"name": name, "purpose": purpose, "source": "inferred_from_section_context"})
+            existing.add(name)
+    return slots
+
+
+def section_content_weight(section: dict, scoring_rows: list[dict], mandatory_rows: list[dict], allocation: dict) -> dict:
+    scoring = sum(score_from_row(row) for row in scoring_rows)
+    if scoring <= 0 and section.get("scoring_items"):
+        scoring = float(len(section.get("scoring_items") or []))
+    mandatory = 3.0 * len(mandatory_rows) + 2.0 * len(section.get("req_ids") or [])
+    pages_min = number_value(section.get("page_budget_min"))
+    pages_max = number_value(section.get("page_budget_max"))
+    if pages_min is None:
+        pages_min = number_value(allocation.get("pages_min")) if allocation else None
+    if pages_max is None:
+        pages_max = number_value(allocation.get("pages_max")) if allocation else None
+    complexity = max(0.0, ((pages_min or 0.0) + (pages_max or 0.0)) / 2.0)
+    evidence = float(len(section.get("scoring_items") or []) + len(section.get("req_ids") or []))
+    findability = 2.0 if section.get("scoring_items") else 0.0
+    total = scoring + mandatory + complexity + evidence + findability
+    return {
+        "scoring": round(scoring, 2),
+        "mandatory": round(mandatory, 2),
+        "complexity": round(complexity, 2),
+        "evidence": round(evidence, 2),
+        "reviewer_findability": round(findability, 2),
+        "total": round(total, 2),
+        "reasons": [
+            "scoring item score/count",
+            "S0/S1 or req_ids coverage",
+            "page budget complexity",
+            "available section evidence",
+            "reviewer findability for scoring items",
+        ],
+    }
+
+
+def enrich_writing_plan_with_content_contracts(
+    writing_plan_path: Path,
+    page_plan_path: Path,
+    scoring_matrix_path: Path,
+    mandatory_matrix_path: Path,
+    out_path: Path,
+    chars_per_page: int,
+) -> dict:
+    plan = load_writing_plan(writing_plan_path)
+    allocations = load_page_allocations(page_plan_path)
+    enriched = deepcopy(plan)
+    sections_enriched = 0
+
+    for section in enriched.get("sections", []):
+        if not isinstance(section, dict):
+            continue
+        section_id = section_id_of(section)
+        allocation = allocations.get(section_id, {})
+        scoring_rows = scoring_rows_for_section(section, scoring_matrix_path)
+        mandatory_rows = mandatory_rows_for_section(section, mandatory_matrix_path)
+
+        if number_value(section.get("page_budget_min")) is None and allocation:
+            section["page_budget_min"] = allocation.get("pages_min", section.get("page_budget_min", ""))
+        if number_value(section.get("page_budget_max")) is None and allocation:
+            section["page_budget_max"] = allocation.get("pages_max", section.get("page_budget_max", ""))
+
+        min_words, max_words, _ = section_budget_words(section, chars_per_page)
+        if min_words is not None and not section.get("target_words_min"):
+            section["target_words_min"] = min_words
+        if max_words is not None and not section.get("target_words_max"):
+            section["target_words_max"] = max_words
+
+        section["structure_locked"] = True
+        section["content_weight"] = section_content_weight(section, scoring_rows, mandatory_rows, allocation)
+        section["content_contract"] = {
+            "hidden": True,
+            "rules": [
+                "do_not_create_visible_headings_from_slots",
+                "do_not_change_section_title_order_or_level",
+                "expand_only_with_confirmed_sources",
+                "prefer_tables_processes_inputs_outputs_deliverables_acceptance",
+                "forbid_padding_generic_slogans_and_repeated_rephrasing",
+            ],
+            "slots": infer_contract_slots(section, scoring_rows, mandatory_rows),
+            "expansion_policy": {
+                "preferred": [
+                    "procurement requirement response",
+                    "scoring item response",
+                    "implementation process",
+                    "inputs and outputs",
+                    "interfaces and integration",
+                    "deliverables and acceptance evidence",
+                ],
+                "forbidden": [
+                    "generic guarantee sections",
+                    "summary padding",
+                    "repeated paraphrase",
+                    "unsupported commitments",
+                    "new visible headings from hidden slots",
+                ],
+            },
+        }
+        sections_enriched += 1
+
+    write_yaml_like(out_path, enriched)
+    return {"out_path": str(out_path), "sections_enriched": sections_enriched}
+
+
 def load_yaml_like(path: Path) -> object:
     if not path.exists():
         return {}
@@ -861,7 +1421,16 @@ def load_writing_plan(path: Path) -> dict:
     if not isinstance(plan, dict):
         raise RuntimeError(f"writing plan is invalid or missing: {path}")
     sections = plan.get("sections")
-    if not isinstance(sections, list):
+    if isinstance(sections, dict):
+        normalized_sections = []
+        for key, value in sections.items():
+            if not isinstance(value, dict):
+                raise RuntimeError(f"writing plan section {key} must be an object: {path}")
+            section = dict(value)
+            section.setdefault("id", str(key))
+            normalized_sections.append(section)
+        plan["sections"] = normalized_sections
+    elif not isinstance(sections, list):
         raise RuntimeError(f"writing plan must contain a sections list: {path}")
     return plan
 
@@ -915,6 +1484,93 @@ def section_sort_key(index_and_section: tuple[int, dict]) -> tuple[float, int]:
     return (order if order is not None else float(index), index)
 
 
+def section_budget_words(section: dict, chars_per_page: int) -> tuple[Optional[int], Optional[int], list[str]]:
+    sources = []
+    min_words = number_value(section.get("target_words_min"))
+    max_words = number_value(section.get("target_words_max"))
+    if min_words is not None:
+        sources.append("target_words_min")
+    if max_words is not None:
+        sources.append("target_words_max")
+
+    if min_words is None:
+        page_min = number_value(section.get("page_budget_min"))
+        if page_min is not None:
+            min_words = page_min * chars_per_page
+            sources.append("page_budget_min")
+    if max_words is None:
+        page_max = number_value(section.get("page_budget_max"))
+        if page_max is not None:
+            max_words = page_max * chars_per_page
+            sources.append("page_budget_max")
+
+    min_budget = int(round(min_words)) if min_words is not None else None
+    max_budget = int(round(max_words)) if max_words is not None else None
+    return min_budget, max_budget, sources
+
+
+def section_budget_report(
+    section: dict,
+    drafted_words: int,
+    chars_per_page: int,
+    min_ratio: float,
+    max_ratio: float,
+) -> dict:
+    min_budget, max_budget, sources = section_budget_words(section, chars_per_page)
+    section_id = section_id_of(section)
+    title = str(section.get("title") or "")
+    result = "NOT_SET"
+    issues = []
+    warnings = []
+    lower_required = None
+    upper_allowed = None
+
+    if min_budget is not None or max_budget is not None:
+        result = "PASS"
+    if min_budget is not None:
+        lower_required = int(math.ceil(min_budget * min_ratio))
+        if drafted_words < lower_required:
+            result = "FAIL"
+            issues.append(
+                f"{section_id} {title}: drafted_words={drafted_words} is below "
+                f"{lower_required} ({min_ratio:.0%} of min budget {min_budget})."
+            )
+    if max_budget is not None:
+        upper_allowed = int(math.floor(max_budget * max_ratio))
+        if drafted_words > upper_allowed:
+            if result != "FAIL":
+                result = "WARN"
+            warnings.append(
+                f"{section_id} {title}: drafted_words={drafted_words} is above "
+                f"{upper_allowed} ({max_ratio:.0%} of max budget {max_budget}); "
+                "review for repetition, filler, or unsupported content, but do not block unless the user set a hard page limit."
+            )
+
+    return {
+        "section_id": section_id,
+        "title": title,
+        "result": result,
+        "drafted_words": drafted_words,
+        "target_words_min": min_budget,
+        "target_words_max": max_budget,
+        "lower_required": lower_required,
+        "upper_allowed": upper_allowed,
+        "sources": sources,
+        "issues": issues,
+        "warnings": warnings,
+    }
+
+
+def section_budget_failure_message(report: dict) -> str:
+    guidance = (
+        "Expand or trim this section under its own scoring items, procurement requirements, "
+        "processes, inputs/outputs, deliverables, acceptance criteria, interfaces, deployment, "
+        "or non-functional constraints. If the confirmed source material cannot support the "
+        "budget, complete the section as blocked or MANUAL with notes instead of marking it drafted."
+    )
+    return "section page/word budget check failed:\n- " + "\n- ".join(report["issues"]) + "\n" + guidance
+
+
 def status_sections_from_plan(plan: dict, locks_dir: Path, sections_dir: Path) -> list[dict]:
     items = []
     for section in plan.get("sections", []):
@@ -938,6 +1594,10 @@ def status_sections_from_plan(plan: dict, locks_dir: Path, sections_dir: Path) -
                 "lock_path": str(lock_path) if lock_path.exists() else "",
                 "notes": section.get("notes", ""),
                 "manual_flags": section_manual_flags(section),
+                "target_words_min": section.get("target_words_min", ""),
+                "target_words_max": section.get("target_words_max", ""),
+                "page_budget_min": section.get("page_budget_min", ""),
+                "page_budget_max": section.get("page_budget_max", ""),
             }
         )
     return items
@@ -969,10 +1629,90 @@ def write_section_status(plan: dict, status_yml: Path, status_md: Path, locks_di
     write_text(status_md, "\n".join(lines) + "\n")
 
 
+def section_brief_path(section_id: str, briefs_dir: Path) -> Path:
+    return briefs_dir / f"{section_id}.md"
+
+
+def list_value_text(value: object) -> str:
+    if isinstance(value, list):
+        items = [str(item).strip() for item in value if str(item).strip()]
+        return ", ".join(items) if items else "not set"
+    text = str(value or "").strip()
+    return text if text else "not set"
+
+
+def contract_slot_name(slot: object) -> str:
+    if isinstance(slot, dict):
+        return str(slot.get("name") or slot.get("slot") or "").strip()
+    return str(slot or "").strip()
+
+
+def write_section_brief(section: dict, brief_path: Path, file_path: Path) -> None:
+    section_id = section_id_of(section)
+    title = str(section.get("title") or "").strip()
+    contract = section.get("content_contract") if isinstance(section.get("content_contract"), dict) else {}
+    slots = [contract_slot_name(slot) for slot in contract.get("slots", [])] if contract else []
+    slots = [slot for slot in slots if slot]
+    weights = section.get("content_weight") if isinstance(section.get("content_weight"), dict) else {}
+
+    page_min = section.get("page_budget_min", "")
+    page_max = section.get("page_budget_max", "")
+    words_min = section.get("target_words_min", "")
+    words_max = section.get("target_words_max", "")
+    page_text = f"{page_min}-{page_max} pages" if page_min or page_max else "not set"
+    words_text = f"{words_min}-{words_max}" if words_min or words_max else "not set"
+
+    lines = [
+        f"# Section Brief: {section_id} {title}".rstrip(),
+        "",
+        "This is an internal writing brief for the agent. Do not copy it into the tender body.",
+        "",
+        "## Budget",
+        "",
+        f"- Page budget: {page_text}",
+        f"- Target words: {words_text}",
+        f"- Draft file: {file_path}",
+        "",
+        "## Coverage",
+        "",
+        f"- Requirement IDs: {list_value_text(section.get('req_ids'))}",
+        f"- Scoring items: {list_value_text(section.get('scoring_items'))}",
+        "",
+        "## Content Weights",
+        "",
+    ]
+    if weights:
+        for key, value in weights.items():
+            lines.append(f"- {key}: {value}")
+    else:
+        lines.append("- not set")
+
+    lines.extend(["", "## Hidden Slots", ""])
+    if slots:
+        lines.extend([f"- {slot}" for slot in slots])
+    else:
+        lines.append("- not set")
+
+    lines.extend(
+        [
+            "",
+            "## Drafting Instructions",
+            "",
+            "- Write the internal micro-outline from the slots before drafting.",
+            "- Expand first on scoring items, mandatory requirements, process, inputs, outputs, interfaces, deliverables, and acceptance evidence.",
+            "- Keep the visible section title and heading level unchanged.",
+            "- Do not create visible headings from hidden slots.",
+            "- If confirmed sources cannot support the budget, mark the section blocked or MANUAL instead of padding.",
+        ]
+    )
+    write_text(brief_path, "\n".join(lines) + "\n")
+
+
 def cmd_claim_section(args) -> int:
     plan_path = Path(args.writing_plan)
     locks_dir = Path(args.locks_dir)
     sections_dir = Path(args.sections_dir)
+    briefs_dir = Path(getattr(args, "section_briefs_dir", "work/40_drafts/section_briefs"))
     status_yml = Path(args.section_status)
     status_md = Path(args.out_md)
     owner = args.owner or "agent"
@@ -1016,6 +1756,7 @@ def cmd_claim_section(args) -> int:
     file_path = section_file_path(candidate, sections_dir)
     if file_path.exists() and not args.allow_existing_file:
         raise RuntimeError(f"section file already exists: {file_path}")
+    brief_path = section_brief_path(section_id, briefs_dir)
 
     locks_dir.mkdir(parents=True, exist_ok=True)
     lock_path = lock_file_path(section_id, locks_dir)
@@ -1026,6 +1767,7 @@ def cmd_claim_section(args) -> int:
         "owner": owner,
         "started_at": started_at,
         "file_path": str(file_path),
+        "section_brief_path": str(brief_path),
     }
     try:
         with lock_path.open("x", encoding="utf-8") as f:
@@ -1038,7 +1780,10 @@ def cmd_claim_section(args) -> int:
     candidate["started_at"] = started_at
     candidate["lock_path"] = str(lock_path)
     candidate["file_path"] = str(file_path)
+    candidate["section_brief_path"] = str(brief_path)
     candidate["updated_at"] = started_at
+    if not getattr(args, "skip_section_brief", False):
+        write_section_brief(candidate, brief_path, file_path)
     write_yaml_like(plan_path, plan)
     write_section_status(plan, status_yml, status_md, locks_dir, sections_dir)
 
@@ -1082,6 +1827,16 @@ def cmd_complete_section(args) -> int:
     drafted_words = int(args.words) if args.words else 0
     if completed_status == "drafted" and not drafted_words:
         drafted_words = effective_char_count(strip_markdown_for_count(read_text(file_path)))
+    if completed_status == "drafted":
+        budget_report = section_budget_report(
+            section,
+            drafted_words,
+            int(args.chars_per_page),
+            float(args.min_budget_ratio),
+            float(args.max_budget_ratio),
+        )
+        if budget_report["result"] == "FAIL":
+            raise RuntimeError(section_budget_failure_message(budget_report))
 
     section["status"] = completed_status
     section["completed_at"] = completed_at
@@ -1136,6 +1891,18 @@ def cmd_merge_sections(args) -> int:
             if not text:
                 blockers.append(f"{section_id}: section file is empty: {file_path}")
                 continue
+            drafted_words = effective_char_count(strip_markdown_for_count(text))
+            budget_report = section_budget_report(
+                section,
+                drafted_words,
+                int(args.chars_per_page),
+                float(args.min_budget_ratio),
+                float(args.max_budget_ratio),
+            )
+            if budget_report["result"] == "FAIL":
+                blockers.append(section_budget_failure_message(budget_report))
+                continue
+            section["drafted_words"] = drafted_words
             parts.append(text)
         elif status in {"pending", "in_progress", "blocked", "MANUAL", "needs_revision"}:
             message = f"{section_id}: status={status}"
@@ -1154,6 +1921,29 @@ def cmd_merge_sections(args) -> int:
     write_yaml_like(plan_path, plan)
     write_section_status(plan, status_yml, status_md, locks_dir, sections_dir)
     print(f"[OK] merged {len(parts)} sections into: {out_draft}")
+    return 0
+
+
+def cmd_normalize_writing_plan(args) -> int:
+    plan_path = Path(args.writing_plan)
+    plan = load_writing_plan(plan_path)
+    write_yaml_like(plan_path, plan)
+    section_count = len([section for section in plan.get("sections", []) if isinstance(section, dict)])
+    print(f"[OK] normalized writing plan sections to list: {plan_path} ({section_count} sections)")
+    return 0
+
+
+def cmd_content_contract(args) -> int:
+    result = enrich_writing_plan_with_content_contracts(
+        writing_plan_path=Path(args.writing_plan),
+        page_plan_path=Path(args.page_plan),
+        scoring_matrix_path=Path(args.scoring_matrix),
+        mandatory_matrix_path=Path(args.mandatory_matrix),
+        out_path=Path(args.out_writing_plan or args.writing_plan),
+        chars_per_page=int(args.chars_per_page),
+    )
+    print(f"[OK] enriched {result['sections_enriched']} sections with hidden content contracts")
+    print(f"[OK] wrote: {result['out_path']}")
     return 0
 
 
@@ -1237,10 +2027,6 @@ def audit_page_plan(page_plan_path: Path, manifest: dict) -> dict:
 
     if target_pages_min and planned_min < target_pages_min:
         issues.append(f"页数预算下限 {planned_min:g} 小于用户要求下限 {target_pages_min}。")
-    if target_pages_max and planned_max > target_pages_max:
-        issues.append(f"页数预算上限 {planned_max:g} 大于用户要求上限 {target_pages_max}。")
-    if target_pages_min and target_pages_max and planned_min > target_pages_max:
-        issues.append(f"页数预算下限 {planned_min:g} 已超过用户要求上限 {target_pages_max}。")
     if manual_items:
         issues.append("page_plan.yml 中仍有 MANUAL/FAIL/TBD 项，不能进入 build。")
 
@@ -1271,6 +2057,7 @@ def cmd_draft_audit(args) -> int:
     markdown = read_text(draft_path)
     headings = extract_md_headings(markdown)
     deep_headings = [h for h in headings if h["level"] > 3]
+    repeated_shell = repeated_document_shell_headings(headings)
     visible_heading_text = "\n".join(h["normalized"] for h in headings if h["level"] <= 3)
 
     scoring_items = extract_scoring_items(Path(args.scoring_matrix))
@@ -1282,15 +2069,28 @@ def cmd_draft_audit(args) -> int:
 
     plain = strip_markdown_for_count(markdown)
     effective_chars = effective_char_count(plain)
-    chars_per_page = int(args.chars_per_page)
+    chars_per_page = resolve_chars_per_page(args.chars_per_page, manifest)
     estimated_pages = round(effective_chars / max(chars_per_page, 1), 1)
     target_pages_min = int(manifest.get("target_pages_min") or 0)
     target_pages_max = int(manifest.get("target_pages_max") or 0)
+    max_is_hard = bool(manifest.get("target_pages_max_is_hard") or manifest.get("page_compression_required"))
     page_status = "NOT_SET"
+    over_target_pages_max = False
+    page_warnings = []
     if target_pages_min or target_pages_max:
         lower_ok = estimated_pages >= target_pages_min if target_pages_min else True
-        upper_ok = estimated_pages <= target_pages_max if target_pages_max else True
-        page_status = "PASS" if lower_ok and upper_ok else "FAIL"
+        page_status = "PASS" if lower_ok else "FAIL"
+        over_target_pages_max = bool(target_pages_max and estimated_pages > target_pages_max)
+        if over_target_pages_max:
+            if max_is_hard:
+                page_status = "FAIL"
+            else:
+                if page_status == "PASS":
+                    page_status = "WARN"
+                page_warnings.append(
+                    f"估算页数 {estimated_pages} 超出目标上限 {target_pages_max}，默认仅作为 WARN；"
+                    "只有用户明确要求硬上限或压缩页数时才作为阻断。"
+                )
     page_plan_report = audit_page_plan(Path(args.page_plan), manifest)
 
     result = "PASS"
@@ -1301,9 +2101,15 @@ def cmd_draft_audit(args) -> int:
     if missing_scoring_titles:
         result = "FAIL"
         blockers.append("存在未进入三级标题内的评分项题目；请回到提纲阶段调整 scoring_title_placement.md、outline.md 和 writing_plan.yml。")
+    if repeated_shell:
+        result = "FAIL"
+        blockers.append("存在重复封面/目录类一级标题，疑似整稿壳或章节重复合并；请先清理 v1.md 或重新运行 merge-sections。")
     if page_status == "FAIL":
         result = "FAIL"
-        blockers.append("估算页数不满足用户提供的页数范围。")
+        if over_target_pages_max and max_is_hard:
+            blockers.append("估算页数超出用户明确设置的硬性页数上限。")
+        else:
+            blockers.append("估算页数低于用户提供的页数下限。")
     if page_plan_report["result"] in {"FAIL", "MANUAL"}:
         result = "FAIL" if page_plan_report["result"] == "FAIL" else "MANUAL"
         blockers.append("页数预算未通过统筹检查；请回到 outline 阶段调整 page_plan.yml 和 writing_plan.yml。")
@@ -1313,6 +2119,7 @@ def cmd_draft_audit(args) -> int:
         "draft_md": str(draft_path),
         "headings_total": len(headings),
         "deep_headings": deep_headings,
+        "repeated_document_shell": repeated_shell,
         "scoring_items_total": len(scoring_items),
         "missing_scoring_titles": missing_scoring_titles,
         "effective_chars": effective_chars,
@@ -1320,7 +2127,10 @@ def cmd_draft_audit(args) -> int:
         "estimated_pages": estimated_pages,
         "target_pages_min": target_pages_min,
         "target_pages_max": target_pages_max,
+        "target_pages_max_is_hard": max_is_hard,
+        "over_target_pages_max": over_target_pages_max,
         "page_status": page_status,
+        "page_warnings": page_warnings,
         "page_plan": page_plan_report,
         "blockers": blockers,
         "note": "Page count is an estimate before final Word/PDF layout. Final page numbers must be checked after build/export.",
@@ -1337,6 +2147,7 @@ def cmd_draft_audit(args) -> int:
         f"- 未进入三级标题内的评分项：{len(missing_scoring_titles)}",
         f"- 估算页数：{estimated_pages} 页（按 {chars_per_page} 有效字/页估算）",
         f"- 页数要求：{target_pages_min or '未设下限'} ~ {target_pages_max or '未设上限'} 页",
+        f"- 页数上限硬约束：{'是' if max_is_hard else '否'}",
         f"- 页数预算：{page_plan_report['result']}，计划 {page_plan_report['planned_pages_min']} ~ {page_plan_report['planned_pages_max']} 页，章节数 {page_plan_report['allocation_count']}",
         "",
         "## 阻断项",
@@ -1346,6 +2157,9 @@ def cmd_draft_audit(args) -> int:
         md_lines.extend([f"- {item}" for item in blockers])
     else:
         md_lines.append("- 暂无。")
+    if page_warnings:
+        md_lines.extend(["", "## 页数提醒", ""])
+        md_lines.extend([f"- {item}" for item in page_warnings])
     if missing_scoring_titles:
         md_lines.extend(["", "## 缺失评分项标题", ""])
         md_lines.extend([f"- {item}" for item in missing_scoring_titles])
@@ -1358,6 +2172,27 @@ def cmd_draft_audit(args) -> int:
     if deep_headings:
         md_lines.extend(["", "## 过深标题", ""])
         md_lines.extend([f"- L{h['level']} 第 {h['line']} 行：{h['title']}" for h in deep_headings[:80]])
+        md_lines.extend(
+            [
+                "",
+                "处理要求：不要一律把四级标题改成加粗正文。先判断该标题是否承载评分题目或专家必须查找的题目；如果承载，必须回到 outline/scoring_title_placement/writing_plan 调整为三级以内标题；只有非评分题目、非目录查找项，才可改为上级标题下的加粗段首、列表项或普通正文。",
+            ]
+        )
+    if repeated_shell:
+        md_lines.extend(["", "## 重复封面/目录", ""])
+        md_lines.extend(
+            [
+                f"- {item['title']} 出现 {item['count']} 次，行号："
+                + "、".join(str(line) for line in item["lines"])
+                for item in repeated_shell
+            ]
+        )
+        md_lines.extend(
+            [
+                "",
+                "处理要求：这通常说明模板骨架、封面目录或旧版 v1.md 被重复并入正文。不要继续 build；先检查 section 文件和 merge-sections 输入，只保留一套封面/目录/正文结构。",
+            ]
+        )
     if page_plan_report["issues"]:
         md_lines.extend(["", "## 页数预算问题", ""])
         md_lines.extend([f"- {item}" for item in page_plan_report["issues"]])
@@ -1368,11 +2203,113 @@ def cmd_draft_audit(args) -> int:
             "",
             "- 页数预算必须在提纲阶段完成，先按采购需求、评分标准、主要内容和总页数设计章节篇幅，再进入正文写作。",
             "- 页数不足时，应优先补足已确认的采购需求、评分项、流程、输入输出、交付物和验收依据。",
-            "- 页数超出时，应压缩重复表述、通用套话和与本项目无关内容。",
+            "- 页数超出时，默认只检查重复表述、通用套话和与本项目无关内容；只有用户明确要求压缩或设置硬性上限时，才把压缩作为阻断修复。",
             "- 不得为了凑页数添加未确认承诺、无来源材料或与项目无关段落。",
         ]
     )
     write_text(Path(args.out_md), "\n".join(md_lines) + "\n")
+    print(f"[OK] wrote: {args.out_json}")
+    print(f"[OK] wrote: {args.out_md}")
+    return 0
+
+
+DIAGRAM_REQUIRED_TERMS = (
+    "总体架构设计",
+    "总体架构",
+    "系统架构",
+    "技术架构",
+    "技术路线",
+    "数据流程",
+    "数据流",
+    "业务流程",
+    "模型训练流程",
+    "模型训练",
+    "部署架构",
+    "接口链路",
+    "接口设计",
+    "系统对接",
+    "运维流程",
+)
+
+
+def markdown_has_diagram(text: str) -> bool:
+    if "<!-- tender:diagram" in text or "<!-- tender:diagram-source:" in text:
+        return True
+    if re.search(r"!\[[^\]]*\]\([^)]+\)", text):
+        return True
+    if re.search(r"<img\b", text, flags=re.IGNORECASE):
+        return True
+    if re.search(r"```mermaid[\s\S]+?```", text, flags=re.IGNORECASE):
+        return True
+    return False
+
+
+def diagram_audit_items(sections_dir: Path, draft_md: Optional[Path] = None) -> list[dict]:
+    sources: list[Path] = []
+    if sections_dir.exists():
+        sources.extend(sorted(path for path in sections_dir.glob("*.md") if path.is_file()))
+    if not sources and draft_md and draft_md.exists():
+        sources.append(draft_md)
+
+    items = []
+    for path in sources:
+        text = read_text(path)
+        if not text.strip():
+            continue
+        matched_terms = [term for term in DIAGRAM_REQUIRED_TERMS if term in text]
+        if not matched_terms:
+            continue
+        has_diagram = markdown_has_diagram(text)
+        items.append(
+            {
+                "section_id": path.stem,
+                "path": str(path),
+                "matched_terms": matched_terms,
+                "has_diagram": has_diagram,
+                "status": "OK" if has_diagram else "MISSING",
+                "recommended_command": f"/tender:diagram-gen {path} --engine fireworks --insert",
+            }
+        )
+    return items
+
+
+def cmd_diagram_audit(args) -> int:
+    sections_dir = Path(args.sections_dir)
+    draft_md = Path(args.draft_md) if getattr(args, "draft_md", "") else None
+    items = diagram_audit_items(sections_dir, draft_md)
+    missing = [item for item in items if item["status"] == "MISSING"]
+    report = {
+        "result": "WARN" if missing else "PASS",
+        "sections_scanned": len(items),
+        "missing_count": len(missing),
+        "candidates": items,
+        "missing_diagrams": missing,
+    }
+    write_json(Path(args.out_json), report)
+
+    lines = [
+        "# 图表审查",
+        "",
+        f"- 结果：{report['result']}",
+        f"- 需要配图章节：{len(items)}",
+        f"- 应有图但没有图：{len(missing)}",
+        "",
+    ]
+    if missing:
+        lines.extend(["## 应有图但没有图", ""])
+        for item in missing:
+            terms = "、".join(item["matched_terms"])
+            lines.append(f"- {item['section_id']}：{item['path']}；命中：{terms}")
+            lines.append(f"  - 建议：{item['recommended_command']}")
+        lines.extend(
+            [
+                "",
+                "处理要求：review 必须在生成 review.md 之前补图；如果无法调用 /tender:diagram-gen，必须执行同等逻辑生成 SVG 并插入章节 Markdown。",
+            ]
+        )
+    else:
+        lines.append("- 暂无缺图。")
+    write_text(Path(args.out_md), "\n".join(lines) + "\n")
     print(f"[OK] wrote: {args.out_json}")
     print(f"[OK] wrote: {args.out_md}")
     return 0
@@ -1722,6 +2659,37 @@ def build_docx_from_markdown(
 
 
 def cmd_build_docx(args) -> int:
+    manifest = read_manifest(Path(args.manifest))
+    draft_path = Path(args.draft_md)
+    markdown = read_text(draft_path)
+    repeated_shell = repeated_document_shell_headings(extract_md_headings(markdown))
+    if repeated_shell:
+        details = "; ".join(
+            f"{item['title']} x{item['count']} at lines {','.join(str(line) for line in item['lines'])}"
+            for item in repeated_shell
+        )
+        raise RuntimeError(
+            "draft structure check failed before DOCX build: repeated cover/TOC shell detected. "
+            "Clean v1.md or rerun merge-sections before build. "
+            + details
+        )
+    effective_chars = effective_char_count(strip_markdown_for_count(markdown))
+    chars_per_page = resolve_chars_per_page(args.chars_per_page, manifest)
+    estimated_pages = round(effective_chars / max(chars_per_page, 1), 1)
+    target_pages_min = int(manifest.get("target_pages_min") or 0)
+    target_pages_max = int(manifest.get("target_pages_max") or 0)
+    if target_pages_min or target_pages_max:
+        lower_ok = estimated_pages >= target_pages_min if target_pages_min else True
+        if not lower_ok:
+            raise RuntimeError(
+                "draft page budget check failed before DOCX build: "
+                f"estimated_pages={estimated_pages}, "
+                f"target_pages={target_pages_min or 'unset'}~{target_pages_max or 'unset'}, "
+                f"effective_chars={effective_chars}, chars_per_page={chars_per_page}. "
+                "Run review/draft-audit, then revise under the relevant scoring items and procurement "
+                "requirements, or mark unsupported gaps as MANUAL instead of building a short final document."
+            )
+
     report = build_docx_from_markdown(
         manifest_path=Path(args.manifest),
         draft_md=Path(args.draft_md),
@@ -1788,6 +2756,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--out-md", default="work/20_templates/default/template.md")
     sp.add_argument("--out-format-rules", default="")
     sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--build-template-out", default="")
+    sp.add_argument("--insert-after", default="")
+    sp.add_argument("--build-mode", choices=["replace_body", "insert_after"], default="")
+    sp.add_argument("--body-start-after", default="")
+    sp.add_argument("--body-end-before", default="")
     sp.set_defaults(func=cmd_template_profile)
 
     sp = sub.add_parser("ingest", help="Extract text from one PDF/DOCX input")
@@ -1817,9 +2790,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--out-md", default="work/40_drafts/section_status.md")
     sp.add_argument("--locks-dir", default="work/40_drafts/locks")
     sp.add_argument("--sections-dir", default="work/40_drafts/v1_sections")
+    sp.add_argument("--section-briefs-dir", default="work/40_drafts/section_briefs")
     sp.add_argument("--section-id", default="")
     sp.add_argument("--owner", default="agent")
     sp.add_argument("--allow-existing-file", action="store_true")
+    sp.add_argument("--skip-section-brief", action="store_true")
     sp.set_defaults(func=cmd_claim_section)
 
     sp = sub.add_parser("complete-section", help="Mark a claimed draft section as drafted or blocked")
@@ -1833,6 +2808,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--owner", default="")
     sp.add_argument("--status", choices=["drafted", "blocked", "MANUAL", "needs_revision"], default="drafted")
     sp.add_argument("--words", default="")
+    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.add_argument("--min-budget-ratio", default="0.90")
+    sp.add_argument("--max-budget-ratio", default="1.10")
     sp.add_argument("--notes", default="")
     sp.add_argument("--allow-no-lock", action="store_true")
     sp.add_argument("--keep-lock", action="store_true")
@@ -1846,7 +2824,23 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--locks-dir", default="work/40_drafts/locks")
     sp.add_argument("--out-draft", default="work/40_drafts/v1.md")
     sp.add_argument("--allow-partial", action="store_true")
+    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.add_argument("--min-budget-ratio", default="0.90")
+    sp.add_argument("--max-budget-ratio", default="1.10")
     sp.set_defaults(func=cmd_merge_sections)
+
+    sp = sub.add_parser("normalize-writing-plan", help="Normalize writing_plan.yml sections to list form")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.set_defaults(func=cmd_normalize_writing_plan)
+
+    sp = sub.add_parser("content-contract", help="Add hidden writing contracts to writing_plan.yml without changing headings")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
+    sp.add_argument("--scoring-matrix", default="work/20_requirements/scoring_matrix.md")
+    sp.add_argument("--mandatory-matrix", default="work/20_requirements/mandatory_matrix.md")
+    sp.add_argument("--out-writing-plan", default="")
+    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.set_defaults(func=cmd_content_contract)
 
     sp = sub.add_parser("similarity", help="Check local source/draft similarity")
     sp.add_argument("--tender-txt", default="work/10_source_extracted/tender.txt")
@@ -1865,8 +2859,15 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
     sp.add_argument("--out-json", default="work/70_review/draft_audit.json")
     sp.add_argument("--out-md", default="work/70_review/draft_audit.md")
-    sp.add_argument("--chars-per-page", default="900")
+    sp.add_argument("--chars-per-page", default="")
     sp.set_defaults(func=cmd_draft_audit)
+
+    sp = sub.add_parser("diagram-audit", help="Audit sections that likely need diagrams before review")
+    sp.add_argument("--sections-dir", default="work/40_drafts/v1_sections")
+    sp.add_argument("--draft-md", default="work/40_drafts/v1.md")
+    sp.add_argument("--out-json", default="work/70_review/diagram_audit.json")
+    sp.add_argument("--out-md", default="work/70_review/diagram_audit.md")
+    sp.set_defaults(func=cmd_diagram_audit)
 
     sp = sub.add_parser("build-docx", help="Build final DOCX from Markdown and template")
     sp.add_argument("--manifest", default="work/00_manifest.yml")
@@ -1875,6 +2876,7 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--format-rules", default="work/20_requirements/format_rules.json")
     sp.add_argument("--template", default="")
     sp.add_argument("--out-log", default="work/60_build/build_log.md")
+    sp.add_argument("--chars-per-page", default="")
     sp.set_defaults(func=cmd_build_docx)
 
     sp = sub.add_parser("progress-seed", help="Create resumable task/progress files")

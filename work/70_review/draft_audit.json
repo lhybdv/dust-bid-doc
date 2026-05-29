@@ -1,31 +1,33 @@
 {
-  "result": "FAIL",
+  "result": "MANUAL",
   "draft_md": "work\\40_drafts\\v1.md",
   "headings_total": 148,
   "deep_headings": [],
+  "repeated_document_shell": [],
   "scoring_items_total": 0,
   "missing_scoring_titles": [],
   "effective_chars": 16012,
-  "chars_per_page": 900,
-  "estimated_pages": 17.8,
-  "target_pages_min": 90,
-  "target_pages_max": 90,
-  "page_status": "FAIL",
+  "chars_per_page": 1800,
+  "estimated_pages": 8.9,
+  "target_pages_min": 0,
+  "target_pages_max": 0,
+  "target_pages_max_is_hard": false,
+  "over_target_pages_max": false,
+  "page_status": "NOT_SET",
+  "page_warnings": [],
   "page_plan": {
     "path": "work\\30_plan\\page_plan.yml",
-    "result": "FAIL",
+    "result": "MANUAL",
     "status": "PLANNED",
-    "planned_pages_min": 0.0,
-    "planned_pages_max": 0.0,
-    "allocation_count": 0,
+    "planned_pages_min": 46.0,
+    "planned_pages_max": 66.0,
+    "allocation_count": 15,
     "issues": [
-      "page_plan.yml 缺少 allocation；必须按章节分配页数。",
-      "页数预算下限 0 小于用户要求下限 90。"
+      "未设置 target_pages_min/target_pages_max；页数只能由用户提供，不能自行猜测。"
     ],
     "items_with_manual_status": []
   },
   "blockers": [
-    "估算页数不满足用户提供的页数范围。",
     "页数预算未通过统筹检查；请回到 outline 阶段调整 page_plan.yml 和 writing_plan.yml。"
   ],
   "note": "Page count is an estimate before final Word/PDF layout. Final page numbers must be checked after build/export."

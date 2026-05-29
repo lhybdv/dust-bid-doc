@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2563eb"/>
+    </marker>
+    <style>text { font-family: Arial, sans-serif; }</style>
+  </defs>
+  <rect width="960" height="450" fill="#ffffff"/>
+  <text x="480" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e3a5f">项目实施计划甘特图（24个月）</text>
+  <rect x="150" y="45" width="780" height="25" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="200" y="62" text-anchor="middle" font-size="10" fill="#64748b">第1-3月</text>
+  <text x="300" y="62" text-anchor="middle" font-size="10" fill="#64748b">第4-6月</text>
+  <text x="400" y="62" text-anchor="middle" font-size="10" fill="#64748b">第7-9月</text>
+  <text x="500" y="62" text-anchor="middle" font-size="10" fill="#64748b">第10-12月</text>
+  <text x="600" y="62" text-anchor="middle" font-size="10" fill="#64748b">第13-15月</text>
+  <text x="700" y="62" text-anchor="middle" font-size="10" fill="#64748b">第16-18月</text>
+  <text x="800" y="62" text-anchor="middle" font-size="10" fill="#64748b">第19-21月</text>
+  <text x="870" y="62" text-anchor="middle" font-size="10" fill="#64748b">第22-24月</text>
+  <text x="80" y="100" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">需求分析</text>
+  <rect x="150" y="88" width="156" height="20" rx="4" fill="#3b82f6"/>
+  <text x="228" y="102" text-anchor="middle" font-size="9" fill="#ffffff">需求调研与分析</text>
+  <text x="80" y="130" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">模型研发</text>
+  <rect x="270" y="118" width="390" height="20" rx="4" fill="#8b5cf6"/>
+  <text x="465" y="132" text-anchor="middle" font-size="9" fill="#ffffff">数据准备+模型训练+优化迭代</text>
+  <text x="80" y="160" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">平台开发</text>
+  <rect x="390" y="148" width="351" height="20" rx="4" fill="#10b981"/>
+  <text x="565" y="162" text-anchor="middle" font-size="9" fill="#ffffff">微服务开发+平台集成+接口对接</text>
+  <text x="80" y="190" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">系统测试</text>
+  <rect x="630" y="178" width="297" height="20" rx="4" fill="#f59e0b"/>
+  <text x="778" y="192" text-anchor="middle" font-size="9" fill="#ffffff">测试+缺陷修复+验收</text>
+  <text x="80" y="220" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">部署上线</text>
+  <rect x="780" y="208" width="147" height="20" rx="4" fill="#ef4444"/>
+  <text x="853" y="222" text-anchor="middle" font-size="9" fill="#ffffff">部署+试运行+优化</text>
+  <text x="80" y="250" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">培训</text>
+  <rect x="810" y="238" width="117" height="20" rx="4" fill="#06b6d4"/>
+  <text x="868" y="252" text-anchor="middle" font-size="9" fill="#ffffff">培训+文档交付</text>
+  <text x="80" y="280" text-anchor="start" font-size="11" font-weight="bold" fill="#1e3a5f">质保</text>
+  <rect x="870" y="268" width="57" height="20" rx="4" fill="#84cc16"/>
+  <text x="898" y="282" text-anchor="middle" font-size="9" fill="#ffffff">运维支持</text>
+  <line x1="150" y1="305" x2="927" y2="305" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="80" y="330" text-anchor="start" font-size="10" fill="#64748b">里程碑</text>
+  <rect x="300" y="320" width="16" height="16" fill="#3b82f6" stroke="#ffffff" stroke-width="2"/>
+  <text x="308" y="352" text-anchor="middle" font-size="9" fill="#475569">需求冻结</text>
+  <rect x="660" y="320" width="16" height="16" fill="#8b5cf6" stroke="#ffffff" stroke-width="2"/>
+  <text x="668" y="352" text-anchor="middle" font-size="9" fill="#475569">模型上线</text>
+  <rect x="780" y="320" width="16" height="16" fill="#10b981" stroke="#ffffff" stroke-width="2"/>
+  <text x="788" y="352" text-anchor="middle" font-size="9" fill="#475569">平台验收</text>
+  <rect x="900" y="320" width="16" height="16" fill="#84cc16" stroke="#ffffff" stroke-width="2"/>
+  <text x="908" y="352" text-anchor="middle" font-size="9" fill="#475569">项目结项</text>
+  <line x1="308" y1="336" x2="308" y2="395" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="668" y1="336" x2="668" y2="395" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="788" y1="336" x2="788" y2="395" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="908" y1="336" x2="908" y2="395" stroke="#84cc16" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="200" y="420" text-anchor="middle" font-size="10" fill="#64748b">1-3月</text>
+  <text x="300" y="420" text-anchor="middle" font-size="10" fill="#64748b">4-6月</text>
+  <text x="400" y="420" text-anchor="middle" font-size="10" fill="#64748b">7-9月</text>
+  <text x="500" y="420" text-anchor="middle" font-size="10" fill="#64748b">10-12月</text>
+  <text x="600" y="420" text-anchor="middle" font-size="10" fill="#64748b">13-15月</text>
+  <text x="700" y="420" text-anchor="middle" font-size="10" fill="#64748b">16-18月</text>
+  <text x="800" y="420" text-anchor="middle" font-size="10" fill="#64748b">19-21月</text>
+  <text x="870" y="420" text-anchor="middle" font-size="10" fill="#64748b">22-24月</text>
+  <rect x="350" y="435" width="260" height="18" rx="4" fill="#e2e8f0"/>
+  <text x="480" y="448" text-anchor="middle" font-size="9" fill="#64748b">副标：实施计划进度展示</text>
+</svg>

@@ -1,0 +1,205 @@
+sections:
+
+  - id: "1.1"
+    title: "项目背景"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/1.1.md"
+    parallel_group: "需求理解"
+    depends_on: []
+    merge_order: 1
+    target_words_min: 600
+    target_words_max: 900
+    page_budget_min: 0.5
+    page_budget_max: 1
+    req_ids: ["S2-01"]
+    scoring_items: ["项目需求理解和重点难点分析"]
+    inputs_needed: ["采购需求项目背景章节"]
+    user_brief_refs: ["brief_alignment:PASS"]
+    manual_flags: []
+
+  - id: "1.2"
+    title: "建设目标"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/1.2.md"
+    parallel_group: "需求理解"
+    depends_on: []
+    merge_order: 2
+    target_words_min: 400
+    target_words_max: 600
+    page_budget_min: 0.3
+    page_budget_max: 0.6
+    req_ids: ["S3-01", "S3-02", "S3-03", "S3-04"]
+    scoring_items: ["项目需求理解和重点难点分析"]
+    inputs_needed: ["采购需求建设目标章节", "brief_alignment.json"]
+    user_brief_refs: ["brief_alignment:PASS"]
+    manual_flags: []
+
+  - id: "1.3"
+    title: "建设内容"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/1.3.md"
+    parallel_group: "需求理解"
+    depends_on: []
+    merge_order: 3
+    target_words_min: 500
+    target_words_max: 800
+    page_budget_min: 0.4
+    page_budget_max: 0.8
+    req_ids: ["S2-01", "S2-02", "S2-03", "S2-04", "S2-05", "S3-01", "S3-02", "S3-03", "S3-04"]
+    scoring_items: ["项目需求理解和重点难点分析"]
+    inputs_needed: ["采购需求建设内容章节"]
+    user_brief_refs: []
+    manual_flags: []
+
+  - id: "1.4"
+    title: "重点难点分析"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/1.4.md"
+    parallel_group: "需求理解"
+    depends_on: []
+    merge_order: 4
+    target_words_min: 500
+    target_words_max: 800
+    page_budget_min: 0.4
+    page_budget_max: 0.8
+    req_ids: ["S2-01", "S2-02", "S2-03", "S2-04", "S2-05", "S2-06"]
+    scoring_items: ["项目需求理解和重点难点分析"]
+    inputs_needed: ["采购需求技术要求章节", "mandatory_matrix.md"]
+    user_brief_refs: []
+    manual_flags: []
+
+  - id: "2.1"
+    title: "总体架构设计"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/2.1.md"
+    parallel_group: "总体技术方案"
+    depends_on: []
+    merge_order: 5
+    target_words_min: 800
+    target_words_max: 1200
+    page_budget_min: 0.7
+    page_budget_max: 1.2
+    req_ids: ["S4-01", "S4-02", "S4-03"]
+    scoring_items: ["技术方案-总体架构设计"]
+    inputs_needed: ["采购需求技术要求", "用户brief方案概述"]
+    user_brief_refs: ["brief_alignment:PASS"]
+    manual_flags: []
+
+  - id: "2.2"
+    title: "技术架构与技术路线"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/2.2.md"
+    parallel_group: "总体技术方案"
+    depends_on: ["2.1"]
+    merge_order: 6
+    target_words_min: 800
+    target_words_max: 1200
+    page_budget_min: 0.7
+    page_budget_max: 1.2
+    req_ids: ["S4-01", "S4-02", "S4-03"]
+    scoring_items: ["技术方案-技术架构与技术路线"]
+    inputs_needed: ["采购需求技术要求章节", "user_brief_v2.md"]
+    user_brief_refs: ["brief_alignment:PASS"]
+    manual_flags: []
+
+  - id: "2.3"
+    title: "接口设计"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/2.3.md"
+    parallel_group: "总体技术方案"
+    depends_on: ["2.1"]
+    merge_order: 7
+    target_words_min: 600
+    target_words_max: 1000
+    page_budget_min: 0.5
+    page_budget_max: 1
+    req_ids: ["S3-04", "S3-05"]
+    scoring_items: ["技术方案-接口设计"]
+    inputs_needed: ["采购需求多场景API接口要求", "brief_alignment.json"]
+    user_brief_refs: ["brief_alignment:MULTI"]
+    manual_flags: ["接口字段需用户确认", "第三方系统名称未确认"]
+
+  - id: "2.4"
+    title: "部署架构"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/2.4.md"
+    parallel_group: "总体技术方案"
+    depends_on: ["2.1"]
+    merge_order: 8
+    target_words_min: 500
+    target_words_max: 800
+    page_budget_min: 0.4
+    page_budget_max: 0.8
+    req_ids: ["S1-02"]
+    scoring_items: ["技术方案-部署设计"]
+    inputs_needed: ["采购需求服务地点要求"]
+    user_brief_refs: []
+    manual_flags: ["部署环境边界未确认"]
+
+  - id: "2.5"
+    title: "非功能性设计"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/2.5.md"
+    parallel_group: "总体技术方案"
+    depends_on: ["2.1"]
+    merge_order: 9
+    target_words_min: 600
+    target_words_max: 900
+    page_budget_min: 0.5
+    page_budget_max: 0.9
+    req_ids: ["S2-03", "S2-04", "S2-05", "S2-06", "S4-04", "S4-05", "S4-06", "S4-07"]
+    scoring_items: ["技术方案-非功能性设计"]
+    inputs_needed: ["采购需求技术指标要求"]
+    user_brief_refs: []
+    manual_flags: []
+
+  - id: "3.1.1"
+    title: "多模态数据融合处理"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/3.1.1.md"
+    parallel_group: "模型训练"
+    depends_on: ["2.2"]
+    merge_order: 10
+    target_words_min: 600
+    target_words_max: 900
+    page_budget_min: 0.5
+    page_budget_max: 0.9
+    req_ids: ["S4-01"]
+    scoring_items: ["详细技术方案-沙尘预测AI模型-多模态数据融合处理"]
+    inputs_needed: ["采购需求4.1节"]
+    user_brief_refs: []
+    manual_flags: ["数据来源需用户确认"]
+
+  - id: "3.1.2"
+    title: "沙尘动态预测AI模型构建"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/3.1.2.md"
+    parallel_group: "模型训练"
+    depends_on: ["3.1.1"]
+    merge_order: 11
+    target_words_min: 800
+    target_words_max: 1200
+    page_budget_min: 0.7
+    page_budget_max: 1.2
+    req_ids: ["S2-01", "S2-02", "S3-01"]
+    scoring_items: ["详细技术方案-沙尘预测AI模型-沙尘动态预测AI模型构建"]
+    inputs_needed: ["采购需求4.2节", "brief_alignment.json"]
+    user_brief_refs: ["brief_alignment:PASS"]
+    manual_flags: []
+
+  - id: "3.1.3"
+    title: "模型预报效果检验评估"
+    status: "pending"
+    file_path: "work/40_drafts/v1_sections/3.1.3.md"
+    parallel_group: "模型训练"
+    depends_on: ["3.1.2"]
+    merge_order: 12
+    target_words_min: 500
+    target_words_max: 800
+    page_budget_min: 0.4
+    page_budget_max: 0.8
+    req_ids: ["S4-03"]
+    scoring_items: ["详细技术方案-沙尘预测AI模型-沙尘气象预测模型预报效果检验评估"]
+    inputs_needed: ["采购需求4.3节"]
+    user_brief_refs: []
+    manual_flags: ["检验评估数据来源需用户确认"]

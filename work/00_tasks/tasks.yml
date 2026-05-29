@@ -1,0 +1,44 @@
+# 任务清单
+
+## 当前任务：/tender:outline 完成
+
+### 已完成任务
+- [x] 分析输入材料（采购需求、评分标准、用户brief、模板）
+- [x] 生成 compliance_matrix.md（覆盖所有MUST/SHOULD）
+- [x] 生成 outline.md（7章25节，三级标题以内）
+- [x] 生成 scoring_title_placement.md（所有评分项进入三级以内）
+- [x] 生成 manual_decisions.md（8项MANUAL，4项USER_INPUT）
+- [x] 生成 writing_plan.yml（25个写作任务，含并行组和依赖）
+- [x] 生成 page_plan.yml（状态：NEED_USER_INPUT）
+- [x] 创建 manifest.yml（target_words: 13000）
+
+---
+
+## 待执行任务：/tender:draft
+
+### 前置条件
+1. 用户提供页数要求（target_pages_min/max）
+2. 用户确认部分 MANUAL 事项（特别是智能体接口和部署环境）
+
+### 写作队列
+按照 writing_plan.yml 执行，共25个章节。
+
+---
+
+## MANUAL 事项（需用户确认）
+
+| 事项 | 优先级 | 影响章节 |
+|------|--------|----------|
+| 智能体接口协议 | 高 | 2.3, 3.3.3 |
+| 部署环境边界 | 高 | 2.4 |
+| 数据来源 | 中 | 3.1.1, 3.1.3 |
+| 行业系统名称 | 中 | 3.3.4 |
+| 图关系模型实现 | 低 | 3.2 |
+
+---
+
+## 状态
+
+- planning_completed: true
+- draft_ready: pending（等待用户确认页数）
+- merge_ready: pending（等待所有章节完成）
