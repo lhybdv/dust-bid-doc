@@ -1,0 +1,24 @@
+{
+  "sections_drafted": 4,
+  "sections_total": 13,
+  "drafted_words": 2871,
+  "drafted_chars": 16012,
+  "chars_per_page": 1752,
+  "estimated_pages": 9,
+  "section_details": [
+    {"id": "1.1", "title": "项目背景", "words": 680, "status": "drafted"},
+    {"id": "1.2", "title": "建设目标", "words": 666, "status": "drafted"},
+    {"id": "1.3", "title": "建设内容", "words": 656, "status": "drafted"},
+    {"id": "1.4", "title": "重点难点分析", "words": 869, "status": "drafted"},
+    {"id": "2.1", "title": "总体架构设计", "words": 0, "status": "pending"},
+    {"id": "2.2", "title": "技术架构与技术路线", "words": 0, "status": "pending"},
+    {"id": "2.3", "title": "接口设计", "words": 0, "status": "pending"},
+    {"id": "2.4", "title": "部署架构", "words": 0, "status": "pending"},
+    {"id": "2.5", "title": "非功能性设计", "words": 0, "status": "pending"},
+    {"id": "3.1.1", "title": "多模态数据融合处理", "words": 0, "status": "pending"},
+    {"id": "3.1.2", "title": "沙尘动态预测AI模型构建", "words": 0, "status": "pending"},
+    {"id": "3.1.3", "title": "模型预报效果检验评估", "words": 0, "status": "pending"}
+  ],
+  "generated_at": "2026-05-30T00:10:00",
+  "note": "v1.md not yet assembled, stats based on v1_sections files"
+}

@@ -1,0 +1,67 @@
+{
+  "result": "MANUAL",
+  "drafted_words": 2871,
+  "target_words": 149000,
+  "counts": {"PASS": 19, "WARN": 3, "FAIL": 0, "MANUAL": 3},
+  "blockers": ["page_plan.yml allocation 合计低于目标页数下限85页", "章节完成度不足（4/13章节已完成draft）"],
+  "manual_items": [
+    "接口字段、第三方系统名称需用户确认（2.3节）",
+    "部署环境边界需用户确认（2.4节）",
+    "数据来源需用户确认（3.1.1节）",
+    "检验评估数据来源需用户确认（3.1.3节）",
+    "Word模板尚未完成 /tender:template"
+  ],
+  "user_brief_alignment": "PASS",
+  "scoring_title_placement": {
+    "unresolved": ["3.3.1平台功能架构章节在outline.md中缺失", "3.3.3场景服务分析章节在outline.md中缺失", "3.3.4 GIS空间分析章节在outline.md中缺失"],
+    "result": "MANUAL"
+  },
+  "page_check": {
+    "target_pages_min": 85,
+    "target_pages_max": 95,
+    "estimated_pages": 9,
+    "over_target_pages_max": false,
+    "max_is_hard": false,
+    "result": "FAIL"
+  },
+  "page_plan": {
+    "planned_pages_min": 46,
+    "planned_pages_max": 66,
+    "allocation_count": 15,
+    "result": "FAIL",
+    "issues": ["allocation 合计（46~66页）远低于目标下限85页"]
+  },
+  "ai_tone_check": {"result": "PASS", "issues": []},
+  "missing_sections": ["2.1", "2.2", "2.3", "2.4", "2.5", "3.1.1", "3.1.2", "3.1.3"],
+  "coverage": [
+    {"scoring_item": "项目需求理解和重点难点分析", "分值": 10, "covered_sections": ["1.1~1.4"], "result": "OK"},
+    {"scoring_item": "技术方案-总体架构设计", "分值": 2, "covered_sections": ["2.1"], "result": "OK, pending draft"},
+    {"scoring_item": "技术方案-技术架构与技术路线", "分值": 2, "covered_sections": ["2.2"], "result": "OK, pending draft"},
+    {"scoring_item": "技术方案-接口设计", "分值": 2, "covered_sections": ["2.3"], "result": "OK, MANUAL"},
+    {"scoring_item": "技术方案-部署设计", "分值": 2, "covered_sections": ["2.4"], "result": "OK, MANUAL"},
+    {"scoring_item": "技术方案-非功能性设计", "分值": 2, "covered_sections": ["2.5"], "result": "OK, pending draft"},
+    {"scoring_item": "详细技术方案-沙尘预测AI模型-多模态数据融合处理", "分值": 6, "covered_sections": ["3.1.1"], "result": "OK, MANUAL"},
+    {"scoring_item": "详细技术方案-沙尘预测AI模型-沙尘动态预测AI模型构建", "分值": 6, "covered_sections": ["3.1.2"], "result": "OK, pending draft"},
+    {"scoring_item": "详细技术方案-沙尘预测AI模型-沙尘气象预测模型预报效果检验评估", "分值": 6, "covered_sections": ["3.1.3"], "result": "OK, MANUAL"},
+    {"scoring_item": "详细技术方案-沙尘监测预警示范服务平台", "分值": 6, "covered_sections": ["3.3.1"], "result": "FAIL - 章节不存在于outline"},
+    {"scoring_item": "详细技术方案-三领域智能体应用", "分值": 6, "covered_sections": ["3.3.3"], "result": "FAIL - 章节不存在于outline"},
+    {"scoring_item": "详细技术方案-多场景沙尘灾害防御服务链路", "分值": 6, "covered_sections": ["3.3.4"], "result": "FAIL - 章节不存在于outline"},
+    {"scoring_item": "项目实施与管理方案", "分值": 5, "covered_sections": ["4"], "result": "OK, pending draft"},
+    {"scoring_item": "培训方案", "分值": 5, "covered_sections": ["5"], "result": "OK, pending draft"},
+    {"scoring_item": "售后服务", "分值": 5, "covered_sections": ["6"], "result": "OK, pending draft"},
+    {"scoring_item": "综合评价", "分值": 5, "covered_sections": ["7"], "result": "OK, pending draft"}
+  ],
+  "can_build": false,
+  "next_command": "/tender:draft",
+  "why_blocked": ["页数估算低于目标下限", "章节完成度不足", "page_plan allocation 低于下限"],
+  "user_inputs_needed": ["智能体服务来源确认", "图关系模型实现方式确认", "与主标接口约定确认"],
+  "writer_actions": [
+    {"priority": "P0", "file": "work/30_plan/page_plan.yml", "action": "扩充 allocation 合计达到85页下限", "done_when": "allocation 合计 >= 85页"},
+    {"priority": "P0", "file": "work/40_drafts/v1_sections/2.1~2.5.md", "action": "继续写作第2章总体技术方案", "done_when": "5个章节均已draft"},
+    {"priority": "P1", "file": "work/40_drafts/v1_sections/3.1.x.md", "action": "继续写作第3章详细技术方案", "done_when": "3个章节均已draft"},
+    {"priority": "P1", "file": "work/70_review/diagram_audit.json", "action": "补图：1.1~1.4四个章节各插入 fireworks SVG", "done_when": "diagram_audit.json missing_count == 0"},
+    {"priority": "P2", "file": "work/30_plan/outline.md", "action": "/tender:outline 确认3.3节是否在技术方案范围内", "done_when": "scoring_title_placement.md 无 FAIL"},
+    {"priority": "P2", "file": "work/40_drafts/locks/B4.lock", "action": "删除孤立锁文件", "done_when": "文件不存在"},
+    {"priority": "P2", "file": "work/40_drafts/v1_sections/4.x~7.x.md", "action": "继续写作第4~7章", "done_when": "4个章节均已draft"}
+  ]
+}
