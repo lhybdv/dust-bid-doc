@@ -34,13 +34,13 @@ service_location: 宁夏回族自治区气象局
 target_pages_min: 85
 target_pages_max: 95
 
-draft_cursor: "2.1"
-drafted_words: 2871
+draft_cursor: "2.2"
+drafted_words: 5431
 drafting_completed: false
 
 planning_notes:
-  - All 25 sections now in writing_plan.yml (previously missing 3.2/3.3.x/3.4/4/5/6/7)
-  - All scoring items now in ### headings (fixed 四级标题 violation)
-  - page_plan.yml updated with all sections; budget NOTE far below 85-page target
+  - All 25 sections now in writing_plan.yml (previously missing 3.2/3.3/3.4/4/5/6/7)
+  - All scoring items now in ### headings (fixed四级标题 violation)
+  - page_plan.yml updated with all sections; NOTE budget far below 85-page target
   - chars_per_page_estimate (1752) may be low; actual output may exceed plan budget
   - Proceed to draft; section-gap and draft-audit will reveal real page count

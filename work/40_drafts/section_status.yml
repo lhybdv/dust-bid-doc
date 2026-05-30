@@ -1,20 +1,20 @@
-updated_at: '2026-05-30T00:02:16'
+updated_at: '2026-05-30T16:32:12'
 sections:
 - id: '1.1'
   title: 项目背景
   status: drafted
   owner: claude
-  started_at: '2026-05-29T23:58:29'
-  completed_at: '2026-05-30T00:00:45'
-  drafted_words: 680
-  file_path: work\40_drafts\v1_sections\1.1.md
+  started_at: '2026-05-30T16:31:33'
+  completed_at: '2026-05-30T16:32:12'
+  drafted_words: 3445
+  file_path: work/40_drafts/v1_sections/1.1.md
   lock_path: ''
-  notes: ''
+  notes: 整稿页数低于下限，回到本节补足评分项、流程、输入输出、交付物和验收依据
   manual_flags: []
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 1
+  target_words_min: 3504
+  target_words_max: 4380
+  page_budget_min: 2.0
+  page_budget_max: 2.5
 - id: '1.2'
   title: 建设目标
   status: drafted
@@ -22,14 +22,14 @@ sections:
   started_at: '2026-05-29T23:59:49'
   completed_at: '2026-05-30T00:01:04'
   drafted_words: 666
-  file_path: work\40_drafts\v1_sections\1.2.md
+  file_path: work/40_drafts/v1_sections/1.2.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 400
-  target_words_max: 600
-  page_budget_min: 0.3
-  page_budget_max: 0.6
+  target_words_min: 3154
+  target_words_max: 4380
+  page_budget_min: 1.8
+  page_budget_max: 2.5
 - id: '1.3'
   title: 建设内容
   status: drafted
@@ -37,14 +37,14 @@ sections:
   started_at: '2026-05-30T00:01:12'
   completed_at: '2026-05-30T00:01:41'
   drafted_words: 656
-  file_path: work\40_drafts\v1_sections\1.3.md
+  file_path: work/40_drafts/v1_sections/1.3.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  target_words_min: 3504
+  target_words_max: 4380
+  page_budget_min: 2.0
+  page_budget_max: 2.5
 - id: '1.4'
   title: 重点难点分析
   status: drafted
@@ -52,44 +52,44 @@ sections:
   started_at: '2026-05-30T00:01:47'
   completed_at: '2026-05-30T00:02:16'
   drafted_words: 869
-  file_path: work\40_drafts\v1_sections\1.4.md
+  file_path: work/40_drafts/v1_sections/1.4.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  target_words_min: 3854
+  target_words_max: 5256
+  page_budget_min: 2.2
+  page_budget_max: 3.0
 - id: '2.1'
   title: 总体架构设计
-  status: pending
-  owner: ''
-  started_at: ''
-  completed_at: ''
-  drafted_words: 0
-  file_path: work\40_drafts\v1_sections\2.1.md
+  status: drafted
+  owner: claude
+  started_at: '2026-05-30T11:14:12'
+  completed_at: '2026-05-30T11:15:09'
+  drafted_words: 1382
+  file_path: work/40_drafts/v1_sections/2.1.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  target_words_min: 6132
+  target_words_max: 7884
+  page_budget_min: 3.5
+  page_budget_max: 4.5
 - id: '2.2'
   title: 技术架构与技术路线
-  status: pending
-  owner: ''
-  started_at: ''
-  completed_at: ''
-  drafted_words: 0
-  file_path: work\40_drafts\v1_sections\2.2.md
+  status: drafted
+  owner: claude
+  started_at: '2026-05-30T11:19:40'
+  completed_at: '2026-05-30T11:21:14'
+  drafted_words: 1380
+  file_path: work/40_drafts/v1_sections/2.2.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  target_words_min: 7884
+  target_words_max: 9636
+  page_budget_min: 4.5
+  page_budget_max: 5.5
 - id: '2.3'
   title: 接口设计
   status: pending
@@ -97,16 +97,16 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\2.3.md
+  file_path: work/40_drafts/v1_sections/2.3.md
   lock_path: ''
   notes: ''
   manual_flags:
   - 接口字段需用户确认
   - 第三方系统名称未确认
-  target_words_min: 600
-  target_words_max: 1000
-  page_budget_min: 0.5
-  page_budget_max: 1
+  target_words_min: 7008
+  target_words_max: 8760
+  page_budget_min: 4.0
+  page_budget_max: 5.0
 - id: '2.4'
   title: 部署架构
   status: pending
@@ -114,15 +114,15 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\2.4.md
+  file_path: work/40_drafts/v1_sections/2.4.md
   lock_path: ''
   notes: ''
   manual_flags:
   - 部署环境边界未确认
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  target_words_min: 7008
+  target_words_max: 8760
+  page_budget_min: 4.0
+  page_budget_max: 5.0
 - id: '2.5'
   title: 非功能性设计
   status: pending
@@ -130,14 +130,14 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\2.5.md
+  file_path: work/40_drafts/v1_sections/2.5.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 0.9
+  target_words_min: 7008
+  target_words_max: 8760
+  page_budget_min: 4.0
+  page_budget_max: 5.0
 - id: 3.1.1
   title: 多模态数据融合处理
   status: pending
@@ -145,15 +145,15 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\3.1.1.md
+  file_path: work/40_drafts/v1_sections/3.1.1.md
   lock_path: ''
   notes: ''
   manual_flags:
   - 数据来源需用户确认
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 0.9
+  target_words_min: 9636
+  target_words_max: 12264
+  page_budget_min: 5.5
+  page_budget_max: 7.0
 - id: 3.1.2
   title: 沙尘动态预测AI模型构建
   status: pending
@@ -161,14 +161,14 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\3.1.2.md
+  file_path: work/40_drafts/v1_sections/3.1.2.md
   lock_path: ''
   notes: ''
   manual_flags: []
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  target_words_min: 10512
+  target_words_max: 13140
+  page_budget_min: 6.0
+  page_budget_max: 7.5
 - id: 3.1.3
   title: 模型预报效果检验评估
   status: pending
@@ -176,12 +176,211 @@ sections:
   started_at: ''
   completed_at: ''
   drafted_words: 0
-  file_path: work\40_drafts\v1_sections\3.1.3.md
+  file_path: work/40_drafts/v1_sections/3.1.3.md
   lock_path: ''
   notes: ''
   manual_flags:
   - 检验评估数据来源需用户确认
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  target_words_min: 8760
+  target_words_max: 11388
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+- id: '3.2'
+  title: 沙尘影响智能评估与服务转化模型
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.2.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 9636
+  target_words_max: 12264
+  page_budget_min: 5.5
+  page_budget_max: 7.0
+- id: 3.3.1
+  title: 平台功能架构
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.3.1.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 8760
+  target_words_max: 11388
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+- id: 3.3.2
+  title: 沙尘实况监测与预报预警
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.3.2.md
+  lock_path: ''
+  notes: ''
+  manual_flags:
+  - 监测数据来源未确认
+  target_words_min: 7884
+  target_words_max: 9636
+  page_budget_min: 4.5
+  page_budget_max: 5.5
+- id: 3.3.3
+  title: 场景服务分析
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.3.3.md
+  lock_path: ''
+  notes: ''
+  manual_flags:
+  - 智能体接口协议需用户确认
+  target_words_min: 9636
+  target_words_max: 11388
+  page_budget_min: 5.5
+  page_budget_max: 6.5
+- id: 3.3.4
+  title: GIS空间分析与行业联动
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.3.4.md
+  lock_path: ''
+  notes: ''
+  manual_flags:
+  - 行业系统名称和接口规范未确认
+  target_words_min: 8760
+  target_words_max: 11388
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+- id: '3.4'
+  title: 微信小程序
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/3.4.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 5256
+  target_words_max: 7008
+  page_budget_min: 3.0
+  page_budget_max: 4.0
+- id: '4.1'
+  title: 项目开发计划
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/4.1.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 6132
+  target_words_max: 7884
+  page_budget_min: 3.5
+  page_budget_max: 4.5
+- id: '4.2'
+  title: 软件测试方案
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/4.2.md
+  lock_path: ''
+  notes: ''
+  manual_flags:
+  - 测试环境数据来源未确认
+  target_words_min: 5256
+  target_words_max: 7008
+  page_budget_min: 3.0
+  page_budget_max: 4.0
+- id: '4.3'
+  title: 质量保证方案
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/4.3.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 6132
+  target_words_max: 7884
+  page_budget_min: 3.5
+  page_budget_max: 4.5
+- id: '5.1'
+  title: 培训计划与安排
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/5.1.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 7008
+  target_words_max: 8760
+  page_budget_min: 4.0
+  page_budget_max: 5.0
+- id: '6.1'
+  title: 售后服务承诺
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/6.1.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 4380
+  target_words_max: 5256
+  page_budget_min: 2.5
+  page_budget_max: 3.0
+- id: '6.2'
+  title: 应急处理流程
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/6.2.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 4380
+  target_words_max: 5256
+  page_budget_min: 2.5
+  page_budget_max: 3.0
+- id: '7.1'
+  title: 综合评价总结
+  status: pending
+  owner: ''
+  started_at: ''
+  completed_at: ''
+  drafted_words: 0
+  file_path: work/40_drafts/v1_sections/7.1.md
+  lock_path: ''
+  notes: ''
+  manual_flags: []
+  target_words_min: 5256
+  target_words_max: 7008
+  page_budget_min: 3.0
+  page_budget_max: 4.0

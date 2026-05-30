@@ -1,46 +1,155 @@
-status: USER_PROVIDED
+status: REVISED
 target_pages_min: 85
 target_pages_max: 95
 chars_per_page_estimate: 1752
 planning_basis:
   tender_source: "采购需求/招标文件"
   scoring_source: "评分标准"
-  main_content_logic: "先硬响应，再按评分项展开技术、实施、交付与验收"
-  page_strategy: "先满足页数下限和评分覆盖；上限仅在用户明确要求压缩时作为硬约束"
+  main_content_logic: "以模型训练和示范应用为主线，按评分项展开技术、实施、交付和验收"
+  page_strategy: "高分章节（模型训练18分+平台18分）分配更多篇幅；硬响应和交付可信度次之"
 allocation:
+  # 需求理解（内容块: 8~10页）
   - section_id: "1.1"
-    page_budget_min: 0.5
-    page_budget_max: 1.0
+    pages_min: 2.0
+    pages_max: 2.5
   - section_id: "1.2"
-    page_budget_min: 0.3
-    page_budget_max: 0.6
+    pages_min: 1.8
+    pages_max: 2.5
   - section_id: "1.3"
-    page_budget_min: 0.4
-    page_budget_max: 0.8
+    pages_min: 2.0
+    pages_max: 2.5
   - section_id: "1.4"
-    page_budget_min: 0.4
-    page_budget_max: 0.8
+    pages_min: 2.2
+    pages_max: 3.0
+
+  # 总体技术方案（内容块: 20~24页）
   - section_id: "2.1"
-    page_budget_min: 0.7
-    page_budget_max: 1.2
+    pages_min: 3.5
+    pages_max: 4.5
   - section_id: "2.2"
-    page_budget_min: 0.7
-    page_budget_max: 1.2
+    pages_min: 4.5
+    pages_max: 5.5
   - section_id: "2.3"
-    page_budget_min: 0.5
-    page_budget_max: 1.0
+    pages_min: 4.0
+    pages_max: 5.0
   - section_id: "2.4"
-    page_budget_min: 0.4
-    page_budget_max: 0.8
+    pages_min: 4.0
+    pages_max: 5.0
   - section_id: "2.5"
-    page_budget_min: 0.5
-    page_budget_max: 0.9
+    pages_min: 4.0
+    pages_max: 5.0
+
+  # 模型训练与验证（内容块: 22~26页）
   - section_id: "3.1.1"
-    page_budget_min: 0.5
-    page_budget_max: 0.9
+    pages_min: 5.5
+    pages_max: 7.0
   - section_id: "3.1.2"
-    page_budget_min: 0.7
-    page_budget_max: 1.2
+    pages_min: 6.0
+    pages_max: 7.5
   - section_id: "3.1.3"
-    page_budget_min: 0.4
-    page_budget_max: 0.8
+    pages_min: 5.0
+    pages_max: 6.5
+  - section_id: "3.2"
+    pages_min: 5.5
+    pages_max: 7.0
+
+  # 平台建设（内容块: 20~24页）
+  - section_id: "3.3.1"
+    pages_min: 5.0
+    pages_max: 6.5
+  - section_id: "3.3.2"
+    pages_min: 4.5
+    pages_max: 5.5
+  - section_id: "3.3.3"
+    pages_min: 5.5
+    pages_max: 6.5
+  - section_id: "3.3.4"
+    pages_min: 5.0
+    pages_max: 6.5
+
+  # 微信小程序（内容块: 3~4页）
+  - section_id: "3.4"
+    pages_min: 3.0
+    pages_max: 4.0
+
+  # 实施管理（内容块: 10~12页）
+  - section_id: "4.1"
+    pages_min: 3.5
+    pages_max: 4.5
+  - section_id: "4.2"
+    pages_min: 3.0
+    pages_max: 4.0
+  - section_id: "4.3"
+    pages_min: 3.5
+    pages_max: 4.5
+
+  # 培训方案（内容块: 4~5页）
+  - section_id: "5.1"
+    pages_min: 4.0
+    pages_max: 5.0
+
+  # 售后服务（内容块: 5~6页）
+  - section_id: "6.1"
+    pages_min: 2.5
+    pages_max: 3.0
+  - section_id: "6.2"
+    pages_min: 2.5
+    pages_max: 3.0
+
+  # 综合评价（内容块: 3~4页）
+  - section_id: "7.1"
+    pages_min: 3.0
+    pages_max: 4.0
+
+# 预算汇总
+budget_summary:
+  total_pages_min: 95.0
+  total_pages_max: 115.0
+  section_count: 25
+  chars_per_page: 1752
+
+  # 各内容块汇总
+  content_blocks:
+    - block: "需求理解"
+      sections: ["1.1", "1.2", "1.3", "1.4"]
+      pages_min: 8.0
+      pages_max: 10.0
+    - block: "总体技术方案"
+      sections: ["2.1", "2.2", "2.3", "2.4", "2.5"]
+      pages_min: 20.0
+      pages_max: 24.0
+    - block: "模型训练与验证"
+      sections: ["3.1.1", "3.1.2", "3.1.3", "3.2"]
+      pages_min: 22.0
+      pages_max: 26.0
+    - block: "平台建设"
+      sections: ["3.3.1", "3.3.2", "3.3.3", "3.3.4"]
+      pages_min: 20.0
+      pages_max: 24.0
+    - block: "微信小程序"
+      sections: ["3.4"]
+      pages_min: 3.0
+      pages_max: 4.0
+    - block: "实施管理"
+      sections: ["4.1", "4.2", "4.3"]
+      pages_min: 10.0
+      pages_max: 12.0
+    - block: "培训方案"
+      sections: ["5.1"]
+      pages_min: 4.0
+      pages_max: 5.0
+    - block: "售后服务"
+      sections: ["6.1", "6.2"]
+      pages_min: 5.0
+      pages_max: 6.0
+    - block: "综合评价"
+      sections: ["7.1"]
+      pages_min: 3.0
+      pages_max: 4.0
+
+# 修订说明
+revision_note: |
+  旧 page_plan 合计约 10.5~18.5 页，严重低估。
+  新 page_plan 按 budget_plan.yml 的内容块分配，每节页数提升 3~6 倍。
+  模型训练（18分）和平台建设（18分）合计分配 42~50 页，占总篇幅 44%~45%。
+  本次修订与 budget_plan.yml 同步，保证 writing_plan.yml 的 target_words 换算一致。

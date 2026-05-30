@@ -2,14 +2,14 @@ sections:
 - id: '1.1'
   title: 项目背景
   status: drafted
-  file_path: work\40_drafts\v1_sections\1.1.md
+  file_path: work/40_drafts/v1_sections/1.1.md
   parallel_group: 需求理解
   depends_on: []
   merge_order: 1
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 1
+  page_budget_min: 2.0
+  page_budget_max: 2.5
+  target_words_min: 3504
+  target_words_max: 4380
   req_ids:
   - S2-01
   scoring_items:
@@ -20,22 +20,23 @@ sections:
   - brief_alignment:PASS
   manual_flags: []
   owner: claude
-  started_at: '2026-05-29T23:58:29'
-  section_brief_path: work\40_drafts\section_briefs\1.1.md
-  updated_at: '2026-05-30T00:00:45'
-  completed_at: '2026-05-30T00:00:45'
-  drafted_words: 680
+  started_at: '2026-05-30T16:31:33'
+  section_brief_path: work/40_drafts/section_briefs/1.1.md
+  updated_at: '2026-05-30T16:32:12'
+  completed_at: '2026-05-30T16:32:12'
+  drafted_words: 3445
+  notes: 整稿页数低于下限，回到本节补足评分项、流程、输入输出、交付物和验收依据
 - id: '1.2'
   title: 建设目标
   status: drafted
-  file_path: work\40_drafts\v1_sections\1.2.md
+  file_path: work/40_drafts/v1_sections/1.2.md
   parallel_group: 需求理解
   depends_on: []
   merge_order: 2
-  target_words_min: 400
-  target_words_max: 600
-  page_budget_min: 0.3
-  page_budget_max: 0.6
+  page_budget_min: 1.8
+  page_budget_max: 2.5
+  target_words_min: 3154
+  target_words_max: 4380
   req_ids:
   - S3-01
   - S3-02
@@ -51,21 +52,21 @@ sections:
   manual_flags: []
   owner: claude
   started_at: '2026-05-29T23:59:49'
-  section_brief_path: work\40_drafts\section_briefs\1.2.md
+  section_brief_path: work/40_drafts/section_briefs/1.2.md
   updated_at: '2026-05-30T00:01:04'
   completed_at: '2026-05-30T00:01:04'
   drafted_words: 666
 - id: '1.3'
   title: 建设内容
   status: drafted
-  file_path: work\40_drafts\v1_sections\1.3.md
+  file_path: work/40_drafts/v1_sections/1.3.md
   parallel_group: 需求理解
   depends_on: []
   merge_order: 3
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  page_budget_min: 2.0
+  page_budget_max: 2.5
+  target_words_min: 3504
+  target_words_max: 4380
   req_ids:
   - S2-01
   - S2-02
@@ -84,21 +85,21 @@ sections:
   manual_flags: []
   owner: claude
   started_at: '2026-05-30T00:01:12'
-  section_brief_path: work\40_drafts\section_briefs\1.3.md
+  section_brief_path: work/40_drafts/section_briefs/1.3.md
   updated_at: '2026-05-30T00:01:41'
   completed_at: '2026-05-30T00:01:41'
   drafted_words: 656
 - id: '1.4'
   title: 重点难点分析
   status: drafted
-  file_path: work\40_drafts\v1_sections\1.4.md
+  file_path: work/40_drafts/v1_sections/1.4.md
   parallel_group: 需求理解
   depends_on: []
   merge_order: 4
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  page_budget_min: 2.2
+  page_budget_max: 3.0
+  target_words_min: 3854
+  target_words_max: 5256
   req_ids:
   - S2-01
   - S2-02
@@ -115,21 +116,21 @@ sections:
   manual_flags: []
   owner: claude
   started_at: '2026-05-30T00:01:47'
-  section_brief_path: work\40_drafts\section_briefs\1.4.md
+  section_brief_path: work/40_drafts/section_briefs/1.4.md
   updated_at: '2026-05-30T00:02:16'
   completed_at: '2026-05-30T00:02:16'
   drafted_words: 869
 - id: '2.1'
   title: 总体架构设计
-  status: pending
+  status: drafted
   file_path: work/40_drafts/v1_sections/2.1.md
   parallel_group: 总体技术方案
   depends_on: []
   merge_order: 5
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  page_budget_min: 3.5
+  page_budget_max: 4.5
+  target_words_min: 6132
+  target_words_max: 7884
   req_ids:
   - S4-01
   - S4-02
@@ -142,18 +143,24 @@ sections:
   user_brief_refs:
   - brief_alignment:PASS
   manual_flags: []
+  owner: claude
+  started_at: '2026-05-30T11:14:12'
+  section_brief_path: work/40_drafts/section_briefs/2.1.md
+  updated_at: '2026-05-30T11:15:09'
+  completed_at: '2026-05-30T11:15:09'
+  drafted_words: 1382
 - id: '2.2'
   title: 技术架构与技术路线
-  status: pending
+  status: drafted
   file_path: work/40_drafts/v1_sections/2.2.md
   parallel_group: 总体技术方案
   depends_on:
   - '2.1'
   merge_order: 6
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  page_budget_min: 4.5
+  page_budget_max: 5.5
+  target_words_min: 7884
+  target_words_max: 9636
   req_ids:
   - S4-01
   - S4-02
@@ -166,6 +173,12 @@ sections:
   user_brief_refs:
   - brief_alignment:PASS
   manual_flags: []
+  owner: claude
+  started_at: '2026-05-30T11:19:40'
+  section_brief_path: work/40_drafts/section_briefs/2.2.md
+  updated_at: '2026-05-30T11:21:14'
+  completed_at: '2026-05-30T11:21:14'
+  drafted_words: 1380
 - id: '2.3'
   title: 接口设计
   status: pending
@@ -174,10 +187,10 @@ sections:
   depends_on:
   - '2.1'
   merge_order: 7
-  target_words_min: 600
-  target_words_max: 1000
-  page_budget_min: 0.5
-  page_budget_max: 1
+  page_budget_min: 4.0
+  page_budget_max: 5.0
+  target_words_min: 7008
+  target_words_max: 8760
   req_ids:
   - S3-04
   - S3-05
@@ -199,10 +212,10 @@ sections:
   depends_on:
   - '2.1'
   merge_order: 8
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  page_budget_min: 4.0
+  page_budget_max: 5.0
+  target_words_min: 7008
+  target_words_max: 8760
   req_ids:
   - S1-02
   scoring_items:
@@ -220,10 +233,10 @@ sections:
   depends_on:
   - '2.1'
   merge_order: 9
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 0.9
+  page_budget_min: 4.0
+  page_budget_max: 5.0
+  target_words_min: 7008
+  target_words_max: 8760
   req_ids:
   - S2-03
   - S2-04
@@ -247,10 +260,10 @@ sections:
   depends_on:
   - '2.2'
   merge_order: 10
-  target_words_min: 600
-  target_words_max: 900
-  page_budget_min: 0.5
-  page_budget_max: 0.9
+  page_budget_min: 5.5
+  page_budget_max: 7.0
+  target_words_min: 9636
+  target_words_max: 12264
   req_ids:
   - S4-01
   scoring_items:
@@ -268,10 +281,10 @@ sections:
   depends_on:
   - 3.1.1
   merge_order: 11
-  target_words_min: 800
-  target_words_max: 1200
-  page_budget_min: 0.7
-  page_budget_max: 1.2
+  page_budget_min: 6.0
+  page_budget_max: 7.5
+  target_words_min: 10512
+  target_words_max: 13140
   req_ids:
   - S2-01
   - S2-02
@@ -292,10 +305,10 @@ sections:
   depends_on:
   - 3.1.2
   merge_order: 12
-  target_words_min: 500
-  target_words_max: 800
-  page_budget_min: 0.4
-  page_budget_max: 0.8
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+  target_words_min: 8760
+  target_words_max: 11388
   req_ids:
   - S4-03
   scoring_items:
@@ -305,3 +318,289 @@ sections:
   user_brief_refs: []
   manual_flags:
   - 检验评估数据来源需用户确认
+- id: '3.2'
+  title: 沙尘影响智能评估与服务转化模型
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.2.md
+  parallel_group: 模型训练
+  depends_on:
+  - 3.1.2
+  merge_order: 13
+  page_budget_min: 5.5
+  page_budget_max: 7.0
+  target_words_min: 9636
+  target_words_max: 12264
+  req_ids:
+  - S3-01
+  scoring_items:
+  - 技术方案相关
+  inputs_needed:
+  - user_brief_v2.md 第五节
+  - brief_alignment.json
+  user_brief_refs:
+  - brief_alignment:PASS
+  manual_flags: []
+- id: 3.3.1
+  title: 平台功能架构
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.3.1.md
+  parallel_group: 平台建设
+  depends_on:
+  - 3.1.2
+  merge_order: 14
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+  target_words_min: 8760
+  target_words_max: 11388
+  req_ids:
+  - S3-02
+  scoring_items:
+  - 详细技术方案-沙尘监测预警示范服务平台
+  inputs_needed:
+  - 采购需求5.1节
+  user_brief_refs: []
+  manual_flags: []
+- id: 3.3.2
+  title: 沙尘实况监测与预报预警
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.3.2.md
+  parallel_group: 平台建设
+  depends_on:
+  - 3.3.1
+  merge_order: 15
+  page_budget_min: 4.5
+  page_budget_max: 5.5
+  target_words_min: 7884
+  target_words_max: 9636
+  req_ids:
+  - S2-01
+  - S2-02
+  - S2-03
+  scoring_items:
+  - 相关
+  inputs_needed:
+  - 采购需求5.1节
+  user_brief_refs: []
+  manual_flags:
+  - 监测数据来源未确认
+- id: 3.3.3
+  title: 场景服务分析
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.3.3.md
+  parallel_group: 平台建设
+  depends_on:
+  - 3.3.1
+  merge_order: 16
+  page_budget_min: 5.5
+  page_budget_max: 6.5
+  target_words_min: 9636
+  target_words_max: 11388
+  req_ids:
+  - S3-03
+  - S3-04
+  scoring_items:
+  - 详细技术方案-三领域智能体应用
+  inputs_needed:
+  - 采购需求5.2节
+  - brief_alignment.json
+  user_brief_refs:
+  - brief_alignment:MULTI
+  manual_flags:
+  - 智能体接口协议需用户确认
+- id: 3.3.4
+  title: GIS空间分析与行业联动
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.3.4.md
+  parallel_group: 平台建设
+  depends_on:
+  - 3.3.1
+  merge_order: 17
+  page_budget_min: 5.0
+  page_budget_max: 6.5
+  target_words_min: 8760
+  target_words_max: 11388
+  req_ids:
+  - S3-04
+  - S3-05
+  scoring_items:
+  - 详细技术方案-多场景沙尘灾害防御服务链路
+  inputs_needed:
+  - 采购需求5.3节
+  user_brief_refs: []
+  manual_flags:
+  - 行业系统名称和接口规范未确认
+- id: '3.4'
+  title: 微信小程序
+  status: pending
+  file_path: work/40_drafts/v1_sections/3.4.md
+  parallel_group: 平台建设
+  depends_on:
+  - 3.3.1
+  merge_order: 18
+  page_budget_min: 3.0
+  page_budget_max: 4.0
+  target_words_min: 5256
+  target_words_max: 7008
+  req_ids:
+  - S3-04
+  scoring_items:
+  - 相关
+  inputs_needed:
+  - 用户brief微信小程序定位
+  user_brief_refs:
+  - brief_alignment:PASS
+  manual_flags: []
+- id: '4.1'
+  title: 项目开发计划
+  status: pending
+  file_path: work/40_drafts/v1_sections/4.1.md
+  parallel_group: 实施管理
+  depends_on: []
+  merge_order: 19
+  page_budget_min: 3.5
+  page_budget_max: 4.5
+  target_words_min: 6132
+  target_words_max: 7884
+  req_ids:
+  - S1-01
+  - S1-03
+  scoring_items:
+  - 项目实施与管理方案
+  inputs_needed:
+  - 采购需求商务要求
+  user_brief_refs: []
+  manual_flags: []
+- id: '4.2'
+  title: 软件测试方案
+  status: pending
+  file_path: work/40_drafts/v1_sections/4.2.md
+  parallel_group: 实施管理
+  depends_on:
+  - '4.1'
+  merge_order: 20
+  page_budget_min: 3.0
+  page_budget_max: 4.0
+  target_words_min: 5256
+  target_words_max: 7008
+  req_ids:
+  - S2-01
+  - S2-02
+  - S2-03
+  - S2-04
+  - S2-05
+  scoring_items:
+  - 项目实施与管理方案
+  inputs_needed:
+  - 采购需求技术指标章节
+  user_brief_refs: []
+  manual_flags:
+  - 测试环境数据来源未确认
+- id: '4.3'
+  title: 质量保证方案
+  status: pending
+  file_path: work/40_drafts/v1_sections/4.3.md
+  parallel_group: 实施管理
+  depends_on:
+  - '4.1'
+  merge_order: 21
+  page_budget_min: 3.5
+  page_budget_max: 4.5
+  target_words_min: 6132
+  target_words_max: 7884
+  req_ids:
+  - S4-04
+  - S4-05
+  - S4-06
+  - S4-07
+  scoring_items:
+  - 项目实施与管理方案
+  inputs_needed:
+  - 采购需求定性指标
+  user_brief_refs: []
+  manual_flags: []
+- id: '5.1'
+  title: 培训计划与安排
+  status: pending
+  file_path: work/40_drafts/v1_sections/5.1.md
+  parallel_group: 实施管理
+  depends_on: []
+  merge_order: 22
+  page_budget_min: 4.0
+  page_budget_max: 5.0
+  target_words_min: 7008
+  target_words_max: 8760
+  req_ids:
+  - S1-04
+  scoring_items:
+  - 培训方案
+  inputs_needed:
+  - 采购需求培训要求
+  user_brief_refs: []
+  manual_flags: []
+- id: '6.1'
+  title: 售后服务承诺
+  status: pending
+  file_path: work/40_drafts/v1_sections/6.1.md
+  parallel_group: 实施管理
+  depends_on: []
+  merge_order: 23
+  page_budget_min: 2.5
+  page_budget_max: 3.0
+  target_words_min: 4380
+  target_words_max: 5256
+  req_ids:
+  - S1-07
+  scoring_items:
+  - 售后服务
+  inputs_needed:
+  - 采购需求售后服务要求
+  user_brief_refs: []
+  manual_flags: []
+- id: '6.2'
+  title: 应急处理流程
+  status: pending
+  file_path: work/40_drafts/v1_sections/6.2.md
+  parallel_group: 实施管理
+  depends_on:
+  - '6.1'
+  merge_order: 24
+  page_budget_min: 2.5
+  page_budget_max: 3.0
+  target_words_min: 4380
+  target_words_max: 5256
+  req_ids:
+  - S1-07
+  scoring_items:
+  - 售后服务
+  inputs_needed:
+  - 采购需求售后服务要求
+  user_brief_refs: []
+  manual_flags: []
+- id: '7.1'
+  title: 综合评价总结
+  status: pending
+  file_path: work/40_drafts/v1_sections/7.1.md
+  parallel_group: 实施管理
+  depends_on: []
+  merge_order: 25
+  page_budget_min: 3.0
+  page_budget_max: 4.0
+  target_words_min: 5256
+  target_words_max: 7008
+  req_ids:
+  - S0-1
+  - S0-2
+  - S0-3
+  - S1-1
+  - S1-2
+  - S1-3
+  - S1-4
+  - S1-5
+  - S1-6
+  - S1-7
+  scoring_items:
+  - 综合评价
+  inputs_needed:
+  - 全部采购需求和评分标准
+  user_brief_refs: []
+  manual_flags: []
