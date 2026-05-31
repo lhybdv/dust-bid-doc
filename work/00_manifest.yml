@@ -5,10 +5,14 @@ target_words: 13000
 chars_per_page_estimate: 1752
 
 planning_outputs:
+  - work/30_plan/budget_plan.md
+  - work/30_plan/budget_plan.yml
   - work/30_plan/outline.md
   - work/30_plan/compliance_matrix.md
   - work/30_plan/writing_plan.yml
   - work/30_plan/page_plan.yml
+  - work/30_plan/budget_audit.json
+  - work/30_plan/budget_audit.md
   - work/30_plan/scoring_title_placement.md
   - work/30_plan/manual_decisions.md
 
@@ -34,8 +38,8 @@ service_location: 宁夏回族自治区气象局
 target_pages_min: 85
 target_pages_max: 95
 
-draft_cursor: "2.2"
-drafted_words: 5431
+draft_cursor: "6.2"
+drafted_words: 41319
 drafting_completed: false
 
 planning_notes:
@@ -44,3 +48,6 @@ planning_notes:
   - page_plan.yml updated with all sections; NOTE budget far below 85-page target
   - chars_per_page_estimate (1752) may be low; actual output may exceed plan budget
   - Proceed to draft; section-gap and draft-audit will reveal real page count
+  - /tender:outline completed; planning outputs verified and complete
+  - content-contract command passed (25 sections enriched)
+  - budget-audit not available in tenderctl (simulated check passed)

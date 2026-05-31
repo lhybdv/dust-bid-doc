@@ -10,96 +10,146 @@ planning_basis:
 allocation:
   # 需求理解（内容块: 8~10页）
   - section_id: "1.1"
+    title: "项目背景"
     pages_min: 2.0
     pages_max: 2.5
+    reason: "承载项目背景介绍，需结合采购需求展开；约2页足够"
   - section_id: "1.2"
+    title: "建设目标"
     pages_min: 1.8
     pages_max: 2.5
+    reason: "阐述项目建设目标，对应评分标准需求理解项；1.8~2.5页"
   - section_id: "1.3"
+    title: "建设内容"
     pages_min: 2.0
     pages_max: 2.5
+    reason: "详细描述项目建设内容，对应采购需求；2~2.5页"
   - section_id: "1.4"
+    title: "重点难点"
     pages_min: 2.2
     pages_max: 3.0
+    reason: "分析项目重点难点，对应10分评分项；2.2~3页展开"
 
   # 总体技术方案（内容块: 20~24页）
   - section_id: "2.1"
+    title: "总体架构设计"
     pages_min: 3.5
     pages_max: 4.5
+    reason: "总体架构对应评分项架构设计，需配架构图；3.5~4.5页"
   - section_id: "2.2"
+    title: "技术架构与技术路线"
     pages_min: 4.5
     pages_max: 5.5
+    reason: "技术架构对应评分标准技术路线，需配技术路线图；4.5~5.5页"
   - section_id: "2.3"
+    title: "接口设计"
     pages_min: 4.0
     pages_max: 5.0
+    reason: "接口设计对应评分标准接口设计项，需配接口清单；4~5页"
   - section_id: "2.4"
+    title: "部署架构"
     pages_min: 4.0
     pages_max: 5.0
+    reason: "部署架构对应评分标准部署设计项；4~5页"
   - section_id: "2.5"
+    title: "非功能性设计"
     pages_min: 4.0
     pages_max: 5.0
+    reason: "非功能性设计（安全、可靠、可维护）；4~5页"
 
   # 模型训练与验证（内容块: 22~26页）
   - section_id: "3.1.1"
+    title: "多模态数据融合处理"
     pages_min: 5.5
     pages_max: 7.0
+    reason: "多模态数据融合是模型训练基础，对应18分核心评分项；5.5~7页"
   - section_id: "3.1.2"
+    title: "沙尘动态预测AI模型构建"
     pages_min: 6.0
     pages_max: 7.5
+    reason: "AI模型构建是核心交付，对应18分评分项；6~7.5页"
   - section_id: "3.1.3"
+    title: "模型预报效果检验评估"
     pages_min: 5.0
     pages_max: 6.5
+    reason: "模型验证是交付可信度核心，对应评分标准；5~6.5页"
   - section_id: "3.2"
+    title: "沙尘影响智能评估与服务转化模型"
     pages_min: 5.5
     pages_max: 7.0
+    reason: "服务转化模型对应场景应用评分项；5.5~7页"
 
   # 平台建设（内容块: 20~24页）
   - section_id: "3.3.1"
+    title: "平台功能架构"
     pages_min: 5.0
     pages_max: 6.5
+    reason: "平台功能架构对应18分评分项，需配功能架构图；5~6.5页"
   - section_id: "3.3.2"
+    title: "沙尘实况监测与预报预警"
     pages_min: 4.5
     pages_max: 5.5
+    reason: "监测预警功能核心，对应评分标准；4.5~5.5页"
   - section_id: "3.3.3"
+    title: "场景服务分析"
     pages_min: 5.5
     pages_max: 6.5
+    reason: "场景服务对应智能体评分项；5.5~6.5页"
   - section_id: "3.3.4"
+    title: "GIS空间分析与行业联动"
     pages_min: 5.0
     pages_max: 6.5
+    reason: "GIS空间分析对应评分标准GIS项；5~6.5页"
 
   # 微信小程序（内容块: 3~4页）
   - section_id: "3.4"
+    title: "微信小程序"
     pages_min: 3.0
     pages_max: 4.0
+    reason: "小程序轻量功能说明，不单独计分；3~4页"
 
   # 实施管理（内容块: 10~12页）
   - section_id: "4.1"
+    title: "项目开发计划"
     pages_min: 3.5
     pages_max: 4.5
+    reason: "开发计划对应5分评分项，配甘特图；3.5~4.5页"
   - section_id: "4.2"
+    title: "软件测试方案"
     pages_min: 3.0
     pages_max: 4.0
+    reason: "测试方案是实施管理核心内容；3~4页"
   - section_id: "4.3"
+    title: "质量保证方案"
     pages_min: 3.5
     pages_max: 4.5
+    reason: "质量保证对应5分评分项；3.5~4.5页"
 
   # 培训方案（内容块: 4~5页）
   - section_id: "5.1"
+    title: "培训计划与安排"
     pages_min: 4.0
     pages_max: 5.0
+    reason: "培训方案对应5分评分项；4~5页"
 
   # 售后服务（内容块: 5~6页）
   - section_id: "6.1"
+    title: "售后服务承诺"
     pages_min: 2.5
     pages_max: 3.0
+    reason: "售后服务承诺对应5分评分项；2.5~3页"
   - section_id: "6.2"
+    title: "应急处理流程"
     pages_min: 2.5
     pages_max: 3.0
+    reason: "应急处理是售后核心内容，响应7*24要求；2.5~3页"
 
   # 综合评价（内容块: 3~4页）
   - section_id: "7.1"
+    title: "综合评价总结"
     pages_min: 3.0
     pages_max: 4.0
+    reason: "综合评价对应5分评分项，总结方案亮点；3~4页"
 
 # 预算汇总
 budget_summary:

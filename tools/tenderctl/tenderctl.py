@@ -169,6 +169,15 @@ def bool_value(value) -> Optional[bool]:
     return None if value is None else bool(value)
 
 
+def float_value(value) -> Optional[float]:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def alignment_name(value) -> Optional[str]:
     if value is None:
         return None
@@ -210,6 +219,74 @@ def style_snapshot(style) -> dict:
         "first_line_indent_pt": pt_value(getattr(p_fmt, "first_line_indent", None)) if p_fmt else None,
         "left_indent_pt": pt_value(getattr(p_fmt, "left_indent", None)) if p_fmt else None,
     }
+
+
+def estimate_line_height_pt(font_size_pt: float, line_spacing: object = None) -> float:
+    spacing = float_value(line_spacing)
+    if spacing is None:
+        return font_size_pt * 1.35
+    if spacing <= 0:
+        return font_size_pt * 1.35
+    if spacing < 10:
+        return font_size_pt * spacing
+    return spacing
+
+
+def estimate_chars_per_page_from_layout(layout: dict) -> int:
+    page_width = float_value(layout.get("page_width_pt")) or 595.3
+    page_height = float_value(layout.get("page_height_pt")) or 841.9
+    left_margin = float_value(layout.get("left_margin_pt")) or 72.0
+    right_margin = float_value(layout.get("right_margin_pt")) or 72.0
+    top_margin = float_value(layout.get("top_margin_pt")) or 72.0
+    bottom_margin = float_value(layout.get("bottom_margin_pt")) or 72.0
+    font_size = float_value(layout.get("font_size_pt")) or 10.5
+    line_height = estimate_line_height_pt(font_size, layout.get("line_spacing"))
+    space_before = max(float_value(layout.get("space_before_pt")) or 0.0, 0.0)
+    space_after = max(float_value(layout.get("space_after_pt")) or 0.0, 0.0)
+
+    content_width = max(page_width - left_margin - right_margin, font_size * 12)
+    content_height = max(page_height - top_margin - bottom_margin, line_height * 12)
+    chars_per_line = max(int(content_width / max(font_size, 1.0)), 10)
+    effective_line_height = max(line_height + (space_before + space_after) * 0.12, font_size)
+    lines_per_page = max(int(content_height / effective_line_height), 8)
+
+    # Headings, paragraph spacing, tables, bullets, and figure captions consume space
+    # that is not represented in plain effective character counts.
+    efficiency = 0.84
+    if line_height >= font_size * 1.45:
+        efficiency = 0.80
+    elif line_height <= font_size * 1.2:
+        efficiency = 0.88
+
+    estimate = int(round(chars_per_line * lines_per_page * efficiency))
+    return max(700, min(2600, estimate))
+
+
+def estimate_chars_per_page_from_template_profile(profile: dict) -> int:
+    sections = profile.get("sections") or []
+    section = sections[0] if sections and isinstance(sections[0], dict) else {}
+    style_map = {}
+    if isinstance(profile.get("format_rules"), dict):
+        style_map = profile["format_rules"].get("style_map") or {}
+    style_map.update(profile.get("style_map") or {})
+    paragraph_style_name = style_map.get("paragraph") or "Normal"
+
+    paragraph_style = {}
+    for style in profile.get("styles") or []:
+        if isinstance(style, dict) and style.get("name") == paragraph_style_name:
+            paragraph_style = style
+            break
+
+    layout = dict(section)
+    layout.update(
+        {
+            "font_size_pt": paragraph_style.get("size_pt") or 10.5,
+            "line_spacing": paragraph_style.get("line_spacing"),
+            "space_before_pt": paragraph_style.get("space_before_pt"),
+            "space_after_pt": paragraph_style.get("space_after_pt"),
+        }
+    )
+    return estimate_chars_per_page_from_layout(layout)
 
 
 def paragraph_snapshot(paragraph: Paragraph, idx: int) -> dict:
@@ -303,8 +380,9 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
     placeholder = "{{TECH_SECTION_BODY}}"
     placeholder_indexes = [idx for idx, p in enumerate(doc.paragraphs) if placeholder in (p.text or "")]
     placeholder_found = bool(placeholder_indexes)
+    style_map = detect_style_map(doc)
 
-    return {
+    profile = {
         "template_id": template_id,
         "template_docx": str(template_path),
         "template_source_docx": str(template_path),
@@ -324,7 +402,7 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
         else [
             "Template DOCX does not contain a standalone {{TECH_SECTION_BODY}} placeholder; build-docx cannot safely insert generated tender content."
         ],
-        "style_map": detect_style_map(doc),
+        "style_map": style_map,
         "sections": sections,
         "styles": styles,
         "paragraphs": paragraphs[:300],
@@ -332,7 +410,7 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
         "format_rules": {
             "source": "template_docx",
             "style_map_source": "auto_detected_from_template",
-            "style_map": detect_style_map(doc),
+            "style_map": style_map,
             "headings": "Markdown #/##/### are mapped to template heading styles. Do not use #### or deeper for scoring items.",
             "paragraphs": "Normal tender text is rendered with the template paragraph style.",
             "lists": "Markdown ordered/unordered lists are mapped to template list styles.",
@@ -345,6 +423,16 @@ def extract_template_profile(template_path: Path, template_id: str) -> dict:
             ],
         },
     }
+    chars_per_page_estimate = estimate_chars_per_page_from_template_profile(profile)
+    profile["chars_per_page_estimate"] = chars_per_page_estimate
+    profile["page_estimate"] = {
+        "chars_per_page_estimate": chars_per_page_estimate,
+        "method": "template_geometry",
+        "note": "Estimated from page size, margins, paragraph font size, and line spacing. Final Word/PDF pagination still requires review.",
+    }
+    profile["format_rules"]["chars_per_page_estimate"] = chars_per_page_estimate
+    profile["format_rules"]["page_estimate"] = profile["page_estimate"]
+    return profile
 
 
 def insert_paragraph_after(paragraph: Paragraph, text: str, style: Optional[str] = None) -> Paragraph:
@@ -394,6 +482,14 @@ def remove_body_elements_between(start_paragraph: Paragraph, end_paragraph: Opti
         current = next_el
 
 
+def clear_document_body(doc: Document) -> None:
+    body = doc._body._element
+    for child in list(body):
+        if child.tag.endswith("}sectPr"):
+            continue
+        body.remove(child)
+
+
 def find_paragraph_index(
     paragraphs: list[Paragraph],
     anchors: list[str],
@@ -418,7 +514,7 @@ def prepare_build_template(
     build_docx: Path,
     placeholder: str = "{{TECH_SECTION_BODY}}",
     insert_after: str = "",
-    build_mode: str = "replace_body",
+    build_mode: str = "local_template",
     body_start_after: str = "",
     body_end_before: str = "",
 ) -> dict:
@@ -444,34 +540,13 @@ def prepare_build_template(
             "issues": [],
         }
 
-    source_docx = Path(source_docx).resolve()
-    build_docx = Path(build_docx).resolve()
-    if source_docx == build_docx:
-        source_doc = Document(str(source_docx))
-        source_placeholder_indexes = [
-            idx for idx, paragraph in enumerate(source_doc.paragraphs) if placeholder in (paragraph.text or "")
-        ]
-        return {
-            "template_source_docx": str(source_docx),
-            "template_build_docx": str(source_docx),
-            "source_placeholder_found": bool(source_placeholder_indexes),
-            "placeholder_found": bool(source_placeholder_indexes),
-            "placeholder_paragraph_indexes": source_placeholder_indexes,
-            "placeholder_insertion": {
-                "mode": "source",
-                "anchor": "",
-                "paragraph_index": source_placeholder_indexes[0] if source_placeholder_indexes else None,
-            },
-            "issues": [],
-        }
-
     ensure_parent(build_docx)
     shutil.copyfile(source_docx, build_docx)
     build_doc = Document(str(build_docx))
 
-    normalized_mode = (build_mode or "replace_body").strip().lower()
-    if normalized_mode not in {"replace_body", "insert_after"}:
-        normalized_mode = "replace_body"
+    normalized_mode = (build_mode or "local_template").strip().lower()
+    if normalized_mode not in {"local_template", "replace_body", "insert_after"}:
+        normalized_mode = "local_template"
 
     issues = []
     anchor_used = ""
@@ -479,7 +554,12 @@ def prepare_build_template(
     mode = normalized_mode
     paragraph_index = None
 
-    if normalized_mode == "replace_body":
+    if normalized_mode == "local_template":
+        clear_document_body(build_doc)
+        build_doc.add_paragraph(placeholder)
+        mode = "local_template"
+        paragraph_index = 0
+    elif normalized_mode == "replace_body":
         start_anchors = [body_start_after or insert_after] if (body_start_after or insert_after) else list(DEFAULT_TEMPLATE_BODY_START_ANCHORS)
         paragraphs = build_doc.paragraphs
         start_index, anchor_used = find_paragraph_index(paragraphs, start_anchors)
@@ -589,7 +669,13 @@ def template_to_markdown(profile: dict) -> str:
         insertion = profile.get("placeholder_insertion") or {}
         build_docx = profile.get("template_build_docx", "")
         anchor = insertion.get("anchor") or "模板末尾"
-        mode_text = "替换正文骨架并插入占位符" if insertion.get("mode") == "replace_body" else "插入占位符"
+        if insertion.get("mode") == "local_template":
+            anchor = "局部模板整体"
+            mode_text = "作为写作边界，清空模板示例正文后插入占位符"
+        elif insertion.get("mode") == "replace_body":
+            mode_text = "替换正文骨架并插入占位符"
+        else:
+            mode_text = "插入占位符"
         lines.extend(
             [
                 f"> [!info] 原始模板不含 `{{TECH_SECTION_BODY}}`；已生成构建模板 `{build_docx}`，并在 `{anchor}` 位置{mode_text}。`/tender:build` 默认使用构建模板，原始模板保持不变。",
@@ -662,11 +748,25 @@ def cmd_template_profile(args) -> int:
     insert_after = str(
         getattr(args, "insert_after", "") or existing_manifest.get("template_insert_after") or ""
     ).strip()
-    build_mode = str(getattr(args, "build_mode", "") or existing_manifest.get("template_build_mode") or "replace_body").strip()
+    arg_build_mode = str(getattr(args, "build_mode", "") or "").strip()
+    manifest_build_mode = str(existing_manifest.get("template_build_mode") or "").strip()
+    if arg_build_mode:
+        build_mode = arg_build_mode
+    elif manifest_build_mode:
+        build_mode = manifest_build_mode
+    elif insert_after:
+        build_mode = "insert_after"
+    else:
+        build_mode = "local_template"
+    template_scope = str(
+        getattr(args, "template_scope", "")
+        or existing_manifest.get("template_scope")
+        or ("local" if build_mode == "local_template" else "complete")
+    ).strip()
     body_start_after = str(
         getattr(args, "body_start_after", "")
         or existing_manifest.get("template_body_start_after")
-        or insert_after
+        or (insert_after if build_mode != "local_template" else "")
         or ""
     ).strip()
     body_end_before = str(
@@ -683,6 +783,7 @@ def cmd_template_profile(args) -> int:
     )
     profile = extract_template_profile(template_path, template_id)
     profile.update(prepared)
+    profile["template_scope"] = template_scope
     profile["template_docx"] = prepared["template_build_docx"]
     profile["result"] = "PASS" if prepared.get("placeholder_found") and not prepared.get("issues") else "MANUAL"
     if not prepared.get("placeholder_found"):
@@ -705,17 +806,22 @@ def cmd_template_profile(args) -> int:
             "docx_path": str(prepared["template_build_docx"]),
             "profile_json": str(out_json),
             "template_md": str(out_md),
+            "template_scope": template_scope,
+            "template_build_mode": build_mode,
         }
         manifest["active_template_id"] = template_id
         manifest["template_source_docx_path"] = str(template_path)
         manifest["template_build_docx_path"] = str(prepared["template_build_docx"])
         manifest["template_docx_path"] = str(prepared["template_build_docx"])
-        manifest["template_build_mode"] = build_mode or "replace_body"
+        manifest["template_scope"] = template_scope
+        manifest["template_build_mode"] = build_mode or "local_template"
         manifest["template_body_start_after"] = body_start_after
         manifest["template_body_end_before"] = body_end_before
         manifest["template_profile_path"] = str(out_json)
         manifest["template_markdown_path"] = str(out_md)
         manifest["body_placeholder"] = prepared.get("body_placeholder", "{{TECH_SECTION_BODY}}")
+        manifest["chars_per_page_estimate"] = int(profile.get("chars_per_page_estimate") or DEFAULT_CHARS_PER_PAGE_ESTIMATE)
+        manifest["chars_per_page_source"] = "template_geometry"
         if insert_after:
             manifest["template_insert_after"] = insert_after
         write_manifest(manifest_path, manifest)
@@ -1046,6 +1152,12 @@ def resolve_chars_per_page(value: object = None, manifest: Optional[dict] = None
     return DEFAULT_CHARS_PER_PAGE_ESTIMATE
 
 
+def resolve_chars_per_page_from_args(args) -> int:
+    manifest_path = Path(getattr(args, "manifest", "work/00_manifest.yml") or "work/00_manifest.yml")
+    manifest = read_manifest(manifest_path) if manifest_path.exists() else {}
+    return resolve_chars_per_page(getattr(args, "chars_per_page", ""), manifest)
+
+
 def normalize_title(text: str) -> str:
     text = re.sub(r"<[^>]+>", "", text)
     text = re.sub(r"\s+", "", text)
@@ -1344,11 +1456,12 @@ def enrich_writing_plan_with_content_contracts(
         if number_value(section.get("page_budget_max")) is None and allocation:
             section["page_budget_max"] = allocation.get("pages_max", section.get("page_budget_max", ""))
 
-        min_words, max_words, _ = section_budget_words(section, chars_per_page)
-        if min_words is not None and not section.get("target_words_min"):
-            section["target_words_min"] = min_words
-        if max_words is not None and not section.get("target_words_max"):
-            section["target_words_max"] = max_words
+        page_min = number_value(section.get("page_budget_min"))
+        page_max = number_value(section.get("page_budget_max"))
+        if page_min is not None:
+            section["target_words_min"] = int(round(page_min * chars_per_page))
+        if page_max is not None:
+            section["target_words_max"] = int(round(page_max * chars_per_page))
 
         section["structure_locked"] = True
         section["content_weight"] = section_content_weight(section, scoring_rows, mandatory_rows, allocation)
@@ -1561,14 +1674,75 @@ def section_budget_report(
     }
 
 
-def section_budget_failure_message(report: dict) -> str:
+def build_expansion_tasks(section: dict, drafted_words: int, chars_per_page: int) -> list[str]:
+    """Build Expansion Tasks list for a section that failed budget check."""
+    blueprint = section_writing_blueprint(section, chars_per_page)
+    if not blueprint:
+        return []
+    min_budget, _, _ = section_budget_words(section, chars_per_page)
+    words_to_lower = max((min_budget or 0) - drafted_words, 0) if min_budget else 0
+    if not words_to_lower:
+        return [block["label"] for block in blueprint[:6]]
+    candidate_blocks = blueprint[: max(1, min(len(blueprint), 6))]
+    per_block = int(math.ceil(words_to_lower / max(len(candidate_blocks), 1)))
+    tasks = []
+    for block in candidate_blocks:
+        tasks.append(
+            f"继续扩写 {block['label']}（{block['name']}）约 {per_block} 字：{block['guidance']}"
+        )
+    return tasks
+
+
+def section_budget_failure_message(
+    report: dict,
+    expansion_tasks: Optional[list[str]] = None,
+    section: Optional[dict] = None,
+    drafted_words: int = 0,
+    chars_per_page: int = DEFAULT_CHARS_PER_PAGE_ESTIMATE,
+) -> str:
     guidance = (
         "Expand or trim this section under its own scoring items, procurement requirements, "
         "processes, inputs/outputs, deliverables, acceptance criteria, interfaces, deployment, "
         "or non-functional constraints. If the confirmed source material cannot support the "
         "budget, complete the section as blocked or MANUAL with notes instead of marking it drafted."
     )
-    return "section page/word budget check failed:\n- " + "\n- ".join(report["issues"]) + "\n" + guidance
+    msg = "section page/word budget check failed:\n- " + "\n- ".join(report["issues"]) + "\n" + guidance
+    if expansion_tasks:
+        task_lines = "\n".join(f"  {i+1}. [{task.split('（')[1] if '（' in task else task}] {task.split('）：')[1] if '）：' in task else task}"
+                               for i, task in enumerate(expansion_tasks))
+        msg = (
+            f"BUDGET CHECK FAIL\n"
+            f"  当前字数：{drafted_words}字\n"
+            f"  下限要求：{report.get('lower_required', '?')}字\n"
+            f"  差距：{max((report.get('lower_required') or 0) - drafted_words, 0)}字\n\n"
+            f"Expansion Tasks:\n"
+            + task_lines
+            + f"\n\n操作：在原文件末尾补充上述内容，然后重新提交：\n"
+            f"  python tenderctl.py complete-section --section-id {report.get('section_id', '')} --status drafted"
+        )
+    return msg
+
+
+def append_manual_decision(path: Path, section_id: str, title: str, reason: str, suggestions: list[str]) -> None:
+    existing = read_text(path)
+    lines = []
+    if existing.strip():
+        lines.append(existing.rstrip())
+        lines.append("")
+    lines.extend(
+        [
+            f"## {now_iso()} {section_id} {title}".rstrip(),
+            "",
+            f"- 状态：needs_expansion",
+            f"- 原因：{reason}",
+            "- 建议扩写点：",
+        ]
+    )
+    if suggestions:
+        lines.extend([f"  - {item}" for item in suggestions])
+    else:
+        lines.append("  - 围绕评分项响应、采购需求响应、业务流程、输入输出、接口边界、部署位置、异常处理、交付物和验收依据补足。")
+    write_text(path, "\n".join(lines) + "\n")
 
 
 def status_sections_from_plan(plan: dict, locks_dir: Path, sections_dir: Path) -> list[dict]:
@@ -1647,6 +1821,173 @@ def contract_slot_name(slot: object) -> str:
     return str(slot or "").strip()
 
 
+SECTION_BLOCK_RULES = {
+    "requirement_response": {
+        "label": "采购需求响应",
+        "keywords": ["需求", "采购", "响应", "要求", "满足", "对应"],
+        "guidance": "把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+    },
+    "scoring_response": {
+        "label": "评分项响应",
+        "keywords": ["评分", "得分", "评审", "分值", "指标", "题目"],
+        "guidance": "逐条承接本节评分项，让专家能看到本节为什么能得分。",
+    },
+    "implementation_process": {
+        "label": "实施流程",
+        "keywords": ["流程", "步骤", "阶段", "执行", "处理", "调度", "发布"],
+        "guidance": "写清步骤、责任、输入、输出、异常处理和控制点。",
+    },
+    "input_output": {
+        "label": "输入输出",
+        "keywords": ["输入", "输出", "字段", "格式", "数据项", "结果", "参数"],
+        "guidance": "列明数据、接口、文档、配置、模型结果或验收材料的流转。",
+    },
+    "interface_and_integration": {
+        "label": "接口与集成",
+        "keywords": ["接口", "API", "协议", "集成", "对接", "调用", "异常"],
+        "guidance": "说明接口边界、调用方式、输入输出、异常码和对接责任。",
+    },
+    "deployment": {
+        "label": "部署与环境",
+        "keywords": ["部署", "环境", "容器", "服务器", "网络", "发布", "配置"],
+        "guidance": "说明部署拓扑、运行环境、发布流程和运维边界。",
+    },
+    "non_functional": {
+        "label": "非功能约束",
+        "keywords": ["性能", "安全", "可靠", "可用", "并发", "监控", "日志"],
+        "guidance": "写清性能、安全、可靠性、可观测性和维护措施。",
+    },
+    "deliverables": {
+        "label": "交付物",
+        "keywords": ["交付", "文档", "清单", "报告", "源码", "部署包", "手册"],
+        "guidance": "写清交付物名称、内容、提交时点、确认方式和关联验收。",
+    },
+    "acceptance_criteria": {
+        "label": "验收依据",
+        "keywords": ["验收", "测试", "确认", "标准", "材料", "证明", "通过"],
+        "guidance": "写清验收材料、验收动作、判定标准和风险处理。",
+    },
+    "service_and_training": {
+        "label": "服务与培训",
+        "keywords": ["培训", "服务", "运维", "售后", "响应", "支持", "教材"],
+        "guidance": "说明培训对象、内容、形式、服务响应和运维支撑证据。",
+    },
+}
+
+
+def section_blueprint_slots(section: dict) -> list[str]:
+    contract = section.get("content_contract") if isinstance(section.get("content_contract"), dict) else {}
+    slots = [contract_slot_name(slot) for slot in contract.get("slots", [])] if contract else []
+    ordered = []
+    for name in [
+        "scoring_response",
+        "requirement_response",
+        "implementation_process",
+        "input_output",
+        "interface_and_integration",
+        "deployment",
+        "non_functional",
+        "deliverables",
+        "acceptance_criteria",
+        "service_and_training",
+    ]:
+        if name in slots or name in {"scoring_response", "implementation_process", "deliverables", "acceptance_criteria"}:
+            ordered.append(name)
+    for name in slots:
+        if name and name not in ordered:
+            ordered.append(name)
+    return ordered
+
+
+def section_writing_blueprint(section: dict, chars_per_page: int = DEFAULT_CHARS_PER_PAGE_ESTIMATE) -> list[dict]:
+    min_words, max_words, _ = section_budget_words(section, chars_per_page)
+    target = min_words or max_words or 0
+    slots = section_blueprint_slots(section)
+    if not slots:
+        return []
+    weights = {}
+    for name in slots:
+        if name == "scoring_response":
+            weights[name] = 1.8 if section.get("scoring_items") else 1.0
+        elif name == "requirement_response":
+            weights[name] = 1.5 if section.get("req_ids") else 1.0
+        elif name in {"implementation_process", "input_output", "interface_and_integration"}:
+            weights[name] = 1.4
+        elif name in {"deliverables", "acceptance_criteria"}:
+            weights[name] = 1.1
+        else:
+            weights[name] = 1.0
+    total_weight = sum(weights.values()) or 1.0
+    blocks = []
+    allocated = 0
+    for index, name in enumerate(slots, start=1):
+        rule = SECTION_BLOCK_RULES.get(name, {"label": name, "guidance": "按本节材料自然展开。"})
+        if target:
+            target_words = int(round(target * weights[name] / total_weight))
+            allocated += target_words
+        else:
+            target_words = 0
+        blocks.append(
+            {
+                "order": index,
+                "name": name,
+                "label": rule["label"],
+                "target_words": target_words,
+                "guidance": rule["guidance"],
+            }
+        )
+    if target and blocks:
+        blocks[-1]["target_words"] += target - allocated
+    return blocks
+
+
+def text_has_block(text: str, block_name: str, section: Optional[dict] = None) -> bool:
+    normalized = normalize_title(text)
+    if block_name == "scoring_response" and section:
+        items = [normalize_title(item) for item in section.get("scoring_items") or []]
+        if items and all(item and item in normalized for item in items):
+            return True
+    rule = SECTION_BLOCK_RULES.get(block_name)
+    if not rule:
+        return True
+    return any(normalize_title(keyword) in normalized for keyword in rule["keywords"])
+
+
+def section_gap_report(section: dict, markdown: str, chars_per_page: int, min_ratio: float = 0.90) -> dict:
+    drafted_words = effective_char_count(strip_markdown_for_count(markdown))
+    budget = section_budget_report(section, drafted_words, chars_per_page, min_ratio, 1.10)
+    blueprint = section_writing_blueprint(section, chars_per_page)
+    missing_blocks = [block for block in blueprint if not text_has_block(markdown, block["name"], section)]
+    words_to_lower = max((budget.get("lower_required") or 0) - drafted_words, 0)
+    result = "PASS"
+    if budget["result"] == "FAIL" or missing_blocks:
+        result = "FAIL"
+    expansion_tasks = []
+    if words_to_lower:
+        candidate_blocks = missing_blocks or blueprint
+        candidate_blocks = candidate_blocks[: max(1, min(len(candidate_blocks), 6))]
+        per_block = int(math.ceil(words_to_lower / max(len(candidate_blocks), 1)))
+        for block in candidate_blocks:
+            expansion_tasks.append(
+                f"继续扩写 {block['label']}（{block['name']}）约 {per_block} 字：{block['guidance']}"
+            )
+    for block in missing_blocks:
+        task = f"补齐 {block['label']}（{block['name']}）：{block['guidance']}"
+        if task not in expansion_tasks:
+            expansion_tasks.append(task)
+    return {
+        "section_id": section_id_of(section),
+        "title": section.get("title", ""),
+        "result": result,
+        "drafted_words": drafted_words,
+        "budget": budget,
+        "words_to_lower_required": words_to_lower,
+        "blueprint": blueprint,
+        "missing_blocks": missing_blocks,
+        "expansion_tasks": expansion_tasks,
+    }
+
+
 def write_section_brief(section: dict, brief_path: Path, file_path: Path) -> None:
     section_id = section_id_of(section)
     title = str(section.get("title") or "").strip()
@@ -1693,6 +2034,19 @@ def write_section_brief(section: dict, brief_path: Path, file_path: Path) -> Non
     else:
         lines.append("- not set")
 
+    blueprint = section_writing_blueprint(section)
+    lines.extend(["", "## Writing Blueprint", ""])
+    if blueprint:
+        lines.append("| Order | Block | Target words | Guidance |")
+        lines.append("|---:|---|---:|---|")
+        for block in blueprint:
+            target_words = block["target_words"] or ""
+            lines.append(
+                f"| {block['order']} | {block['label']} (`{block['name']}`) | {target_words} | {block['guidance']} |"
+            )
+    else:
+        lines.append("- not set")
+
     lines.extend(
         [
             "",
@@ -1703,6 +2057,7 @@ def write_section_brief(section: dict, brief_path: Path, file_path: Path) -> Non
             "- Keep the visible section title and heading level unchanged.",
             "- Do not create visible headings from hidden slots.",
             "- If confirmed sources cannot support the budget, mark the section blocked or MANUAL instead of padding.",
+            "- After the first draft, run section-gap or complete-section; if it fails, continue the listed expansion tasks before merging.",
         ]
     )
     write_text(brief_path, "\n".join(lines) + "\n")
@@ -1729,7 +2084,7 @@ def cmd_claim_section(args) -> int:
             if not isinstance(section, dict):
                 continue
             status = str(section.get("status") or "pending").strip()
-            if status not in {"pending", "needs_revision"}:
+            if status not in {"pending", "needs_revision", "needs_expansion"}:
                 continue
             if section_manual_flags(section):
                 continue
@@ -1746,7 +2101,7 @@ def cmd_claim_section(args) -> int:
     if not section_id:
         raise RuntimeError("selected section has no id")
     status = str(candidate.get("status") or "pending").strip()
-    if status not in {"pending", "needs_revision"}:
+    if status not in {"pending", "needs_revision", "needs_expansion"}:
         raise RuntimeError(f"section {section_id} is not claimable; status={status}")
     if section_manual_flags(candidate):
         raise RuntimeError(f"section {section_id} has manual flags and cannot be claimed")
@@ -1828,15 +2183,47 @@ def cmd_complete_section(args) -> int:
     if completed_status == "drafted" and not drafted_words:
         drafted_words = effective_char_count(strip_markdown_for_count(read_text(file_path)))
     if completed_status == "drafted":
+        chars = resolve_chars_per_page_from_args(args)
         budget_report = section_budget_report(
             section,
             drafted_words,
-            int(args.chars_per_page),
+            chars,
             float(args.min_budget_ratio),
             float(args.max_budget_ratio),
         )
         if budget_report["result"] == "FAIL":
-            raise RuntimeError(section_budget_failure_message(budget_report))
+            expansion = build_expansion_tasks(section, drafted_words, chars)
+            completed_at = now_iso()
+            section["status"] = "needs_expansion"
+            section["completed_at"] = completed_at
+            section["updated_at"] = completed_at
+            section["file_path"] = str(file_path)
+            section["drafted_words"] = drafted_words
+            if args.owner:
+                section["owner"] = args.owner
+            section["notes"] = (
+                f"目标字数 {budget_report.get('target_words_min')}，当前字数 {drafted_words}，"
+                f"缺口 {max((budget_report.get('lower_required') or 0) - drafted_words, 0)}。"
+            )
+            flags = section_manual_flags(section)
+            if "needs_expansion: below 90% of target_words_min" not in flags:
+                flags.append("needs_expansion: below 90% of target_words_min")
+            section["manual_flags"] = flags
+            section.pop("lock_path", None)
+            if lock_path.exists() and not args.keep_lock:
+                lock_path.unlink()
+            write_yaml_like(plan_path, plan)
+            write_section_status(plan, status_yml, status_md, locks_dir, sections_dir)
+            append_manual_decision(
+                Path(args.manual_decisions),
+                section_id,
+                str(section.get("title") or ""),
+                section["notes"],
+                expansion,
+            )
+            raise RuntimeError(
+                section_budget_failure_message(budget_report, expansion, section, drafted_words, chars)
+            )
 
     section["status"] = completed_status
     section["completed_at"] = completed_at
@@ -1847,7 +2234,7 @@ def cmd_complete_section(args) -> int:
         section["owner"] = args.owner
     if args.notes:
         section["notes"] = args.notes
-    if completed_status in {"blocked", "MANUAL", "needs_revision"} and args.notes:
+    if completed_status in {"blocked", "MANUAL", "needs_revision", "needs_expansion"} and args.notes:
         flags = section_manual_flags(section)
         if args.notes not in flags:
             flags.append(args.notes)
@@ -1872,8 +2259,12 @@ def cmd_merge_sections(args) -> int:
     out_draft = Path(args.out_draft)
 
     plan = load_writing_plan(plan_path)
+    manifest = read_manifest(Path(getattr(args, "manifest", "work/00_manifest.yml")))
+    chars_per_page = resolve_chars_per_page(args.chars_per_page, manifest)
     blockers = []
     parts = []
+    actual_words_by_section = {}
+    target_words_min_by_section = {}
     ordered = sorted(enumerate(plan.get("sections", [])), key=section_sort_key)
     for _, section in ordered:
         if not isinstance(section, dict):
@@ -1892,15 +2283,19 @@ def cmd_merge_sections(args) -> int:
                 blockers.append(f"{section_id}: section file is empty: {file_path}")
                 continue
             drafted_words = effective_char_count(strip_markdown_for_count(text))
+            min_words, _, _ = section_budget_words(section, chars_per_page)
+            if min_words is not None:
+                target_words_min_by_section[section_id] = min_words
+            actual_words_by_section[section_id] = drafted_words
             budget_report = section_budget_report(
                 section,
                 drafted_words,
-                int(args.chars_per_page),
+                chars_per_page,
                 float(args.min_budget_ratio),
                 float(args.max_budget_ratio),
             )
             if budget_report["result"] == "FAIL":
-                blockers.append(section_budget_failure_message(budget_report))
+                blockers.append(section_budget_failure_message(budget_report, None, section, drafted_words, chars_per_page))
                 continue
             section["drafted_words"] = drafted_words
             parts.append(text)
@@ -1909,6 +2304,37 @@ def cmd_merge_sections(args) -> int:
             if args.allow_partial:
                 continue
             blockers.append(message)
+
+    target_min_total = sum(target_words_min_by_section.values())
+    actual_total = sum(actual_words_by_section.values())
+    lower_required_total = int(math.ceil(target_min_total * float(args.min_budget_ratio))) if target_min_total else 0
+    target_pages_min = int(manifest.get("target_pages_min") or 0)
+    draft_lower_required = int(math.ceil(target_pages_min * chars_per_page * float(args.min_budget_ratio))) if target_pages_min else 0
+    if not args.allow_partial:
+        total_issues = []
+        if lower_required_total and actual_total < lower_required_total:
+            total_issues.append(
+                f"sum(actual_words_by_section)={actual_total} < {lower_required_total} "
+                f"(90% of sum(target_words_min_by_section)={target_min_total})"
+            )
+        if draft_lower_required and actual_total < draft_lower_required:
+            total_issues.append(
+                f"v1.md actual_words={actual_total} < {draft_lower_required} "
+                f"(90% of target_pages_min={target_pages_min} * chars_per_page={chars_per_page})"
+            )
+        if total_issues:
+            short_sections = []
+            for section_id, target in target_words_min_by_section.items():
+                actual = actual_words_by_section.get(section_id, 0)
+                lower = int(math.ceil(target * float(args.min_budget_ratio)))
+                if actual < lower:
+                    short_sections.append(f"{section_id}: actual={actual}, lower_required={lower}, target_words_min={target}")
+            blockers.insert(
+                0,
+                "total draft word budget check failed:\n  - "
+                + "\n  - ".join(total_issues)
+                + ("\n  - short sections: " + "; ".join(short_sections) if short_sections else ""),
+            )
 
     if blockers:
         raise RuntimeError("cannot merge sections:\n- " + "\n- ".join(blockers))
@@ -1934,16 +2360,418 @@ def cmd_normalize_writing_plan(args) -> int:
 
 
 def cmd_content_contract(args) -> int:
+    manifest = read_manifest(Path(args.manifest))
+    page_plan_report = audit_page_plan(Path(args.page_plan), manifest)
+    if page_plan_report["result"] == "FAIL":
+        issues = page_plan_report.get("issues") or ["page_plan.yml failed validation."]
+        raise RuntimeError("页数预算未通过统筹检查；请回到 outline 阶段调整 page_plan.yml 和 writing_plan.yml。\n- " + "\n- ".join(issues))
+
     result = enrich_writing_plan_with_content_contracts(
         writing_plan_path=Path(args.writing_plan),
         page_plan_path=Path(args.page_plan),
         scoring_matrix_path=Path(args.scoring_matrix),
         mandatory_matrix_path=Path(args.mandatory_matrix),
         out_path=Path(args.out_writing_plan or args.writing_plan),
-        chars_per_page=int(args.chars_per_page),
+        chars_per_page=resolve_chars_per_page_from_args(args),
     )
     print(f"[OK] enriched {result['sections_enriched']} sections with hidden content contracts")
     print(f"[OK] wrote: {result['out_path']}")
+    return 0
+
+
+def cmd_draft_section(args) -> int:
+    """
+    End-to-end section drafting with automatic budget enforcement loop.
+
+    Loop: generate content -> check budget -> if FAIL, generate expansion tasks
+          -> re-prompt LLM with specific tasks -> repeat until PASS or max_cycles
+    """
+    manifest = read_manifest(Path(args.manifest))
+    chars_per_page = resolve_chars_per_page(args.chars_per_page, manifest)
+    plan_path = Path(args.writing_plan)
+    plan = load_writing_plan(plan_path)
+    sections_dir = Path(args.sections_dir)
+    briefs_dir = Path(args.section_briefs_dir)
+    status_yml = Path(args.section_status)
+    status_md = Path(args.out_md)
+    locks_dir = Path(args.locks_dir)
+
+    # Select or validate section
+    if args.section_id:
+        section = find_section(plan, args.section_id)
+        if section is None:
+            raise RuntimeError(f"section not found: {args.section_id}")
+    else:
+        ordered = sorted(enumerate(plan.get("sections", [])), key=section_sort_key)
+        for _, sec in ordered:
+            if not isinstance(sec, dict):
+                continue
+            status = str(sec.get("status") or "pending").strip()
+            if status not in {"pending", "needs_revision", "needs_expansion"}:
+                continue
+            if section_manual_flags(sec):
+                continue
+            if not section_dependencies_done(plan, sec):
+                continue
+            if section_file_path(sec, sections_dir).exists() and not args.allow_existing_file:
+                continue
+            section = sec
+            break
+        if section is None:
+            raise RuntimeError("no claimable section found")
+
+    section_id = section_id_of(section)
+    if not section_id:
+        raise RuntimeError("section has no id")
+
+    file_path = section_file_path(section, sections_dir)
+    brief_path = section_brief_path(section_id, briefs_dir)
+
+    # If file exists and not allow_existing, fail
+    if file_path.exists() and not args.allow_existing_file and not args.continue_existing:
+        raise RuntimeError(f"section file already exists: {file_path}; use --continue-existing to continue")
+
+    owner = args.owner or "agent"
+    started_at = now_iso()
+
+    # Create lock
+    locks_dir.mkdir(parents=True, exist_ok=True)
+    lock_path = lock_file_path(section_id, locks_dir)
+    lock_payload = {
+        "section_id": section_id,
+        "title": section.get("title", ""),
+        "owner": owner,
+        "started_at": started_at,
+        "file_path": str(file_path),
+        "section_brief_path": str(brief_path),
+    }
+    try:
+        with lock_path.open("x", encoding="utf-8") as f:
+            json.dump(lock_payload, f, ensure_ascii=False, indent=2)
+    except FileExistsError:
+        if not args.allow_existing_file:
+            raise RuntimeError(f"section already claimed: {section_id}")
+
+    section["status"] = "in_progress"
+    section["owner"] = owner
+    section["started_at"] = started_at
+    section["file_path"] = str(file_path)
+    section["section_brief_path"] = str(brief_path)
+    section["updated_at"] = started_at
+
+    # Generate or load existing brief
+    if not brief_path.exists():
+        write_section_brief(section, brief_path, file_path)
+
+    brief_content = read_text(brief_path)
+    blueprint = section_writing_blueprint(section, chars_per_page)
+    min_budget, max_budget, _ = section_budget_words(section, chars_per_page)
+
+    # Determine target words
+    target_min = min_budget or (max_budget if max_budget else 0)
+
+    # Load existing content if continuing
+    existing_content = ""
+    if args.continue_existing and file_path.exists():
+        existing_content = read_text(file_path)
+
+    # Build system prompt for LLM drafting
+    system_prompt = _build_draft_section_system_prompt()
+
+    # Expansion history to avoid repeating the same instructions
+    expansion_history = []
+    max_cycles = int(args.max_cycles) if args.max_cycles else 3
+    cycle = 0
+
+    while cycle < max_cycles:
+        cycle += 1
+        print(f"[draft-section] cycle {cycle}/{max_cycles} for section {section_id}")
+
+        # Build user prompt
+        user_prompt = _build_draft_section_user_prompt(
+            section_id=section_id,
+            section_title=section.get("title", ""),
+            brief_content=brief_content,
+            blueprint=blueprint,
+            target_min=target_min,
+            chars_per_page=chars_per_page,
+            existing_content=existing_content,
+            expansion_history=expansion_history,
+        )
+
+        # Call LLM
+        content = _call_llm_generate(system_prompt, user_prompt, args.model)
+
+        if not content or not content.strip():
+            raise RuntimeError(f"LLM returned empty content on cycle {cycle}")
+
+        # Update existing content for next cycle
+        if existing_content:
+            # Append new content to existing
+            existing_content = existing_content.rstrip() + "\n\n" + content
+        else:
+            existing_content = content
+
+        # Write current result to section file (in case of failure, partial work is saved)
+        write_text(file_path, existing_content)
+
+        # Check budget
+        drafted_words = effective_char_count(strip_markdown_for_count(existing_content))
+        budget_report = section_budget_report(
+            section, drafted_words, chars_per_page,
+            float(args.min_budget_ratio), float(args.max_budget_ratio)
+        )
+
+        print(f"[draft-section] drafted_words={drafted_words}, target_min={target_min}, budget_result={budget_report['result']}")
+
+        if budget_report["result"] != "FAIL":
+            # PASS or WARN - we're good
+            if budget_report["result"] == "WARN":
+                print(f"[draft-section] WARN: {budget_report['warnings']}")
+            break
+
+        # Budget FAIL - generate expansion tasks and continue
+        if cycle >= max_cycles:
+            print(f"[draft-section] max cycles ({max_cycles}) reached, budget still failing")
+            break
+
+        # Build expansion tasks from current content
+        gap_report = section_gap_report(section, existing_content, chars_per_page, float(args.min_budget_ratio))
+        expansion_tasks = gap_report.get("expansion_tasks") or []
+
+        if not expansion_tasks:
+            expansion_tasks = build_expansion_tasks(section, drafted_words, chars_per_page)
+
+        if expansion_tasks:
+            expansion_history.append({
+                "cycle": cycle,
+                "drafted_words": drafted_words,
+                "expansion_tasks": expansion_tasks,
+            })
+            print(f"[draft-section] expansion_tasks: {len(expansion_tasks)} items generated")
+        else:
+            # Nothing specific to expand but still FAIL - stop
+            print(f"[draft-section] FAIL but no specific expansion tasks, stopping")
+            break
+
+    # Final budget check
+    final_words = effective_char_count(strip_markdown_for_count(existing_content))
+    final_budget = section_budget_report(
+        section, final_words, chars_per_page,
+        float(args.min_budget_ratio), float(args.max_budget_ratio)
+    )
+
+    # Determine final status
+    if final_budget["result"] == "FAIL":
+        final_status = "needs_expansion"
+        expansion_tasks = build_expansion_tasks(section, final_words, chars_per_page)
+        reason = (
+            f"达到 max_cycles={max_cycles} 后仍不足；目标字数 {final_budget.get('target_words_min')}，"
+            f"90%下限 {final_budget.get('lower_required')}，当前字数 {final_words}，"
+            f"缺口 {max((final_budget.get('lower_required') or 0) - final_words, 0)}。"
+        )
+        append_manual_decision(
+            Path(args.manual_decisions),
+            section_id,
+            str(section.get("title") or ""),
+            reason,
+            expansion_tasks,
+        )
+        flags = section_manual_flags(section)
+        if "needs_expansion: max_cycles reached below 90% of target_words_min" not in flags:
+            flags.append("needs_expansion: max_cycles reached below 90% of target_words_min")
+        section["manual_flags"] = flags
+        section["notes"] = reason
+        print(f"[draft-section] WARNING: final budget FAIL ({final_words} < {final_budget.get('lower_required')}), marking needs_expansion")
+    else:
+        final_status = "drafted"
+
+    # Update section status
+    section["status"] = final_status
+    section["completed_at"] = now_iso()
+    section["updated_at"] = now_iso()
+    section["drafted_words"] = final_words
+    section.pop("lock_path", None)
+
+    # Remove lock file
+    if lock_path.exists():
+        lock_path.unlink()
+
+    write_yaml_like(plan_path, plan)
+    write_section_status(plan, status_yml, status_md, locks_dir, sections_dir)
+
+    print(f"[draft-section] completed section {section_id}: {final_status} ({final_words} words)")
+    return 0
+
+
+def _build_draft_section_system_prompt() -> str:
+    return """你是一个专业的标书写作助手，负责生成高质量的标书章节正文。
+
+写作要求：
+- 只写可见正文，不得生成 <!-- tender:section --> 等元数据注释
+- 不得使用四级或更深的标题（#### 及以下）
+- 不得照抄招标文件原文，必须转述后点对点响应
+- 不得编造未经确认的功能、接口字段、性能指标、人员、业绩
+- 不得使用 Web 搜索结果拼凑正文
+- 每个结论后面尽量给出支撑：措施、功能、流程、责任人、交付物或验收方式
+- 语气应接近有经验标书作者：稳妥、具体、可核查
+- 避免"通过……实现……""构建……体系""全面提升……能力"等机械化句式
+- 图表位置要有引导语和解释语
+
+输出要求：
+- 只输出 Markdown 格式的正文内容
+- 不要输出任何解释、说明或元数据
+- 直接开始写正文第一个标题
+"""
+
+
+def _build_draft_section_user_prompt(
+    section_id: str,
+    section_title: str,
+    brief_content: str,
+    blueprint: list[dict],
+    target_min: int,
+    chars_per_page: int,
+    existing_content: str,
+    expansion_history: list[dict],
+) -> str:
+    parts = [
+        f"# 写作任务：章节 {section_id} — {section_title}",
+        "",
+        "## 章节 Brief（必须先阅读）",
+        brief_content,
+        "",
+    ]
+
+    if existing_content:
+        parts.extend([
+            "## 现有内容（请在末尾继续扩写，不要重复已有内容）",
+            existing_content,
+            "",
+        ])
+        # Show expansion tasks from previous cycles
+        for hist in expansion_history:
+            tasks = hist.get("expansion_tasks") or []
+            if tasks:
+                parts.append(f"## 扩写任务（来自上一轮，还需继续完成）")
+                for i, task in enumerate(tasks, 1):
+                    parts.append(f"{i}. {task}")
+                parts.append("")
+    else:
+        parts.extend([
+            "## 写作目标",
+            f"本节目标字数：{target_min} 字以上",
+            f"（chars_per_page={chars_per_page}，按此换算页数预算）",
+            "",
+        ])
+
+    if blueprint:
+        parts.extend([
+            "## 写作蓝图（按顺序展开每个 block）",
+            "",
+        ])
+        for block in blueprint:
+            target = block.get("target_words") or ""
+            parts.append(f"- **{block['label']}（{block['name']}）**：目标 {target} 字 | {block.get('guidance', '')}")
+        parts.append("")
+
+    if expansion_history:
+        # Include what was attempted before
+        for hist in expansion_history:
+            tasks = hist.get("expansion_tasks") or []
+            if tasks:
+                parts.append(f"**已尝试的扩写任务（供你参考，不要重复相同的动作）**：")
+                for task in tasks:
+                    parts.append(f"- {task}")
+                parts.append("")
+
+    parts.extend([
+        "## 开始写作",
+        "严格按照上述要求写正文。完成后在末尾加上当前字数统计，格式：",
+        f"<!-- words: {existing_content and 'X' or 'Y'} -->",
+        "如果目标字数不足，继续扩写直到达标。",
+    ])
+
+    return "\n".join(parts)
+
+
+def _call_llm_generate(system_prompt: str, user_prompt: str, model: str = "") -> str:
+    """Call claude -p to generate content."""
+    import subprocess
+    cmd = ["claude", "-p", "--output-format", "text"]
+    if model:
+        cmd.extend(["--model", model])
+    cmd.append(user_prompt)
+
+    env = {}
+    full_system = system_prompt
+    proc = subprocess.Popen(
+        cmd,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env={**__import__("os").environ, **env},
+        cwd=None,
+    )
+    stdout, stderr = proc.communicate(input=full_system.encode("utf-8"))
+
+    if proc.returncode != 0:
+        raise RuntimeError(f"claude -p failed: {stderr.decode('utf-8', errors='replace')}")
+
+    return stdout.decode("utf-8", errors="replace").strip()
+
+
+def cmd_section_gap(args) -> int:
+    plan = load_writing_plan(Path(args.writing_plan))
+    section = find_section(plan, args.section_id)
+    if section is None:
+        raise RuntimeError(f"section not found: {args.section_id}")
+    section_file = Path(args.section_file) if args.section_file else section_file_path(section, Path(args.sections_dir))
+    if not section_file.exists():
+        raise FileNotFoundError(f"section file not found: {section_file}")
+
+    report = section_gap_report(
+        section,
+        read_text(section_file),
+        chars_per_page=resolve_chars_per_page_from_args(args),
+        min_ratio=float(args.min_budget_ratio),
+    )
+    write_json(Path(args.out_json), report)
+    lines = [
+        f"# Section Gap: {report['section_id']} {report['title']}".rstrip(),
+        "",
+        f"- Result: {report['result']}",
+        f"- Drafted words: {report['drafted_words']}",
+        f"- Words to lower required: {report['words_to_lower_required']}",
+        "",
+        "## Missing Blocks",
+        "",
+    ]
+    if report["missing_blocks"]:
+        for block in report["missing_blocks"]:
+            lines.append(f"- {block['label']} (`{block['name']}`): {block['guidance']}")
+    else:
+        lines.append("- None.")
+    lines.extend(["", "## Expansion Tasks", ""])
+    if report["expansion_tasks"]:
+        lines.extend([f"- {task}" for task in report["expansion_tasks"]])
+    else:
+        lines.append("- None.")
+    lines.extend(["", "## Writing Blueprint", ""])
+    if report["blueprint"]:
+        lines.append("| Order | Block | Target words | Guidance |")
+        lines.append("|---:|---|---:|---|")
+        for block in report["blueprint"]:
+            lines.append(
+                f"| {block['order']} | {block['label']} (`{block['name']}`) | {block['target_words']} | {block['guidance']} |"
+            )
+    else:
+        lines.append("- None.")
+    write_text(Path(args.out_md), "\n".join(lines) + "\n")
+    print(f"[OK] wrote: {args.out_json}")
+    print(f"[OK] wrote: {args.out_md}")
+    if report["result"] == "FAIL" and not args.allow_fail_exit_zero:
+        raise RuntimeError("section gap check failed; continue expansion tasks before complete-section or merge-sections")
     return 0
 
 
@@ -2048,6 +2876,307 @@ def audit_page_plan(page_plan_path: Path, manifest: dict) -> dict:
     }
 
 
+def audit_writing_plan_budget(writing_plan_path: Path, manifest: dict, chars_per_page: int) -> dict:
+    target_pages_min = int(manifest.get("target_pages_min") or 0)
+    target_pages_max = int(manifest.get("target_pages_max") or 0)
+    target_is_set = bool(target_pages_min or target_pages_max)
+    if not writing_plan_path.exists():
+        result = "NOT_SET" if not target_is_set else "FAIL"
+        issues = []
+        if target_is_set:
+            issues.append("已设置页数要求，但缺少 writing_plan.yml；无法验证章节页数/字数预算。")
+        return {
+            "path": str(writing_plan_path),
+            "result": result,
+            "section_count": 0,
+            "planned_pages_min": 0,
+            "planned_pages_max": 0,
+            "target_words_min_total": 0,
+            "target_words_max_total": 0,
+            "issues": issues,
+        }
+
+    try:
+        plan = load_writing_plan(writing_plan_path)
+    except Exception as exc:
+        return {
+            "path": str(writing_plan_path),
+            "result": "FAIL",
+            "section_count": 0,
+            "planned_pages_min": 0,
+            "planned_pages_max": 0,
+            "target_words_min_total": 0,
+            "target_words_max_total": 0,
+            "issues": [f"writing_plan.yml 无法解析：{exc}"],
+        }
+
+    issues = []
+    planned_min = 0.0
+    planned_max = 0.0
+    words_min_total = 0
+    words_max_total = 0
+    section_count = 0
+
+    for idx, section in enumerate(plan.get("sections", []), start=1):
+        if not isinstance(section, dict):
+            issues.append(f"sections 第 {idx} 项不是字典结构。")
+            continue
+        section_count += 1
+        section_id = section_id_of(section) or f"#{idx}"
+        title = str(section.get("title") or "")
+        manual_flags = section_manual_flags(section)
+        page_min = number_value(section.get("page_budget_min"))
+        page_max = number_value(section.get("page_budget_max"))
+        explicit_min = number_value(section.get("target_words_min"))
+        explicit_max = number_value(section.get("target_words_max"))
+        min_words, max_words, _ = section_budget_words(section, chars_per_page)
+
+        if target_is_set and not manual_flags:
+            if page_min is None or page_max is None:
+                issues.append(f"{section_id} {title}: 缺少 page_budget_min/page_budget_max。")
+            elif page_min < 0 or page_max < 0 or page_min > page_max:
+                issues.append(f"{section_id} {title}: 页数预算无效：{page_min}~{page_max}。")
+            if "req_ids" not in section:
+                issues.append(f"{section_id} {title}: 缺少 req_ids。")
+            if "scoring_items" not in section:
+                issues.append(f"{section_id} {title}: 缺少 scoring_items。")
+            if "content_contract" not in section and "required_slots" not in section:
+                issues.append(f"{section_id} {title}: 缺少 content_contract 或 required_slots。")
+
+        if page_min is not None:
+            planned_min += page_min
+        if page_max is not None:
+            planned_max += page_max
+        if min_words is not None:
+            words_min_total += min_words
+        if max_words is not None:
+            words_max_total += max_words
+
+        if page_min is not None and explicit_min is not None:
+            expected_min = int(round(page_min * chars_per_page))
+            if int(round(explicit_min)) != expected_min:
+                issues.append(
+                    f"{section_id} {title}: target_words_min={explicit_min:g} 低于 "
+                    f"page_budget_min={page_min:g} 页按 {chars_per_page} 字/页换算的最低预算 {expected_min}；必须精确按页数预算传导。"
+                )
+        if page_max is not None and explicit_max is not None:
+            expected_max = int(round(page_max * chars_per_page))
+            if int(round(explicit_max)) != expected_max:
+                issues.append(
+                    f"{section_id} {title}: target_words_max={explicit_max:g} 不等于 "
+                    f"page_budget_max={page_max:g} 页按 {chars_per_page} 字/页换算的预算 {expected_max}；必须精确按页数预算传导。"
+                )
+        if explicit_min is not None and explicit_max is not None and explicit_min > explicit_max:
+            issues.append(f"{section_id} {title}: target_words_min 大于 target_words_max。")
+
+    if target_pages_min and planned_min < target_pages_min:
+        issues.append(f"writing_plan 页数预算下限 {planned_min:g} 小于用户要求下限 {target_pages_min}。")
+    if target_pages_min and words_min_total < target_pages_min * chars_per_page:
+        issues.append(
+            f"writing_plan 字数预算下限 {words_min_total:g} 低于用户页数下限换算值 "
+            f"{int(target_pages_min * chars_per_page)}。"
+        )
+
+    result = "PASS"
+    if not target_is_set:
+        result = "MANUAL"
+        issues.append("未设置 target_pages_min/target_pages_max；预算审计只能检查结构，不能验证总页数。")
+    if issues:
+        result = "FAIL" if target_is_set else "MANUAL"
+
+    return {
+        "path": str(writing_plan_path),
+        "result": result,
+        "section_count": section_count,
+        "planned_pages_min": round(planned_min, 1),
+        "planned_pages_max": round(planned_max, 1),
+        "target_words_min_total": words_min_total,
+        "target_words_max_total": words_max_total,
+        "issues": issues,
+    }
+
+
+def cmd_budget_audit(args) -> int:
+    manifest = read_manifest(Path(args.manifest))
+    chars_per_page = resolve_chars_per_page(args.chars_per_page, manifest)
+    page_report = audit_page_plan(Path(args.page_plan), manifest)
+    writing_report = audit_writing_plan_budget(Path(args.writing_plan), manifest, chars_per_page)
+
+    result = "PASS"
+    blockers = []
+    for label, report in (("page_plan", page_report), ("writing_plan", writing_report)):
+        if report["result"] in {"FAIL", "MANUAL"}:
+            result = "FAIL" if report["result"] == "FAIL" else "MANUAL"
+            blockers.append(f"{label} budget check result: {report['result']}")
+
+    report = {
+        "result": result,
+        "chars_per_page": chars_per_page,
+        "target_pages_min": int(manifest.get("target_pages_min") or 0),
+        "target_pages_max": int(manifest.get("target_pages_max") or 0),
+        "page_plan": page_report,
+        "writing_plan": writing_report,
+        "blockers": blockers,
+    }
+    write_json(Path(args.out_json), report)
+
+    md_lines = [
+        "# Budget Audit",
+        "",
+        f"- Result: {result}",
+        f"- Chars per page: {chars_per_page}",
+        f"- Target pages: {report['target_pages_min'] or 'unset'} ~ {report['target_pages_max'] or 'unset'}",
+        f"- Page plan: {page_report['result']} ({page_report['planned_pages_min']} ~ {page_report['planned_pages_max']} pages)",
+        f"- Writing plan: {writing_report['result']} ({writing_report['planned_pages_min']} ~ {writing_report['planned_pages_max']} pages, min words {writing_report['target_words_min_total']})",
+        "",
+        "## Issues",
+        "",
+    ]
+    issues = list(page_report.get("issues") or []) + list(writing_report.get("issues") or [])
+    if issues:
+        md_lines.extend([f"- {item}" for item in issues])
+    else:
+        md_lines.append("- None.")
+    write_text(Path(args.out_md), "\n".join(md_lines) + "\n")
+
+    print(f"[OK] wrote: {args.out_json}")
+    print(f"[OK] wrote: {args.out_md}")
+    if result == "FAIL":
+        raise RuntimeError("writing plan budget audit failed; fix budget_plan/page_plan/writing_plan before draft")
+    return 0
+
+
+def actual_words_for_section_from_draft(section: dict, draft_text: str) -> int:
+    section_id = section_id_of(section)
+    title = str(section.get("title") or "").strip()
+    headings = list(re.finditer(r"^(#{1,3})\s+(.+?)\s*$", draft_text, flags=re.MULTILINE))
+    for idx, heading in enumerate(headings):
+        heading_text = heading.group(2).strip()
+        if (section_id and section_id in heading_text) or (title and title in heading_text):
+            start = heading.start()
+            end = headings[idx + 1].start() if idx + 1 < len(headings) else len(draft_text)
+            return effective_char_count(strip_markdown_for_count(draft_text[start:end]))
+    recorded = number_value(section.get("drafted_words"))
+    return int(recorded) if recorded is not None else 0
+
+
+def build_word_budget_report(
+    manifest_path: Path,
+    page_plan_path: Path,
+    writing_plan_path: Path,
+    draft_md_path: Path,
+    chars_per_page_arg: object = "",
+) -> dict:
+    manifest = read_manifest(manifest_path)
+    chars_per_page = resolve_chars_per_page(chars_per_page_arg, manifest)
+    target_pages_min = int(manifest.get("target_pages_min") or 0)
+    target_pages_max = int(manifest.get("target_pages_max") or 0)
+    target_words_min = target_pages_min * chars_per_page
+    draft_text = read_text(draft_md_path)
+    current_words = effective_char_count(strip_markdown_for_count(draft_text))
+    page_report = audit_page_plan(page_plan_path, manifest)
+    writing_report = audit_writing_plan_budget(writing_plan_path, manifest, chars_per_page)
+    try:
+        plan = load_writing_plan(writing_plan_path)
+    except Exception:
+        plan = {"sections": []}
+
+    section_reports = []
+    under_budget = []
+    for section in plan.get("sections", []):
+        if not isinstance(section, dict):
+            continue
+        section_id = section_id_of(section)
+        section_actual = actual_words_for_section_from_draft(section, draft_text)
+        min_words, max_words, _ = section_budget_words(section, chars_per_page)
+        lower_required = int(math.ceil((min_words or 0) * 0.90)) if min_words else 0
+        suggestions = build_expansion_tasks(section, section_actual, chars_per_page)
+        item = {
+            "section_id": section_id,
+            "title": section.get("title", ""),
+            "actual_words": section_actual,
+            "target_words_min": min_words or 0,
+            "target_words_max": max_words or 0,
+            "lower_required": lower_required,
+            "gap_to_lower_required": max(lower_required - section_actual, 0),
+            "gap_to_target_min": max((min_words or 0) - section_actual, 0),
+            "suggested_expansion_points": suggestions,
+            "result": "FAIL" if lower_required and section_actual < lower_required else "PASS",
+        }
+        section_reports.append(item)
+        if item["result"] == "FAIL":
+            under_budget.append(item)
+
+    writing_min_total = int(writing_report.get("target_words_min_total") or 0)
+    return {
+        "result": "FAIL" if under_budget or current_words < int(target_words_min * 0.90) else "PASS",
+        "target_pages_min": target_pages_min,
+        "target_pages_max": target_pages_max,
+        "chars_per_page": chars_per_page,
+        "target_words_min": target_words_min,
+        "writing_plan_target_words_min_total": writing_min_total,
+        "current_words": current_words,
+        "estimated_pages": round(current_words / max(chars_per_page, 1), 1),
+        "total_gap_to_target_min": max(target_words_min - current_words, 0),
+        "total_gap_to_90_percent": max(int(math.ceil(target_words_min * 0.90)) - current_words, 0),
+        "page_plan": page_report,
+        "writing_plan": writing_report,
+        "sections": section_reports,
+        "under_budget_sections": under_budget,
+    }
+
+
+def cmd_word_budget_report(args) -> int:
+    report = build_word_budget_report(
+        Path(args.manifest),
+        Path(args.page_plan),
+        Path(args.writing_plan),
+        Path(args.draft_md),
+        getattr(args, "chars_per_page", ""),
+    )
+    write_json(Path(args.out_json), report)
+
+    lines = [
+        "# Word Budget Report",
+        "",
+        f"- Result: {report['result']}",
+        f"- 目标页数: {report['target_pages_min'] or '未设下限'} ~ {report['target_pages_max'] or '未设上限'}",
+        f"- 每页估算字数: {report['chars_per_page']}",
+        f"- 目标最低字数: {report['target_words_min']}",
+        f"- writing_plan 最低字数合计: {report['writing_plan_target_words_min_total']}",
+        f"- 当前已写字数: {report['current_words']}",
+        f"- 估算页数: {report['estimated_pages']}",
+        f"- 总缺口: {report['total_gap_to_target_min']}",
+        "",
+        "## 低于预算的章节",
+        "",
+    ]
+    if report["under_budget_sections"]:
+        lines.append("| Section | Title | Actual | 90% Required | Target Min | Gap |")
+        lines.append("|---|---|---:|---:|---:|---:|")
+        for item in report["under_budget_sections"]:
+            safe_title = str(item["title"]).replace("|", "\\|")
+            lines.append(
+                f"| {item['section_id']} | {safe_title} | "
+                f"{item['actual_words']} | {item['lower_required']} | {item['target_words_min']} | {item['gap_to_lower_required']} |"
+            )
+        lines.extend(["", "## 每节建议扩写点", ""])
+        for item in report["under_budget_sections"]:
+            lines.append(f"### {item['section_id']} {item['title']}".rstrip())
+            suggestions = item.get("suggested_expansion_points") or []
+            if suggestions:
+                lines.extend([f"- {point}" for point in suggestions])
+            else:
+                lines.append("- 围绕评分项响应、采购需求响应、业务流程、输入输出、接口边界、部署位置、异常处理、交付物和验收依据补足。")
+            lines.append("")
+    else:
+        lines.append("- None.")
+    write_text(Path(args.out_md), "\n".join(lines).rstrip() + "\n")
+    print(f"[OK] wrote: {args.out_json}")
+    print(f"[OK] wrote: {args.out_md}")
+    return 0
+
+
 def cmd_draft_audit(args) -> int:
     draft_path = Path(args.draft_md)
     if not draft_path.exists():
@@ -2092,6 +3221,28 @@ def cmd_draft_audit(args) -> int:
                     "只有用户明确要求硬上限或压缩页数时才作为阻断。"
                 )
     page_plan_report = audit_page_plan(Path(args.page_plan), manifest)
+    if hasattr(args, "writing_plan"):
+        writing_plan_path = Path(args.writing_plan)
+        writing_plan_report = audit_writing_plan_budget(writing_plan_path, manifest, chars_per_page)
+        word_budget_report = build_word_budget_report(
+            Path(args.manifest),
+            Path(args.page_plan),
+            writing_plan_path,
+            draft_path,
+            args.chars_per_page,
+        )
+    else:
+        writing_plan_report = {
+            "result": "NOT_SET",
+            "target_words_min_total": 0,
+            "issues": [],
+        }
+        word_budget_report = {
+            "result": "PASS",
+            "current_words": effective_chars,
+            "total_gap_to_target_min": 0,
+            "under_budget_sections": [],
+        }
 
     result = "PASS"
     blockers = []
@@ -2113,6 +3264,12 @@ def cmd_draft_audit(args) -> int:
     if page_plan_report["result"] in {"FAIL", "MANUAL"}:
         result = "FAIL" if page_plan_report["result"] == "FAIL" else "MANUAL"
         blockers.append("页数预算未通过统筹检查；请回到 outline 阶段调整 page_plan.yml 和 writing_plan.yml。")
+    if hasattr(args, "writing_plan") and writing_plan_report["result"] in {"FAIL", "MANUAL"}:
+        result = "FAIL" if writing_plan_report["result"] == "FAIL" else "MANUAL"
+        blockers.append("writing_plan.yml 字数预算未通过检查；不得进入 build。")
+    if hasattr(args, "writing_plan") and word_budget_report["result"] == "FAIL":
+        result = "FAIL"
+        blockers.append("v1.md 当前字数低于 page_plan/writing_plan 预算；必须先扩写缺口章节。")
 
     report = {
         "result": result,
@@ -2132,6 +3289,8 @@ def cmd_draft_audit(args) -> int:
         "page_status": page_status,
         "page_warnings": page_warnings,
         "page_plan": page_plan_report,
+        "writing_plan": writing_plan_report,
+        "word_budget": word_budget_report,
         "blockers": blockers,
         "note": "Page count is an estimate before final Word/PDF layout. Final page numbers must be checked after build/export.",
     }
@@ -2149,6 +3308,8 @@ def cmd_draft_audit(args) -> int:
         f"- 页数要求：{target_pages_min or '未设下限'} ~ {target_pages_max or '未设上限'} 页",
         f"- 页数上限硬约束：{'是' if max_is_hard else '否'}",
         f"- 页数预算：{page_plan_report['result']}，计划 {page_plan_report['planned_pages_min']} ~ {page_plan_report['planned_pages_max']} 页，章节数 {page_plan_report['allocation_count']}",
+        f"- 写作预算：{writing_plan_report['result']}，最低字数合计 {writing_plan_report['target_words_min_total']}",
+        f"- 当前字数预算：{word_budget_report['result']}，当前 {word_budget_report['current_words']} 字，总缺口 {word_budget_report['total_gap_to_target_min']} 字",
         "",
         "## 阻断项",
         "",
@@ -2196,6 +3357,16 @@ def cmd_draft_audit(args) -> int:
     if page_plan_report["issues"]:
         md_lines.extend(["", "## 页数预算问题", ""])
         md_lines.extend([f"- {item}" for item in page_plan_report["issues"]])
+    if writing_plan_report["issues"]:
+        md_lines.extend(["", "## writing_plan 预算问题", ""])
+        md_lines.extend([f"- {item}" for item in writing_plan_report["issues"]])
+    if word_budget_report["under_budget_sections"]:
+        md_lines.extend(["", "## 字数不足章节", ""])
+        for item in word_budget_report["under_budget_sections"]:
+            md_lines.append(
+                f"- {item['section_id']} {item['title']}: 当前 {item['actual_words']}，"
+                f"90%下限 {item['lower_required']}，缺口 {item['gap_to_lower_required']}。"
+            )
     md_lines.extend(
         [
             "",
@@ -2745,6 +3916,176 @@ def cmd_progress_seed(args) -> int:
     return 0
 
 
+RESET_STAGE_OUTPUTS = {
+    "template": ["20_templates", "20_requirements/format_rules.json"],
+    "extract": ["10_source_extracted", "20_requirements"],
+    "brief": ["15_user_brief"],
+    "outline": ["30_plan"],
+    "draft": ["40_drafts", "50_figures"],
+    "review": ["70_review"],
+    "build": ["60_build"],
+}
+
+
+def reset_stage_names_from(to_stage: str) -> list[str]:
+    ordered = [name for name, _ in WORKFLOW_STAGES if name != "init"]
+    if to_stage not in ordered:
+        raise RuntimeError(f"unknown reset stage: {to_stage}. Expected one of: {', '.join(ordered)}")
+    return ordered[ordered.index(to_stage):]
+
+
+def stage_index(stage: str) -> int:
+    ordered = [name for name, _ in WORKFLOW_STAGES]
+    if stage not in ordered:
+        raise RuntimeError(f"unknown stage: {stage}")
+    return ordered.index(stage)
+
+
+def unique_archive_dir(base: Path) -> Path:
+    if not base.exists():
+        return base
+    suffix = 2
+    while True:
+        candidate = Path(f"{base}-{suffix}")
+        if not candidate.exists():
+            return candidate
+        suffix += 1
+
+
+def compact_relative_paths(relative_paths: list[str]) -> list[str]:
+    paths = [Path(item) for item in relative_paths]
+    compacted = []
+    for idx, path in enumerate(paths):
+        is_child_of_other = False
+        for other_idx, other in enumerate(paths):
+            if idx == other_idx:
+                continue
+            if len(other.parts) < len(path.parts) and path.parts[: len(other.parts)] == other.parts:
+                is_child_of_other = True
+                break
+        if not is_child_of_other:
+            compacted.append(path.as_posix())
+    return compacted
+
+
+def archive_relative_paths(work_dir: Path, archive_dir: Path, relative_paths: Iterable[str]) -> list[str]:
+    archived = []
+    for relative in relative_paths:
+        source = work_dir / relative
+        if not source.exists():
+            continue
+        destination = archive_dir / relative
+        ensure_parent(destination)
+        shutil.move(str(source), str(destination))
+        archived.append(relative)
+    return archived
+
+
+def update_tasks_after_reset(tasks_path: Path, reset_from_stage: str, timestamp: str, archive_dir: Path) -> None:
+    tasks_doc = load_yaml_like(tasks_path)
+    if not isinstance(tasks_doc, dict):
+        return
+    tasks = tasks_doc.get("tasks")
+    if not isinstance(tasks, list):
+        return
+    reset_stages = set(reset_stage_names_from(reset_from_stage))
+    for task in tasks:
+        if not isinstance(task, dict):
+            continue
+        stage = str(task.get("stage") or "")
+        if stage in reset_stages:
+            task["status"] = "pending"
+            task["updated_at"] = timestamp
+            task["notes"] = f"Reset to {reset_from_stage}; previous outputs archived at {archive_dir}"
+    write_yaml_like(tasks_path, tasks_doc)
+
+
+def write_progress_after_reset(progress_path: Path, to_stage: str, timestamp: str, archive_dir: Path, archived: list[str]) -> None:
+    lines = [
+        "# Tender 进度记录",
+        "",
+        f"- 最近回退：{timestamp} reset to `{to_stage}`",
+        f"- 归档目录：`{archive_dir}`",
+        f"- 归档产物：{len(archived)} 项",
+        "",
+        "| 阶段 | 状态 | 产物 | 备注 |",
+        "|---|---|---|---|",
+    ]
+    reset_stages = set(reset_stage_names_from(to_stage))
+    for name, title in WORKFLOW_STAGES:
+        status = "pending" if name in reset_stages else "kept"
+        lines.append(f"| {name} | {status} |  | {title} |")
+    write_text(progress_path, "\n".join(lines) + "\n")
+
+
+def write_context_handoff_after_reset(path: Path, to_stage: str, timestamp: str, archive_dir: Path, archived: list[str]) -> None:
+    lines = [
+        "# Tender Context Handoff",
+        "",
+        f"- Updated at: {timestamp}",
+        f"- Current state: reset to `{to_stage}`",
+        f"- Archived previous outputs: `{archive_dir}`",
+        "",
+        "## Next Step",
+        "",
+        f"- Rerun `/tender:{to_stage}` before using later-stage outputs.",
+        "- In a new session, read this file, `work/00_manifest.yml`, and the current stage inputs before continuing.",
+        "",
+        "## Archived Paths",
+        "",
+    ]
+    if archived:
+        lines.extend([f"- `{item}`" for item in archived])
+    else:
+        lines.append("- None.")
+    write_text(path, "\n".join(lines) + "\n")
+
+
+def cmd_reset_stage(args) -> int:
+    work_dir = Path(args.work_dir)
+    to_stage = str(args.to_stage or "").strip()
+    timestamp = str(args.timestamp or "").strip() or datetime.now().strftime("%Y%m%d-%H%M%S")
+    archive_root = Path(args.archive_root) if args.archive_root else work_dir / "90_archive"
+    archive_dir = unique_archive_dir(archive_root / f"{timestamp}-reset-to-{to_stage}")
+
+    reset_stages = reset_stage_names_from(to_stage)
+    relative_paths = []
+    seen = set()
+    for stage in reset_stages:
+        for relative in RESET_STAGE_OUTPUTS.get(stage, []):
+            if relative not in seen:
+                relative_paths.append(relative)
+                seen.add(relative)
+    relative_paths = compact_relative_paths(relative_paths)
+
+    archived = archive_relative_paths(work_dir, archive_dir, relative_paths)
+
+    manifest_path = Path(args.manifest)
+    manifest = read_manifest(manifest_path)
+    if stage_index(to_stage) <= stage_index("outline"):
+        manifest["planning_completed"] = False
+    if stage_index(to_stage) <= stage_index("draft"):
+        manifest["drafting_completed"] = False
+        manifest["draft_cursor"] = ""
+        manifest["drafted_words"] = 0
+    manifest["last_reset"] = {
+        "to_stage": to_stage,
+        "reset_at": timestamp,
+        "archive_dir": str(archive_dir),
+        "archived_paths": archived,
+    }
+    write_manifest(manifest_path, manifest)
+
+    update_tasks_after_reset(Path(args.tasks), to_stage, timestamp, archive_dir)
+    write_progress_after_reset(Path(args.progress), to_stage, timestamp, archive_dir, archived)
+    write_context_handoff_after_reset(Path(args.context_handoff), to_stage, timestamp, archive_dir, archived)
+
+    print(f"[OK] reset to stage: {to_stage}")
+    print(f"[OK] archived {len(archived)} paths to: {archive_dir}")
+    print(f"[OK] wrote: {args.context_handoff}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="tenderctl")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -2758,7 +4099,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--manifest", default="work/00_manifest.yml")
     sp.add_argument("--build-template-out", default="")
     sp.add_argument("--insert-after", default="")
-    sp.add_argument("--build-mode", choices=["replace_body", "insert_after"], default="")
+    sp.add_argument("--build-mode", choices=["local_template", "replace_body", "insert_after"], default="")
+    sp.add_argument("--template-scope", choices=["local", "complete"], default="")
     sp.add_argument("--body-start-after", default="")
     sp.add_argument("--body-end-before", default="")
     sp.set_defaults(func=cmd_template_profile)
@@ -2784,6 +4126,17 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--warn-threshold", default="0.12")
     sp.set_defaults(func=cmd_brief_check)
 
+    sp = sub.add_parser("reset-stage", help="Archive current and later stage outputs so a tender stage can be rerun cleanly")
+    sp.add_argument("--work-dir", default="work")
+    sp.add_argument("--to-stage", choices=[name for name, _ in WORKFLOW_STAGES if name != "init"], required=True)
+    sp.add_argument("--archive-root", default="")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--tasks", default="work/00_tasks.yml")
+    sp.add_argument("--progress", default="work/00_progress.md")
+    sp.add_argument("--context-handoff", default="work/00_context_handoff.md")
+    sp.add_argument("--timestamp", default="")
+    sp.set_defaults(func=cmd_reset_stage)
+
     sp = sub.add_parser("claim-section", help="Atomically claim a draft section for parallel writing")
     sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
     sp.add_argument("--section-status", default="work/40_drafts/section_status.yml")
@@ -2798,6 +4151,7 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(func=cmd_claim_section)
 
     sp = sub.add_parser("complete-section", help="Mark a claimed draft section as drafted or blocked")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
     sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
     sp.add_argument("--section-status", default="work/40_drafts/section_status.yml")
     sp.add_argument("--out-md", default="work/40_drafts/section_status.md")
@@ -2806,17 +4160,19 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--section-id", required=True)
     sp.add_argument("--section-file", default="")
     sp.add_argument("--owner", default="")
-    sp.add_argument("--status", choices=["drafted", "blocked", "MANUAL", "needs_revision"], default="drafted")
+    sp.add_argument("--status", choices=["drafted", "blocked", "MANUAL", "needs_revision", "needs_expansion"], default="drafted")
     sp.add_argument("--words", default="")
-    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.add_argument("--chars-per-page", default="")
     sp.add_argument("--min-budget-ratio", default="0.90")
     sp.add_argument("--max-budget-ratio", default="1.10")
     sp.add_argument("--notes", default="")
+    sp.add_argument("--manual-decisions", default="work/30_plan/manual_decisions.md")
     sp.add_argument("--allow-no-lock", action="store_true")
     sp.add_argument("--keep-lock", action="store_true")
     sp.set_defaults(func=cmd_complete_section)
 
     sp = sub.add_parser("merge-sections", help="Merge drafted section files into the main draft")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
     sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
     sp.add_argument("--section-status", default="work/40_drafts/section_status.yml")
     sp.add_argument("--out-md", default="work/40_drafts/section_status.md")
@@ -2824,7 +4180,7 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--locks-dir", default="work/40_drafts/locks")
     sp.add_argument("--out-draft", default="work/40_drafts/v1.md")
     sp.add_argument("--allow-partial", action="store_true")
-    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.add_argument("--chars-per-page", default="")
     sp.add_argument("--min-budget-ratio", default="0.90")
     sp.add_argument("--max-budget-ratio", default="1.10")
     sp.set_defaults(func=cmd_merge_sections)
@@ -2834,13 +4190,47 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(func=cmd_normalize_writing_plan)
 
     sp = sub.add_parser("content-contract", help="Add hidden writing contracts to writing_plan.yml without changing headings")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
     sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
     sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
     sp.add_argument("--scoring-matrix", default="work/20_requirements/scoring_matrix.md")
     sp.add_argument("--mandatory-matrix", default="work/20_requirements/mandatory_matrix.md")
     sp.add_argument("--out-writing-plan", default="")
-    sp.add_argument("--chars-per-page", default=str(DEFAULT_CHARS_PER_PAGE_ESTIMATE))
+    sp.add_argument("--chars-per-page", default="")
     sp.set_defaults(func=cmd_content_contract)
+
+    sp = sub.add_parser("section-gap", help="Audit one drafted section and generate expansion tasks")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.add_argument("--sections-dir", default="work/40_drafts/v1_sections")
+    sp.add_argument("--section-id", required=True)
+    sp.add_argument("--section-file", default="")
+    sp.add_argument("--out-json", default="work/70_review/section_gap.json")
+    sp.add_argument("--out-md", default="work/70_review/section_gap.md")
+    sp.add_argument("--chars-per-page", default="")
+    sp.add_argument("--min-budget-ratio", default="0.90")
+    sp.add_argument("--allow-fail-exit-zero", action="store_true")
+    sp.set_defaults(func=cmd_section_gap)
+
+    sp = sub.add_parser("draft-section", help="End-to-end section drafting with automatic budget enforcement loop")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.add_argument("--section-status", default="work/40_drafts/section_status.yml")
+    sp.add_argument("--out-md", default="work/40_drafts/section_status.md")
+    sp.add_argument("--locks-dir", default="work/40_drafts/locks")
+    sp.add_argument("--sections-dir", default="work/40_drafts/v1_sections")
+    sp.add_argument("--section-briefs-dir", default="work/40_drafts/section_briefs")
+    sp.add_argument("--section-id", default="")
+    sp.add_argument("--owner", default="agent")
+    sp.add_argument("--model", default="")
+    sp.add_argument("--allow-existing-file", action="store_true")
+    sp.add_argument("--continue-existing", action="store_true")
+    sp.add_argument("--chars-per-page", default="")
+    sp.add_argument("--min-budget-ratio", default="0.90")
+    sp.add_argument("--max-budget-ratio", default="1.10")
+    sp.add_argument("--max-cycles", default="3")
+    sp.add_argument("--manual-decisions", default="work/30_plan/manual_decisions.md")
+    sp.set_defaults(func=cmd_draft_section)
 
     sp = sub.add_parser("similarity", help="Check local source/draft similarity")
     sp.add_argument("--tender-txt", default="work/10_source_extracted/tender.txt")
@@ -2852,11 +4242,31 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--threshold", default="0.15")
     sp.set_defaults(func=cmd_similarity)
 
+    sp = sub.add_parser("budget-audit", help="Audit page_plan and writing_plan page/word budget alignment")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.add_argument("--out-json", default="work/30_plan/budget_audit.json")
+    sp.add_argument("--out-md", default="work/30_plan/budget_audit.md")
+    sp.add_argument("--chars-per-page", default="")
+    sp.set_defaults(func=cmd_budget_audit)
+
+    sp = sub.add_parser("word-budget-report", help="Report total and per-section word budget gaps")
+    sp.add_argument("--manifest", default="work/00_manifest.yml")
+    sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
+    sp.add_argument("--draft-md", default="work/40_drafts/v1.md")
+    sp.add_argument("--out-md", default="work/70_review/word_budget_report.md")
+    sp.add_argument("--out-json", default="work/70_review/word_budget_report.json")
+    sp.add_argument("--chars-per-page", default="")
+    sp.set_defaults(func=cmd_word_budget_report)
+
     sp = sub.add_parser("draft-audit", help="Audit draft headings, scoring-title visibility, and page budget")
     sp.add_argument("--manifest", default="work/00_manifest.yml")
     sp.add_argument("--draft-md", default="work/40_drafts/v1.md")
     sp.add_argument("--scoring-matrix", default="work/20_requirements/scoring_matrix.md")
     sp.add_argument("--page-plan", default="work/30_plan/page_plan.yml")
+    sp.add_argument("--writing-plan", default="work/30_plan/writing_plan.yml")
     sp.add_argument("--out-json", default="work/70_review/draft_audit.json")
     sp.add_argument("--out-md", default="work/70_review/draft_audit.md")
     sp.add_argument("--chars-per-page", default="")

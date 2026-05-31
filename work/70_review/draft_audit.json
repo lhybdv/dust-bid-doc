@@ -1,34 +1,1135 @@
 {
-  "result": "MANUAL",
-  "draft_md": "work\\40_drafts\\v1.md",
-  "headings_total": 148,
-  "deep_headings": [],
+  "result": "FAIL",
+  "draft_md": "work/40_drafts/v1.md",
+  "headings_total": 111,
+  "deep_headings": [
+    {
+      "line": 435,
+      "level": 4,
+      "title": "模型训练层至平台服务层数据流",
+      "normalized": "模型训练层至平台服务层数据流"
+    },
+    {
+      "line": 443,
+      "level": 4,
+      "title": "平台服务层内部数据流",
+      "normalized": "平台服务层内部数据流"
+    },
+    {
+      "line": 452,
+      "level": 4,
+      "title": "平台服务层至场景服务转化层数据流",
+      "normalized": "平台服务层至场景服务转化层数据流"
+    },
+    {
+      "line": 788,
+      "level": 4,
+      "title": "2.5.2.1 性能指标体系与责任边界",
+      "normalized": "2521性能指标体系与责任边界"
+    },
+    {
+      "line": 810,
+      "level": 4,
+      "title": "2.5.2.2 前端性能保障方案",
+      "normalized": "2522前端性能保障方案"
+    },
+    {
+      "line": 842,
+      "level": 4,
+      "title": "2.5.2.3 后端性能保障方案",
+      "normalized": "2523后端性能保障方案"
+    },
+    {
+      "line": 875,
+      "level": 4,
+      "title": "2.5.2.4 全链路性能监控与闭环",
+      "normalized": "2524全链路性能监控与闭环"
+    },
+    {
+      "line": 887,
+      "level": 4,
+      "title": "2.5.3.1 安全设计原则与待确认项",
+      "normalized": "2531安全设计原则与待确认项"
+    },
+    {
+      "line": 902,
+      "level": 4,
+      "title": "2.5.3.2 网络与边界安全",
+      "normalized": "2532网络与边界安全"
+    },
+    {
+      "line": 912,
+      "level": 4,
+      "title": "2.5.3.3 应用安全",
+      "normalized": "2533应用安全"
+    },
+    {
+      "line": 925,
+      "level": 4,
+      "title": "2.5.3.4 数据安全",
+      "normalized": "2534数据安全"
+    },
+    {
+      "line": 935,
+      "level": 4,
+      "title": "2.5.3.5 安全验收方式",
+      "normalized": "2535安全验收方式"
+    },
+    {
+      "line": 952,
+      "level": 4,
+      "title": "2.5.4.1 可用性指标体系",
+      "normalized": "2541可用性指标体系"
+    },
+    {
+      "line": 968,
+      "level": 4,
+      "title": "2.5.4.2 故障分类与响应矩阵",
+      "normalized": "2542故障分类与响应矩阵"
+    },
+    {
+      "line": 976,
+      "level": 4,
+      "title": "2.5.4.3 服务级容错设计",
+      "normalized": "2543服务级容错设计"
+    },
+    {
+      "line": 1002,
+      "level": 4,
+      "title": "2.5.4.4 数据级容错设计",
+      "normalized": "2544数据级容错设计"
+    },
+    {
+      "line": 1027,
+      "level": 4,
+      "title": "2.5.4.5 可靠性验收方式",
+      "normalized": "2545可靠性验收方式"
+    },
+    {
+      "line": 1041,
+      "level": 4,
+      "title": "2.5.5.1 运维监控体系架构",
+      "normalized": "2551运维监控体系架构"
+    },
+    {
+      "line": 1069,
+      "level": 4,
+      "title": "2.5.5.2 核心监控指标（Golden Signals）",
+      "normalized": "2552核心监控指标goldensignals"
+    },
+    {
+      "line": 1081,
+      "level": 4,
+      "title": "2.5.5.3 日志管理规范",
+      "normalized": "2553日志管理规范"
+    },
+    {
+      "line": 1093,
+      "level": 4,
+      "title": "2.5.5.4 运维操作规程",
+      "normalized": "2554运维操作规程"
+    },
+    {
+      "line": 1125,
+      "level": 4,
+      "title": "2.5.5.5 可运维性验收方式",
+      "normalized": "2555可运维性验收方式"
+    }
+  ],
   "repeated_document_shell": [],
   "scoring_items_total": 0,
   "missing_scoring_titles": [],
-  "effective_chars": 16012,
-  "chars_per_page": 1800,
-  "estimated_pages": 8.9,
-  "target_pages_min": 0,
-  "target_pages_max": 0,
+  "effective_chars": 48496,
+  "chars_per_page": 1752,
+  "estimated_pages": 27.7,
+  "target_pages_min": 85,
+  "target_pages_max": 95,
   "target_pages_max_is_hard": false,
   "over_target_pages_max": false,
-  "page_status": "NOT_SET",
+  "page_status": "FAIL",
   "page_warnings": [],
   "page_plan": {
-    "path": "work\\30_plan\\page_plan.yml",
-    "result": "MANUAL",
-    "status": "PLANNED",
-    "planned_pages_min": 46.0,
-    "planned_pages_max": 66.0,
-    "allocation_count": 15,
-    "issues": [
-      "未设置 target_pages_min/target_pages_max；页数只能由用户提供，不能自行猜测。"
-    ],
+    "path": "work/30_plan/page_plan.yml",
+    "result": "PASS",
+    "status": "REVISED",
+    "planned_pages_min": 95.0,
+    "planned_pages_max": 120.5,
+    "allocation_count": 25,
+    "issues": [],
     "items_with_manual_status": []
   },
+  "writing_plan": {
+    "path": "work/30_plan/writing_plan.yml",
+    "result": "PASS",
+    "section_count": 25,
+    "planned_pages_min": 95.0,
+    "planned_pages_max": 120.5,
+    "target_words_min_total": 166440,
+    "target_words_max_total": 211116,
+    "issues": []
+  },
+  "word_budget": {
+    "result": "FAIL",
+    "target_pages_min": 85,
+    "target_pages_max": 95,
+    "chars_per_page": 1752,
+    "target_words_min": 148920,
+    "writing_plan_target_words_min_total": 166440,
+    "current_words": 48496,
+    "estimated_pages": 27.7,
+    "total_gap_to_target_min": 100424,
+    "total_gap_to_90_percent": 85532,
+    "page_plan": {
+      "path": "work/30_plan/page_plan.yml",
+      "result": "PASS",
+      "status": "REVISED",
+      "planned_pages_min": 95.0,
+      "planned_pages_max": 120.5,
+      "allocation_count": 25,
+      "issues": [],
+      "items_with_manual_status": []
+    },
+    "writing_plan": {
+      "path": "work/30_plan/writing_plan.yml",
+      "result": "PASS",
+      "section_count": 25,
+      "planned_pages_min": 95.0,
+      "planned_pages_max": 120.5,
+      "target_words_min_total": 166440,
+      "target_words_max_total": 211116,
+      "issues": []
+    },
+    "sections": [
+      {
+        "section_id": "1.1",
+        "title": "项目背景",
+        "actual_words": 7,
+        "target_words_min": 3504,
+        "target_words_max": 4380,
+        "lower_required": 3154,
+        "gap_to_lower_required": 3147,
+        "gap_to_target_min": 3497,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 700 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 700 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 700 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 700 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 700 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.2",
+        "title": "建设目标",
+        "actual_words": 317,
+        "target_words_min": 3154,
+        "target_words_max": 4380,
+        "lower_required": 2839,
+        "gap_to_lower_required": 2522,
+        "gap_to_target_min": 2837,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 568 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 568 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 568 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 568 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 568 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.3",
+        "title": "建设内容",
+        "actual_words": 620,
+        "target_words_min": 3504,
+        "target_words_max": 4380,
+        "lower_required": 3154,
+        "gap_to_lower_required": 2534,
+        "gap_to_target_min": 2884,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 577 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 577 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 577 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 577 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 577 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.4",
+        "title": "重点难点分析",
+        "actual_words": 1056,
+        "target_words_min": 3854,
+        "target_words_max": 5256,
+        "lower_required": 3469,
+        "gap_to_lower_required": 2413,
+        "gap_to_target_min": 2798,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 560 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 560 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 560 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 560 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 560 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.1",
+        "title": "总体架构设计",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.2",
+        "title": "技术架构与技术路线",
+        "actual_words": 12,
+        "target_words_min": 7884,
+        "target_words_max": 9636,
+        "lower_required": 7096,
+        "gap_to_lower_required": 7084,
+        "gap_to_target_min": 7872,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1575 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1575 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1575 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1575 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1575 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.3",
+        "title": "接口设计",
+        "actual_words": 729,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5579,
+        "gap_to_target_min": 6279,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1047 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1047 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1047 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 接口与集成（interface_and_integration）约 1047 字：说明接口边界、调用方式、输入输出、异常码和对接责任。",
+          "继续扩写 交付物（deliverables）约 1047 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1047 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.4",
+        "title": "部署架构",
+        "actual_words": 1008,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5300,
+        "gap_to_target_min": 6000,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1000 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1000 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1000 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 部署与环境（deployment）约 1000 字：说明部署拓扑、运行环境、发布流程和运维边界。",
+          "继续扩写 交付物（deliverables）约 1000 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1000 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.5",
+        "title": "非功能性设计",
+        "actual_words": 364,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5944,
+        "gap_to_target_min": 6644,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1108 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1108 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1108 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 非功能约束（non_functional）约 1108 字：写清性能、安全、可靠性、可观测性和维护措施。",
+          "继续扩写 交付物（deliverables）约 1108 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1108 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.1",
+        "title": "多模态数据融合处理",
+        "actual_words": 0,
+        "target_words_min": 9636,
+        "target_words_max": 12264,
+        "lower_required": 8673,
+        "gap_to_lower_required": 8673,
+        "gap_to_target_min": 9636,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1606 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1606 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1606 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 输入输出（input_output）约 1606 字：列明数据、接口、文档、配置、模型结果或验收材料的流转。",
+          "继续扩写 交付物（deliverables）约 1606 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1606 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.2",
+        "title": "沙尘动态预测AI模型构建",
+        "actual_words": 0,
+        "target_words_min": 10512,
+        "target_words_max": 13140,
+        "lower_required": 9461,
+        "gap_to_lower_required": 9461,
+        "gap_to_target_min": 10512,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 2103 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 2103 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 2103 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 2103 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 2103 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.3",
+        "title": "模型预报效果检验评估",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1752 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1752 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1752 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1752 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1752 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.2",
+        "title": "沙尘影响智能评估与服务转化模型",
+        "actual_words": 749,
+        "target_words_min": 9636,
+        "target_words_max": 12264,
+        "lower_required": 8673,
+        "gap_to_lower_required": 7924,
+        "gap_to_target_min": 8887,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1482 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1482 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1482 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1482 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1482 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1482 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.1",
+        "title": "平台功能架构",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1460 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1460 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1460 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1460 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1460 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1460 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.2",
+        "title": "沙尘实况监测与预报预警",
+        "actual_words": 0,
+        "target_words_min": 7884,
+        "target_words_max": 9636,
+        "lower_required": 7096,
+        "gap_to_lower_required": 7096,
+        "gap_to_target_min": 7884,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1577 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1577 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1577 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1577 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1577 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.3",
+        "title": "场景服务分析",
+        "actual_words": 0,
+        "target_words_min": 9636,
+        "target_words_max": 11388,
+        "lower_required": 8673,
+        "gap_to_lower_required": 8673,
+        "gap_to_target_min": 9636,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1606 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1606 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1606 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1606 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1606 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1606 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.4",
+        "title": "GIS空间分析与行业联动",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1460 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1460 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1460 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1460 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1460 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1460 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.4",
+        "title": "微信小程序",
+        "actual_words": 814,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 3917,
+        "gap_to_target_min": 4442,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 889 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 889 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 889 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 889 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 889 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.1",
+        "title": "项目开发计划",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.2",
+        "title": "软件测试方案",
+        "actual_words": 0,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 4731,
+        "gap_to_target_min": 5256,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1052 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1052 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1052 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1052 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1052 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.3",
+        "title": "质量保证方案",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "5.1",
+        "title": "培训计划与安排",
+        "actual_words": 479,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5829,
+        "gap_to_target_min": 6529,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1089 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1089 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1089 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1089 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1089 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1089 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "6.1",
+        "title": "售后服务承诺",
+        "actual_words": 9,
+        "target_words_min": 4380,
+        "target_words_max": 5256,
+        "lower_required": 3942,
+        "gap_to_lower_required": 3933,
+        "gap_to_target_min": 4371,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 729 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 729 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 729 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 729 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 729 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 729 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "6.2",
+        "title": "应急处理流程",
+        "actual_words": 9,
+        "target_words_min": 4380,
+        "target_words_max": 5256,
+        "lower_required": 3942,
+        "gap_to_lower_required": 3933,
+        "gap_to_target_min": 4371,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 729 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 729 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 729 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 729 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 729 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 729 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "7.1",
+        "title": "综合评价总结",
+        "actual_words": 0,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 4731,
+        "gap_to_target_min": 5256,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1052 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1052 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1052 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1052 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1052 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      }
+    ],
+    "under_budget_sections": [
+      {
+        "section_id": "1.1",
+        "title": "项目背景",
+        "actual_words": 7,
+        "target_words_min": 3504,
+        "target_words_max": 4380,
+        "lower_required": 3154,
+        "gap_to_lower_required": 3147,
+        "gap_to_target_min": 3497,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 700 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 700 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 700 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 700 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 700 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.2",
+        "title": "建设目标",
+        "actual_words": 317,
+        "target_words_min": 3154,
+        "target_words_max": 4380,
+        "lower_required": 2839,
+        "gap_to_lower_required": 2522,
+        "gap_to_target_min": 2837,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 568 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 568 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 568 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 568 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 568 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.3",
+        "title": "建设内容",
+        "actual_words": 620,
+        "target_words_min": 3504,
+        "target_words_max": 4380,
+        "lower_required": 3154,
+        "gap_to_lower_required": 2534,
+        "gap_to_target_min": 2884,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 577 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 577 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 577 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 577 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 577 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "1.4",
+        "title": "重点难点分析",
+        "actual_words": 1056,
+        "target_words_min": 3854,
+        "target_words_max": 5256,
+        "lower_required": 3469,
+        "gap_to_lower_required": 2413,
+        "gap_to_target_min": 2798,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 560 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 560 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 560 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 560 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 560 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.1",
+        "title": "总体架构设计",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.2",
+        "title": "技术架构与技术路线",
+        "actual_words": 12,
+        "target_words_min": 7884,
+        "target_words_max": 9636,
+        "lower_required": 7096,
+        "gap_to_lower_required": 7084,
+        "gap_to_target_min": 7872,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1575 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1575 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1575 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1575 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1575 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.3",
+        "title": "接口设计",
+        "actual_words": 729,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5579,
+        "gap_to_target_min": 6279,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1047 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1047 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1047 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 接口与集成（interface_and_integration）约 1047 字：说明接口边界、调用方式、输入输出、异常码和对接责任。",
+          "继续扩写 交付物（deliverables）约 1047 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1047 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.4",
+        "title": "部署架构",
+        "actual_words": 1008,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5300,
+        "gap_to_target_min": 6000,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1000 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1000 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1000 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 部署与环境（deployment）约 1000 字：说明部署拓扑、运行环境、发布流程和运维边界。",
+          "继续扩写 交付物（deliverables）约 1000 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1000 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "2.5",
+        "title": "非功能性设计",
+        "actual_words": 364,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5944,
+        "gap_to_target_min": 6644,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1108 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1108 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1108 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 非功能约束（non_functional）约 1108 字：写清性能、安全、可靠性、可观测性和维护措施。",
+          "继续扩写 交付物（deliverables）约 1108 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1108 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.1",
+        "title": "多模态数据融合处理",
+        "actual_words": 0,
+        "target_words_min": 9636,
+        "target_words_max": 12264,
+        "lower_required": 8673,
+        "gap_to_lower_required": 8673,
+        "gap_to_target_min": 9636,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1606 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1606 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1606 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 输入输出（input_output）约 1606 字：列明数据、接口、文档、配置、模型结果或验收材料的流转。",
+          "继续扩写 交付物（deliverables）约 1606 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1606 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.2",
+        "title": "沙尘动态预测AI模型构建",
+        "actual_words": 0,
+        "target_words_min": 10512,
+        "target_words_max": 13140,
+        "lower_required": 9461,
+        "gap_to_lower_required": 9461,
+        "gap_to_target_min": 10512,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 2103 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 2103 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 2103 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 2103 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 2103 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.1.3",
+        "title": "模型预报效果检验评估",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1752 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1752 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1752 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1752 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1752 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.2",
+        "title": "沙尘影响智能评估与服务转化模型",
+        "actual_words": 749,
+        "target_words_min": 9636,
+        "target_words_max": 12264,
+        "lower_required": 8673,
+        "gap_to_lower_required": 7924,
+        "gap_to_target_min": 8887,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1482 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1482 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1482 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1482 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1482 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1482 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.1",
+        "title": "平台功能架构",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1460 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1460 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1460 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1460 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1460 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1460 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.2",
+        "title": "沙尘实况监测与预报预警",
+        "actual_words": 0,
+        "target_words_min": 7884,
+        "target_words_max": 9636,
+        "lower_required": 7096,
+        "gap_to_lower_required": 7096,
+        "gap_to_target_min": 7884,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1577 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1577 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1577 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1577 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1577 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.3",
+        "title": "场景服务分析",
+        "actual_words": 0,
+        "target_words_min": 9636,
+        "target_words_max": 11388,
+        "lower_required": 8673,
+        "gap_to_lower_required": 8673,
+        "gap_to_target_min": 9636,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1606 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1606 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1606 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1606 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1606 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1606 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.3.4",
+        "title": "GIS空间分析与行业联动",
+        "actual_words": 0,
+        "target_words_min": 8760,
+        "target_words_max": 11388,
+        "lower_required": 7884,
+        "gap_to_lower_required": 7884,
+        "gap_to_target_min": 8760,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1460 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1460 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1460 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1460 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1460 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1460 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "3.4",
+        "title": "微信小程序",
+        "actual_words": 814,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 3917,
+        "gap_to_target_min": 4442,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 889 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 889 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 889 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 889 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 889 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.1",
+        "title": "项目开发计划",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.2",
+        "title": "软件测试方案",
+        "actual_words": 0,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 4731,
+        "gap_to_target_min": 5256,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1052 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1052 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1052 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1052 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1052 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "4.3",
+        "title": "质量保证方案",
+        "actual_words": 9,
+        "target_words_min": 6132,
+        "target_words_max": 7884,
+        "lower_required": 5519,
+        "gap_to_lower_required": 5510,
+        "gap_to_target_min": 6123,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1225 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1225 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1225 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1225 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1225 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "5.1",
+        "title": "培训计划与安排",
+        "actual_words": 479,
+        "target_words_min": 7008,
+        "target_words_max": 8760,
+        "lower_required": 6308,
+        "gap_to_lower_required": 5829,
+        "gap_to_target_min": 6529,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1089 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1089 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1089 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1089 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1089 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 1089 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "6.1",
+        "title": "售后服务承诺",
+        "actual_words": 9,
+        "target_words_min": 4380,
+        "target_words_max": 5256,
+        "lower_required": 3942,
+        "gap_to_lower_required": 3933,
+        "gap_to_target_min": 4371,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 729 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 729 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 729 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 729 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 729 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 729 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "6.2",
+        "title": "应急处理流程",
+        "actual_words": 9,
+        "target_words_min": 4380,
+        "target_words_max": 5256,
+        "lower_required": 3942,
+        "gap_to_lower_required": 3933,
+        "gap_to_target_min": 4371,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 729 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 729 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 729 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 729 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 729 字：写清验收材料、验收动作、判定标准和风险处理。",
+          "继续扩写 服务与培训（service_and_training）约 729 字：说明培训对象、内容、形式、服务响应和运维支撑证据。"
+        ],
+        "result": "FAIL"
+      },
+      {
+        "section_id": "7.1",
+        "title": "综合评价总结",
+        "actual_words": 0,
+        "target_words_min": 5256,
+        "target_words_max": 7008,
+        "lower_required": 4731,
+        "gap_to_lower_required": 4731,
+        "gap_to_target_min": 5256,
+        "suggested_expansion_points": [
+          "继续扩写 评分项响应（scoring_response）约 1052 字：逐条承接本节评分项，让专家能看到本节为什么能得分。",
+          "继续扩写 采购需求响应（requirement_response）约 1052 字：把招标要求转成本节的响应动作、边界、交付和不承诺事项。",
+          "继续扩写 实施流程（implementation_process）约 1052 字：写清步骤、责任、输入、输出、异常处理和控制点。",
+          "继续扩写 交付物（deliverables）约 1052 字：写清交付物名称、内容、提交时点、确认方式和关联验收。",
+          "继续扩写 验收依据（acceptance_criteria）约 1052 字：写清验收材料、验收动作、判定标准和风险处理。"
+        ],
+        "result": "FAIL"
+      }
+    ]
+  },
   "blockers": [
-    "页数预算未通过统筹检查；请回到 outline 阶段调整 page_plan.yml 和 writing_plan.yml。"
+    "存在四级或更深标题，评分项可能无法在目录三级内被专家找到。",
+    "估算页数低于用户提供的页数下限。",
+    "v1.md 当前字数低于 page_plan/writing_plan 预算；必须先扩写缺口章节。"
   ],
   "note": "Page count is an estimate before final Word/PDF layout. Final page numbers must be checked after build/export."
 }
